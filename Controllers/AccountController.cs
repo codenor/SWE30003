@@ -10,18 +10,18 @@ public class AccountController : Controller
     // GET: /Account/
     public string Index()
     {
-        return "This is my default action...";
+        return "This might be useful, unsure at this very moment";
     }
 
     // GET: /Account/Login/
-    public string Login()
+    public IActionResult Login()
     {
-        return "This is the Login action method...";
+        return View();
     }
 
     // GET: /Account/Register/
-        public string Register()
+        public IActionResult Register()
         {
-            return "This is the Register action method...";
+            return View();
         }
 }
