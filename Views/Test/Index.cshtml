@@ -1,0 +1,41 @@
+@model List<ElectronicsStoreAss3.Models.Test>
+
+<h2>Database Test</h2>
+
+<form method="post" asp-action="Add">
+	<input type="text" name="message" required />
+	<button type="submit">Submit</button>
+</form>
+
+<hr>
+
+<style>
+	table {
+		padding: 5px;
+		margin-left: 5px;
+	}
+
+	table,
+	th,
+	td {
+		border: 1px solid;
+	}
+</style>
+
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Message</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.Id</td>
+				<td>@item.Message</td>
+			</tr>
+		}
+	</tbody>
+</table>

@@ -1,10 +1,15 @@
 using System.Security.Claims;
+using ElectronicsStoreAss3.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlite(builder.Configuration.GetConnectionString("ElectronicsStoreAss3Context")));
 
 var app = builder.Build();
 
@@ -29,6 +34,13 @@ else
         await next();
     });
 }
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
