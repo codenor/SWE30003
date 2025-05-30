@@ -10,7 +10,7 @@ public class AccountController : Controller
     // GET: /Account/
     public string Index()
     {
-        return "This might be useful, unsure at this very moment";
+        return "For Future Account Access...";
     }
 
     // GET: /Account/Login/
