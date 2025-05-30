@@ -6,9 +6,14 @@ namespace ElectronicsStoreAss3.Controllers
     public class AccountController : Controller
     {
         // GET: /Account/
-        public string Index()
+        public IActionResult  Index()
         {
-            return "For Future Account Access...";
+             if (!User.Identity?.IsAuthenticated ?? true)
+             {
+                return RedirectToAction("Login");
+             }
+
+             return View();
         }
 
         // GET: /Account/Register/
