@@ -29,7 +29,6 @@ else
         await next();
     });
 }
-
 app.UseHttpsRedirection();
 
 app.UseRouting();

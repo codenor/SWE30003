@@ -1,0 +1,60 @@
+.account-sidebar {
+    width: 200px;
+    background-color: #ffffff !important;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* Shadow tucked behind the right border */
+    border-right: 1px solid #dee2e6;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.04), 1px 0 4px rgba(0, 0, 0, 0.03);
+    z-index: 1;
+}
+
+
+
+.account-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.account-nav a {
+    font-size: 1rem;
+    color: #212529; /* Bootstrap navbar text color */
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef; /* light divider */
+}
+
+.account-nav a:last-of-type {
+    border-bottom: none;
+}
+
+.account-nav a:hover {
+    background-color: #f8f9fa; /* subtle hover like Bootstrap nav */
+    color: #212529;
+}
+
+.account-nav a.active {
+    font-weight: 600;
+}
+
+.logout {
+    color: #dc3545;
+    text-decoration: none;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+    margin-top: auto;
+}
+
+.logout:hover {
+    background-color: #f8f9fa;
+}
+
+.account-content {
+    flex-grow: 1;
+    padding: 2rem;
+    min-height: calc(100vh - 60px);
+    background-color: #fff;
+}

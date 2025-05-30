@@ -6,15 +6,37 @@ namespace ElectronicsStoreAss3.Controllers
     public class AccountController : Controller
     {
         // GET: /Account/
-        public IActionResult  Index()
+        [HttpGet]
+        public IActionResult Index()
         {
-             if (!User.Identity?.IsAuthenticated ?? true)
-             {
+            if (!User.Identity?.IsAuthenticated ?? true)
                 return RedirectToAction("Login");
-             }
 
-             return View();
+            return View();
         }
+
+        // GET: /Account/ChangePassword
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        // GET: /Account/Orders
+        [HttpGet]
+        public IActionResult Orders()
+        {
+            return View();
+        }
+
+        // GET: /Account/Logout
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            // Simulated logout (for now, just redirect)
+            return RedirectToAction("Login");
+        }
+
 
         // GET: /Account/Register/
         public IActionResult Register()

@@ -1,0 +1,26 @@
+@{
+    Layout = "_Layout";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+}
+<link rel="stylesheet" href="~/css/_AccountLayout.css" />
+
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="account-sidebar d-flex flex-column">
+        <div class="account-nav">
+            <a asp-action="Index" class="@(action == "Index" ? "active" : "")">Profile Info</a>
+            <a asp-action="ChangePassword" class="@(action == "ChangePassword" ? "active" : "")">Change Password</a>
+            <a asp-action="Orders" class="@(action == "Orders" ? "active" : "")">Order History</a>
+        </div>
+
+        <div class="mt-auto pt-3 border-top">
+            <a asp-action="Logout" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="account-content">
+        @RenderBody()
+    </div>
+</div>
+
