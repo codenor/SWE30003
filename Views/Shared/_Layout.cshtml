@@ -26,6 +26,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item dropdown d-flex align-items-center">
+                            <!-- Account link (navigates to /Account) -->
+                            <a class="nav-link text-dark pe-1" asp-controller="Account" asp-action="Index">
+                                Account
+                            </a>
+
+                            <!-- Dropdown toggle icon (just opens menu) -->
+                            <a class="nav-link dropdown-toggle dropdown-toggle-split text-dark ps-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </a>
+
+                            <!-- Dropdown menu items -->
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>

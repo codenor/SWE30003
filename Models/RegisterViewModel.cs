@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ElectronicsStoreAss3.Models;
 
-public class Account {
+public class RegisterViewModel {
     public int Id { get; set; }
 
     [Required]
