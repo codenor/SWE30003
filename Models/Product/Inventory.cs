@@ -20,5 +20,8 @@ namespace ElectronicsStoreAss3.Models
         
         // Navigation property
         public virtual Product? Product { get; set; }
+        
+        public bool IsLowStock => StockLevel <= LowStockThreshold;
+        public bool IsInStock => StockLevel > 0;
     }
 }

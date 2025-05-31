@@ -12,57 +12,57 @@
     
         <div class="row">
             <div class="col-md-8">
-                <div class="form-group">
-                    <label asp-for="SKU" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="SKU" class="control-label fw-bold"></label>
                     <input asp-for="SKU" class="form-control" />
                     <span asp-validation-for="SKU" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="Name" class="control-label fw-bold"></label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="Description" class="control-label fw-bold"></label>
                     <textarea asp-for="Description" class="form-control" rows="3"></textarea>
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Price" class="control-label"></label>
-                    <input asp-for="Price" class="form-control" type="number" step="0.01" />
+                <div class="form-group my-4">
+                    <label asp-for="Price" class="control-label fw-bold"></label>
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" placeholder=""/>
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Category" class="control-label"></label>
-                    <input asp-for="Category" class="form-control" />
+                    <label asp-for="Category" class="control-label fw-bold"></label>
+                    <input asp-for="Category" class="form-control" placeholder="Insert Category Name"/>
                     <span asp-validation-for="Category" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Brand" class="control-label"></label>
-                    <input asp-for="Brand" class="form-control" />
+                <div class="form-group my-4">
+                    <label asp-for="Brand" class="control-label fw-bold"></label>
+                    <input asp-for="Brand" class="form-control" placeholder="Insert Brand Name"/>
                     <span asp-validation-for="Brand" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="ImagePath" class="control-label"></label>
-                    <input asp-for="ImagePath" class="form-control" />
+                <div class="form-group my-4">
+                    <label asp-for="ImagePath" class="control-label fw-bold"></label>
+                    <input asp-for="ImagePath" class="form-control" placeholder="Insert Image URL"/>
                     <span asp-validation-for="ImagePath" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Specifications" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="Specifications" class="control-label fw-bold"></label>
                     <textarea asp-for="Specifications" class="form-control" rows="3"></textarea>
                     <span asp-validation-for="Specifications" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="StockLevel" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="StockLevel" class="control-label fw-bold"></label>
                     <input asp-for="StockLevel" class="form-control" type="number" />
                     <span asp-validation-for="StockLevel" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="LowStockThreshold" class="control-label"></label>
+                <div class="form-group my-4">
+                    <label asp-for="LowStockThreshold" class="control-label fw-bold"></label>
                     <input asp-for="LowStockThreshold" class="form-control" type="number" />
                     <span asp-validation-for="LowStockThreshold" class="text-danger"></span>
                 </div>
-                <div class="form-check">
+                <div class="form-check my-4">
                     <input asp-for="IsActive" class="form-check-input" />
                     <label asp-for="IsActive" class="form-check-label"></label>
                 </div>
