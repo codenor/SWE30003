@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using ElectronicsStoreAss3.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +10,16 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("ElectronicsStoreAss3Context")));
 
+// Auth
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,21 +27,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
-}
-else
-{
-    // Fake authentication middleware for development
-    app.Use(async (context, next) =>
-    {
-        var identity = new ClaimsIdentity(new[]
-        {
-            new Claim(ClaimTypes.Name, "DevUser"),
-            new Claim(ClaimTypes.Email, "dev@example.com"),
-        }, "DevelopmentLogin");
-
-        context.User = new ClaimsPrincipal(identity);
-        await next();
-    });
 }
 
 using (var scope = app.Services.CreateScope())
@@ -45,6 +39,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

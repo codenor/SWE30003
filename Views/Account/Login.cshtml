@@ -7,6 +7,17 @@
 <div class="container mt-5" style="max-width: 420px;">
     <h2 class="text-center mb-4">Log in</h2>
 
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
     <form asp-action="Login" method="post">
         <div class="form-group mb-3">
             <label for="email" class="visually-hidden">Email address</label>
@@ -16,13 +27,16 @@
 
         <div class="form-group mb-2 position-relative">
             <label for="password" class="visually-hidden">Password</label>
-            <input asp-for="Password" type="password" id="password" class="form-control form-control-lg" placeholder="Password" />
-            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2" id="togglePassword">Show</button>
+            <input asp-for="Password" type="password" id="password" class="form-control form-control-lg"
+                placeholder="Password" />
+            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2"
+                id="togglePassword">Show</button>
             <span asp-validation-for="Password" class="text-danger d-block mt-1"></span>
         </div>
 
         <div class="mb-4 text-end">
-            <a asp-controller="Account" asp-action="ForgotPassword" class="small text-decoration-none">Forgot password?</a>
+            <a asp-controller="Account" asp-action="ForgotPassword" class="small text-decoration-none">Forgot
+                password?</a>
         </div>
 
         <button type="submit" class="btn btn-dark btn-lg w-100 mb-3">Log in</button>
@@ -40,6 +54,29 @@
             this.textContent = type === 'password' ? 'Show' : 'Hide';
         });
     </script>
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
+    @if (TempData["Registered"] != null)
+    {
+        <div class="modal fade" id="registerSuccessModal" tabindex="-1" aria-labelledby="registerSuccessModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerSuccessModalLabel">Registration Successful</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Your account has been created. Please log in.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
