@@ -1,0 +1,253 @@
+﻿@model ElectronicsStoreAss3.Models.Product.ProductSearchViewModel
+@{
+    ViewData["Title"] = "Product Catalogue";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="fas fa-store"></i> Product Catalogue</h1>
+            <p class="lead">Discover our latest electronics and gadgets</p>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="Search" method="get">
+                        <div class="row g-3">
+                            <!-- Search Term -->
+                            <div class="col-md-3">
+                                <label for="SearchTerm" class="form-label">Search Products</label>
+                                <input asp-for="SearchTerm" class="form-control" placeholder="Search by name, description, or SKU...">
+                            </div>
+
+                            <!-- Category Filter -->
+                            <div class="col-md-2">
+                                <label for="Category" class="form-label">Category</label>
+                                <select asp-for="Category" class="form-select">
+                                    <option value="">All Categories</option>
+                                    @foreach (var category in Model.Categories)
+                                    {
+                                        <option value="@category">@category</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <!-- Brand Filter -->
+                            <div class="col-md-2">
+                                <label for="Brand" class="form-label">Brand</label>
+                                <select asp-for="Brand" class="form-select">
+                                    <option value="">All Brands</option>
+                                    @foreach (var brand in Model.Brands)
+                                    {
+                                        <option value="@brand">@brand</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <!-- Price Range -->
+                            <div class="col-md-2">
+                                <label for="MinPrice" class="form-label">Min Price</label>
+                                <input asp-for="MinPrice" type="number" class="form-control" placeholder="$0" step="0.01">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="MaxPrice" class="form-label">Max Price</label>
+                                <input asp-for="MaxPrice" type="number" class="form-control" placeholder="$999999" step="0.01">
+                            </div>
+
+                            <!-- Search Button -->
+                            <div class="col-md-1 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sort and Results Info -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="mb-0">
+                Showing @((Model.Page - 1) * Model.PageSize + 1) - @Math.Min(Model.Page * Model.PageSize, Model.TotalProducts) 
+                of @Model.TotalProducts products
+            </p>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-end">
+                <div class="me-2">
+                    <select asp-for="SortBy" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="Name">Sort by Name</option>
+                        <option value="Price">Sort by Price</option>
+                        <option value="Category">Sort by Category</option>
+                    </select>
+                </div>
+                <div>
+                    <select asp-for="SortOrder" class="form-select form-select-sm" onchange="this.form.submit()">
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row">
+        @if (Model.Products.Any())
+        {
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 product-card">
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(product.ImagePath))
+                            {
+                                <img src="@product.ImagePath" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            }
+                            
+                            <!-- Stock Status Badge -->
+                            @if (!product.IsInStock)
+                            {
+                                <span class="position-absolute top-0 start-0 badge bg-danger m-2">Out of Stock</span>
+                            }
+                            else if (product.IsLowStock)
+                            {
+                                <span class="position-absolute top-0 start-0 badge bg-warning m-2">Low Stock</span>
+                            }
+                        </div>
+                        
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-2">
+                                <span class="badge bg-secondary">@product.Category</span>
+                                @if (!string.IsNullOrEmpty(product.Brand))
+                                {
+                                    <span class="badge bg-info">@product.Brand</span>
+                                }
+                            </div>
+                            
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text text-muted small">@product.Description</p>
+                            
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h4 class="text-primary mb-0">$@product.Price.ToString("F2")</h4>
+                                    <small class="text-muted">SKU: @product.SKU</small>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                    
+                                    @if (product.IsInStock)
+                                    {
+                                        <button class="btn btn-primary" onclick="addToCart(@product.ProductId, 1)">
+                                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-secondary" disabled>
+                                            <i class="fas fa-times"></i> Out of Stock
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-5x text-muted mb-3"></i>
+                    <h4>No products found</h4>
+                    <p class="text-muted">Try adjusting your search criteria or browse all categories.</p>
+                    <a asp-action="Catalogue" class="btn btn-primary">View All Products</a>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="Products pagination">
+                    <ul class="pagination justify-content-center">
+                        @if (Model.Page > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="Search" asp-route-page="@(Model.Page - 1)" 
+                                   asp-route-searchTerm="@Model.SearchTerm" asp-route-category="@Model.Category" 
+                                   asp-route-brand="@Model.Brand" asp-route-minPrice="@Model.MinPrice" 
+                                   asp-route-maxPrice="@Model.MaxPrice" asp-route-sortBy="@Model.SortBy" 
+                                   asp-route-sortOrder="@Model.SortOrder">Previous</a>
+                            </li>
+                        }
+
+                        @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+                        {
+                            <li class="page-item @(i == Model.Page ? "active" : "")">
+                                <a class="page-link" asp-action="Search" asp-route-page="@i" 
+                                   asp-route-searchTerm="@Model.SearchTerm" asp-route-category="@Model.Category" 
+                                   asp-route-brand="@Model.Brand" asp-route-minPrice="@Model.MinPrice" 
+                                   asp-route-maxPrice="@Model.MaxPrice" asp-route-sortBy="@Model.SortBy" 
+                                   asp-route-sortOrder="@Model.SortOrder">@i</a>
+                            </li>
+                        }
+
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="Search" asp-route-page="@(Model.Page + 1)" 
+                                   asp-route-searchTerm="@Model.SearchTerm" asp-route-category="@Model.Category" 
+                                   asp-route-brand="@Model.Brand" asp-route-minPrice="@Model.MinPrice" 
+                                   asp-route-maxPrice="@Model.MaxPrice" asp-route-sortBy="@Model.SortBy" 
+                                   asp-route-sortOrder="@Model.SortOrder">Next</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Admin Actions (if logged in as admin) -->
+@if (User.IsInRole("Admin") || User.IsInRole("Owner"))
+{
+    <div class="position-fixed bottom-0 end-0 p-3">
+        <a asp-action="Create" class="btn btn-success btn-lg rounded-circle" title="Add New Product">
+            <i class="fas fa-plus"></i>
+        </a>
+    </div>
+}
+
+<style>
+.product-card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+</style>
+
