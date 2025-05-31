@@ -16,7 +16,7 @@ namespace ElectronicsStoreAss3.Services
         
         public async Task<IEnumerable<ProductViewModel>> GetAllProductsAsync()
         {
-            var products = await _context.Product  // Using singular form as defined in AppDbContext
+            var products = await _context.Product 
                 .Include(p => p.Inventory)
                 .Where(p => p.IsActive)
                 .Select(p => new ProductViewModel
@@ -91,7 +91,7 @@ namespace ElectronicsStoreAss3.Services
         
         public async Task<ProductSearchViewModel> SearchProductsAsync(ProductSearchViewModel searchModel)
         {
-            var query = _context.Product  // Using singular form
+            var query = _context.Product  
                 .Include(p => p.Inventory)
                 .Where(p => p.IsActive);
             
@@ -192,7 +192,7 @@ namespace ElectronicsStoreAss3.Services
                     CreatedDate = DateTime.Now
                 };
                 
-                _context.Product.Add(product);  // Using singular form
+                _context.Product.Add(product); 
                 await _context.SaveChangesAsync();
                 
                 // Create inventory record
@@ -204,7 +204,7 @@ namespace ElectronicsStoreAss3.Services
                     LastUpdated = DateTime.Now
                 };
                 
-                _context.Inventory.Add(inventory);  // Using singular form
+                _context.Inventory.Add(inventory);  
                 await _context.SaveChangesAsync();
                 
                 return true;
@@ -219,7 +219,7 @@ namespace ElectronicsStoreAss3.Services
         {
             try
             {
-                var product = await _context.Product  // Using singular form
+                var product = await _context.Product 
                     .Include(p => p.Inventory)
                     .FirstOrDefaultAsync(p => p.ProductId == productViewModel.ProductId);
                 
@@ -258,7 +258,7 @@ namespace ElectronicsStoreAss3.Services
                         LowStockThreshold = productViewModel.LowStockThreshold,
                         LastUpdated = DateTime.Now
                     };
-                    _context.Inventory.Add(inventory);  // Using singular form
+                    _context.Inventory.Add(inventory);  
                 }
                 
                 await _context.SaveChangesAsync();
@@ -274,7 +274,7 @@ namespace ElectronicsStoreAss3.Services
         {
             try
             {
-                var product = await _context.Product.FindAsync(id);  // Using singular form
+                var product = await _context.Product.FindAsync(id);  
                 if (product == null) return false;
                 
                 // Soft delete - just mark as inactive
@@ -313,7 +313,7 @@ namespace ElectronicsStoreAss3.Services
         
         public async Task<IEnumerable<ProductViewModel>> GetLowStockProductsAsync()
         {
-            var products = await _context.Product  // Using singular form
+            var products = await _context.Product 
                 .Include(p => p.Inventory)
                 .Where(p => p.IsActive && p.Inventory != null && 
                            p.Inventory.StockLevel <= p.Inventory.LowStockThreshold)
@@ -347,7 +347,7 @@ namespace ElectronicsStoreAss3.Services
         
         public async Task<IEnumerable<string>> GetBrandsAsync()
         {
-            return await _context.Product  // Using singular form
+            return await _context.Product  
                 .Where(p => p.IsActive && !string.IsNullOrEmpty(p.Brand))
                 .Select(p => p.Brand)
                 .Distinct()
@@ -357,7 +357,7 @@ namespace ElectronicsStoreAss3.Services
         
         public async Task<bool> IsSkuUniqueAsync(string sku, int? excludeProductId = null)
         {
-            var query = _context.Product.Where(p => p.SKU == sku);  // Using singular form
+            var query = _context.Product.Where(p => p.SKU == sku);  
             
             if (excludeProductId.HasValue)
             {
