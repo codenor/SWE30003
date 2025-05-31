@@ -24,16 +24,6 @@ builder.Services.AddAuthorization();
 // Services for ProductController
 builder.Services.AddScoped<IProductService, ProductService>();
 
-// Auth
-builder.Services.AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-    });
-
-builder.Services.AddAuthorization();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
