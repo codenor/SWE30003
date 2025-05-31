@@ -10,6 +10,9 @@ namespace ElectronicsStoreAss3.Data
 
         // Test 
         public required DbSet<Test> Test { get; set; }
+        public required DbSet<Product> Product { get; set; }
+        public required DbSet<Inventory> Inventory { get; set; }
+        public required DbSet<Catalogue> Catalogue { get; set; }
 
         // Accounts
         public required DbSet<Account> Accounts { get; set; }

@@ -10,15 +10,15 @@ namespace ElectronicsStoreAss3.Models
 
         [Required] 
         [StringLength(50)] 
-        public string SKU { get; set; }
+        public required string SKU { get; set; }
 
         [Required] 
         [StringLength(100)] 
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [Required] 
         [StringLength(500)] 
-        public string Description { get; set; }
+        public required string Description { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
@@ -26,9 +26,26 @@ namespace ElectronicsStoreAss3.Models
 
         [Required] 
         [StringLength(50)] 
-        public string Category { get; set; }
+        public required string Category { get; set; }
+        
+        public string? Brand { get; set; }
+        
+        public string? ImagePath { get; set; }
+        
+        public string? Specifications { get; set; }
+        
+        public bool IsActive { get; set; } = true;
         
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? ModifiedDate { get; set; }
+        
+        public DateTime LastModified { get; set; } = DateTime.Now;
+        
+        // Navigation property for inventory
+        public virtual Inventory? Inventory { get; set; }
+        
+        // Foreign key for catalogue
+        public int? CatalogueId { get; set; }
+        public virtual Catalogue? Catalogue { get; set; }
+
     }
 }

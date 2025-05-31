@@ -13,7 +13,12 @@ namespace ElectronicsStoreAss3.Models
         
         [Required]
         public int StockLevel { get; set; }
+        
+        public int LowStockThreshold { get; set; } = 10;
 
-        public DateTime LastUpdated { get; set; } = DateTime.Now; 
+        public DateTime LastUpdated { get; set; } = DateTime.Now;
+        
+        // Navigation property
+        public virtual Product? Product { get; set; }
     }
 }

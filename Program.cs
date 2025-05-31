@@ -1,4 +1,5 @@
 using ElectronicsStoreAss3.Data;
+using ElectronicsStoreAss3.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,9 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("ElectronicsStoreAss3Context")));
+
+// Services for ProductController
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Auth
 builder.Services.AddAuthentication("Cookies")
@@ -32,7 +36,16 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
+
+    if (app.Environment.IsDevelopment())
+    {
+        db.Database.EnsureDeleted();
+        db.Database.EnsureCreated();
+    }
+    else
+    {
+        db.Database.EnsureCreated();
+    }
 }
 
 app.UseHttpsRedirection();
@@ -49,5 +62,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.MapControllerRoute(
+    name: "Product",
+    pattern: "{controller=Product}/{action=Index}/{id?}/{sku?}")
+    .WithStaticAssets();
 
 app.Run();
