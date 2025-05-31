@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row mb-4">
         <div class="col-12">
-            <h1><i class="fas fa-store"></i> Product Catalogue</h1>
+            <h1><i class="bi bi-store"></i> Product Catalogue</h1>
             <p class="lead">Discover our latest electronics and gadgets</p>
         </div>
     </div>
@@ -61,7 +61,7 @@
                             <!-- Search Button -->
                             <div class="col-md-1 d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-search"></i> Search
+                                    <i class="bi bi-search"></i> Search
                                 </button>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                             else
                             {
                                 <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                    <i class="bi bi-image fa-3x text-muted"></i>
                                 </div>
                             }
                             
@@ -149,19 +149,19 @@
                                 
                                 <div class="d-grid gap-2">
                                     <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-outline-primary">
-                                        <i class="fas fa-eye"></i> View Details
+                                        <i class="bi bi-eye"></i> View Details
                                     </a>
                                     
                                     @if (product.IsInStock)
                                     {
                                         <button class="btn btn-primary" onclick="addToCart(@product.ProductId, 1)">
-                                            <i class="fas fa-shopping-cart"></i> Add to Cart
+                                            <i class="bi bi-shopping-cart"></i> Add to Cart
                                         </button>
                                     }
                                     else
                                     {
                                         <button class="btn btn-secondary" disabled>
-                                            <i class="fas fa-times"></i> Out of Stock
+                                            <i class="bi bi-times"></i> Out of Stock
                                         </button>
                                     }
                                 </div>
@@ -175,7 +175,7 @@
         {
             <div class="col-12">
                 <div class="text-center py-5">
-                    <i class="fas fa-search fa-5x text-muted mb-3"></i>
+                    <i class="bi bi-search fa-5x text-muted mb-3"></i>
                     <h4>No products found</h4>
                     <p class="text-muted">Try adjusting your search criteria or browse all categories.</p>
                     <a asp-action="Catalogue" class="btn btn-primary">View All Products</a>
@@ -235,7 +235,7 @@
 {
     <div class="position-fixed bottom-0 end-0 p-3">
         <a asp-action="Create" class="btn btn-success btn-lg rounded-circle" title="Add New Product">
-            <i class="fas fa-plus"></i>
+            <i class="bi bi-plus"></i>
         </a>
     </div>
 }
