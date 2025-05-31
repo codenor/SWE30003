@@ -9,10 +9,10 @@ namespace ElectronicsStoreAss3.Models
         
         [Required]
         [StringLength(100)]
-        public string Name { get; set; }
+        public required string Name { get; set; }
         
         [StringLength(500)]
-        public string Description { get; set; }
+        public required string Description { get; set; }
         
         public bool IsActive { get; set; } = true;
         

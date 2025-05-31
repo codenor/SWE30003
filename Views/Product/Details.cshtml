@@ -1,120 +1,51 @@
-﻿@model ElectronicsStoreAss3.Models.Product.ProductViewModel
+﻿@model ProductViewModel
+
 @{
     ViewData["Title"] = "Product Details";
 }
 
-<div class="container">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-action="Catalogue">Catalogue</a></li>
-            <li class="breadcrumb-item active">@Model.Name</li>
-        </ol>
-    </nav>
-    
-    <div class="row">
-        <!-- Product Image -->
-        <div class="col-md-6">
-            @if (!string.IsNullOrEmpty(Model.ImagePath))
-            {
-                <img src="@Model.ImagePath" class="img-fluid rounded product-detail-image" alt="@Model.Name">
-            }
-            else
-            {
-                <div class="bg-light rounded d-flex align-items-center justify-content-center product-detail-image" style="height: 400px;">
-                    <div class="text-center">
-                        <i class="fas fa-image fa-5x text-muted mb-3"></i>
-                        <p class="text-muted">No image available</p>
-                    </div>
-                </div>
-            }
-        </div>
-        
-        <!-- Product Details -->
-        <div class="col-md-6">
-            <h1 class="mb-3">@Model.Name</h1>
-            <p class="lead mb-4">@Model.Description</p>
+<h2>Product Details</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.SKU)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SKU)</dd>
             
-            <div class="row mb-3">
-                <div class="col-sm-6">
-                    <strong>Category:</strong> <span class="badge bg-secondary">@Model.Category</span>
-                </div>
-                @if (!string.IsNullOrEmpty(Model.Brand))
-                {
-                    <div class="col-sm-6">
-                        <strong>Brand:</strong> <span class="badge bg-info">@Model.Brand</span>
-                    </div>
-                }
-            </div>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
             
-            <div class="mb-3">
-                <strong>SKU:</strong> @Model.SKU
-            </div>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
             
-            <div class="mb-3">
-                <h3 class="text-primary">$@Model.Price.ToString("F2")</h3>
-            </div>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
             
-            <!-- Stock Status -->
-            <div class="mb-3">
-                @if (Model.IsInStock)
-                {
-                    @if (Model.IsLowStock)
-                    {
-                        <span class="badge bg-warning fs-6">Low Stock - Only @Model.StockLevel left!</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-success fs-6">In Stock (@Model.StockLevel available)</span>
-                    }
-                }
-                else
-                {
-                    <span class="badge bg-danger fs-6">Out of Stock</span>
-                }
-            </div>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Category)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Category)</dd>
             
-            <!-- Add to Cart -->
-            @if (Model.IsInStock)
-            {
-                <div class="mb-3">
-                    <div class="input-group" style="max-width: 200px;">
-                        <span class="input-group-text">Qty</span>
-                        <input type="number" class="form-control" id="quantity" value="1" min="1" max="@Model.StockLevel">
-                        <button class="btn btn-primary" onclick="addToCart(@Model.ProductId, document.getElementById('quantity').value)">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                        </button>
-                    </div>
-                </div>
-            }
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Brand)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Brand)</dd>
             
-            <!-- Admin Actions -->
-            @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
-            {
-                <div class="mb-3">
-                    <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-warning">
-                        <i class="fas fa-edit"></i> Edit Product
-                    </a>
-                    <button type="button" class="btn btn-danger" onclick="deleteProduct(@Model.ProductId)">
-                        <i class="fas fa-trash"></i> Delete Product
-                    </button>
-                </div>
-            }
-        </div>
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.StockLevel)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.StockLevel)</dd>
+            
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.LowStockThreshold)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.LowStockThreshold)</dd>
+            
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.IsActive)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.IsActive)</dd>
+        </dl>
     </div>
-    
-    <!-- Product Specifications -->
-    @if (!string.IsNullOrEmpty(Model.Specifications))
-    {
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3>Specifications</h3>
-                <div class="card">
-                    <div class="card-body">
-                        <pre class="mb-0">@Model.Specifications</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+    <div class="col-md-4">
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="@Model.Name" class="img-fluid" />
+        }
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

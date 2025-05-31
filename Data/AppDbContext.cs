@@ -9,5 +9,8 @@ namespace ElectronicsStoreAss3.Data
             : base(options) { }
 
         public required DbSet<Test> Test { get; set; }
+        public required DbSet<Product> Product { get; set; }
+        public required DbSet<Inventory> Inventory { get; set; }
+        public required DbSet<Catalogue> Catalogue { get; set; }
     }
 }
