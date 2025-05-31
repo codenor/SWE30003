@@ -2,6 +2,9 @@
 
 namespace ElectronicsStoreAss3.Services
 {
+    // <summary>
+    // 
+    // </summary>
     public interface IProductService
     {
         Task<IEnumerable<ProductViewModel>> GetAllProductsAsync();
