@@ -488,3 +488,6 @@ $RECYCLE.BIN/
 *.db-wal
 *.db-journal
 *.db
+
+# VSCode stuff
+.vscode
