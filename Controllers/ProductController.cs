@@ -1,9 +1,11 @@
 ﻿using ElectronicsStoreAss3.Models;
 using ElectronicsStoreAss3.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicsStoreAss3
 {
+    [Authorize(Roles = "Owner")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -129,6 +131,7 @@ namespace ElectronicsStoreAss3
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         // GET: Product/Catalogue
         public async Task<IActionResult> Catalogue(ProductSearchViewModel searchModel)
         {
