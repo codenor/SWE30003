@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
 
     app.Environment.IsDevelopment();
     db.Database.EnsureCreated();
-
+    Init.SeedOwnerAccount(db);
 }
 
 app.UseHttpsRedirection();

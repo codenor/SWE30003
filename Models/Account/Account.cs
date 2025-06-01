@@ -1,8 +1,13 @@
-
 using System.ComponentModel.DataAnnotations;
 
 namespace ElectronicsStoreAss3.Models
 {
+    public enum Role
+    {
+        Customer,
+        Owner
+    }
+
     public class Account
     {
         public int Id { get; set; }
@@ -15,12 +20,7 @@ namespace ElectronicsStoreAss3.Models
         public string PasswordHash { get; set; } = null!;
 
         [Required]
-        public string Role { get; set; } = "Customer";
-
-        // Navigation
-        public Customer? Customer { get; set; }
-
-        // TODO: 
-        // public Owner? Owner { get; set; }
+        [EnumDataType(typeof(Role))]
+        public Role Role { get; set; } = Role.Customer;
     }
 }

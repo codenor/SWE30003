@@ -74,8 +74,8 @@ namespace ElectronicsStoreAss3.Controllers
             var account = new Account
             {
                 Email = model.Email!,
-                PasswordHash = new PasswordHasher<object?>().HashPassword(null, model.Password!),
-                Role = "Customer"
+                PasswordHash = new PasswordHasher<object>().HashPassword(null, model.Password!),
+                Role = Role.Customer
             };
 
             _context.Accounts.Add(account);
@@ -120,7 +120,7 @@ namespace ElectronicsStoreAss3.Controllers
                 return View(model);
             }
 
-            var hasher = new PasswordHasher<object?>();
+            var hasher = new PasswordHasher<object>();
             var result = hasher.VerifyHashedPassword(null, account.PasswordHash, model.Password!);
 
             if (result != PasswordVerificationResult.Success)
@@ -134,7 +134,7 @@ namespace ElectronicsStoreAss3.Controllers
     {
         new Claim(ClaimTypes.NameIdentifier, account.Id.ToString()),
         new Claim(ClaimTypes.Email, account.Email),
-        new Claim(ClaimTypes.Role, account.Role)
+        new Claim(ClaimTypes.Role, account.Role.ToString())
     };
 
             var identity = new ClaimsIdentity(claims, "Cookies");
@@ -150,6 +150,7 @@ namespace ElectronicsStoreAss3.Controllers
         [HttpGet]
         public IActionResult ForgotPassword()
         {
+
             return View();
         }
 

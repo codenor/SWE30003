@@ -14,20 +14,19 @@ namespace ElectronicsStoreAss3.Data
         // Accounts
         public required DbSet<Account> Accounts { get; set; }
         public required DbSet<Customer> Customers { get; set; }
-        // TODO: Add owner later
-        // public DbSet<Owner> Owners { get; set; }
-        
-        
+        public DbSet<Owner> Owners { get; set; }
+
+
         // Products
         public required DbSet<Product> Product { get; set; }
         public required DbSet<Inventory> Inventory { get; set; }
         public required DbSet<Catalogue> Catalogue { get; set; }
-        
-        
-           protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            
+
             // Product configuration
             modelBuilder.Entity<Product>(entity =>
             {
@@ -36,7 +35,7 @@ namespace ElectronicsStoreAss3.Data
                 entity.HasIndex(e => e.SKU).IsUnique();
                 entity.Property(e => e.Price).HasColumnType("decimal(18,2)");
             });
-            
+
             // Inventory configuration
             modelBuilder.Entity<Inventory>(entity =>
             {
@@ -46,7 +45,7 @@ namespace ElectronicsStoreAss3.Data
                     .HasForeignKey<Inventory>(d => d.ProductId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
-            
+
             // Manual data seeding for testing
             modelBuilder.Entity<Product>().HasData(
                 new Product { ProductId = 1, Name = "iPhone 15 Pro", SKU = "IPH15PRO001", Category = "Smartphones", Brand = "Apple", Price = 1499.99m, Description = "Latest iPhone with Pro features", IsActive = true },
@@ -59,7 +58,7 @@ namespace ElectronicsStoreAss3.Data
                 new Product { ProductId = 8, Name = "Lenovo ThinkPad X1 Carbon", SKU = "TPX1C001", Category = "Laptops", Brand = "Lenovo", Price = 1599.99m, Description = "Business-class ultrabook", IsActive = true }
             );
 
-            
+
             modelBuilder.Entity<Inventory>().HasData(
                 new Inventory { InventoryId = 1, ProductId = 1, StockLevel = 25, LowStockThreshold = 5 },
                 new Inventory { InventoryId = 2, ProductId = 2, StockLevel = 30, LowStockThreshold = 10 },
