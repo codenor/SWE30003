@@ -42,7 +42,7 @@ namespace ElectronicsStoreAss3.Services
                 var sessionId = Guid.NewGuid().ToString();
                 return await CreateCartAsync(sessionId, accountId);
             }
-            
+
             return MapToViewModel(cart);
         }
 
@@ -102,7 +102,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-      
+
         public async Task<bool> AddToCartAsync(int accountId, AddToCartRequest request)
         {
             try
@@ -111,25 +111,25 @@ namespace ElectronicsStoreAss3.Services
                 var product = await _context.Product
                     .Include(p => p.Inventory)
                     .FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.IsActive);
-                
+
                 if (product == null || product.Inventory == null || !product.Inventory.IsInStock)
                 {
                     return false;
                 }
-                
+
                 var existingItem = await _context.ShoppingCartItems
-                    .FirstOrDefaultAsync(ci => ci.ShoppingCartId == cart.ShoppingCartId && 
+                    .FirstOrDefaultAsync(ci => ci.ShoppingCartId == cart.ShoppingCartId &&
                                              ci.ProductId == request.ProductId);
-                
+
                 if (existingItem != null)
                 {
                     var newQuantity = existingItem.Quantity + request.Quantity;
-                    
+
                     if (newQuantity > product.Inventory.StockLevel)
                     {
                         return false;
                     }
-                    
+
                     existingItem.Quantity = newQuantity;
                     existingItem.ShoppingCart!.LastModified = DateTime.Now;
                 }
@@ -139,7 +139,7 @@ namespace ElectronicsStoreAss3.Services
                     {
                         return false;
                     }
-                    
+
                     var cartItem = new ShoppingCartItem
                     {
                         ShoppingCartId = cart.ShoppingCartId,
@@ -148,11 +148,11 @@ namespace ElectronicsStoreAss3.Services
                         UnitPrice = product.Price,
                         AddedDate = DateTime.Now
                     };
-                    
+
                     _context.ShoppingCartItems.Add(cartItem);
                     cart.LastModified = DateTime.Now;
                 }
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -161,7 +161,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<bool> UpdateCartItemQuantityAsync(int cartItemId, int newQuantity)
         {
             try
@@ -171,20 +171,20 @@ namespace ElectronicsStoreAss3.Services
                         .ThenInclude(p => p.Inventory)
                     .Include(ci => ci.ShoppingCart)
                     .FirstOrDefaultAsync(ci => ci.ShoppingCartItemId == cartItemId);
-                
+
                 if (cartItem == null || cartItem.Product == null || cartItem.Product.Inventory == null)
                 {
                     return false;
                 }
-                
+
                 if (newQuantity > cartItem.Product.Inventory.StockLevel)
                 {
                     return false;
                 }
-                
+
                 cartItem.Quantity = newQuantity;
                 cartItem.ShoppingCart!.LastModified = DateTime.Now;
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -193,7 +193,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<bool> RemoveFromCartAsync(int cartItemId)
         {
             try
@@ -201,15 +201,15 @@ namespace ElectronicsStoreAss3.Services
                 var cartItem = await _context.ShoppingCartItems
                     .Include(ci => ci.ShoppingCart)
                     .FirstOrDefaultAsync(ci => ci.ShoppingCartItemId == cartItemId);
-                
+
                 if (cartItem == null)
                 {
                     return false;
                 }
-                
+
                 _context.ShoppingCartItems.Remove(cartItem);
                 cartItem.ShoppingCart!.LastModified = DateTime.Now;
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -218,7 +218,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<bool> ClearCartAsync(string sessionId)
         {
             try
@@ -226,12 +226,12 @@ namespace ElectronicsStoreAss3.Services
                 var cart = await _context.ShoppingCarts
                     .Include(c => c.CartItems)
                     .FirstOrDefaultAsync(c => c.SessionId == sessionId);
-                
+
                 if (cart == null) return true;
-                
+
                 _context.ShoppingCartItems.RemoveRange(cart.CartItems);
                 cart.LastModified = DateTime.Now;
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -240,7 +240,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<bool> ClearCartAsync(int accountId)
         {
             try
@@ -248,12 +248,12 @@ namespace ElectronicsStoreAss3.Services
                 var cart = await _context.ShoppingCarts
                     .Include(c => c.CartItems)
                     .FirstOrDefaultAsync(c => c.AccountId == accountId);
-                
+
                 if (cart == null) return true;
-                
+
                 _context.ShoppingCartItems.RemoveRange(cart.CartItems);
                 cart.LastModified = DateTime.Now;
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -262,7 +262,7 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<bool> MergeCartsAsync(string sessionId, int accountId)
         {
             try
@@ -270,20 +270,20 @@ namespace ElectronicsStoreAss3.Services
                 var sessionCart = await _context.ShoppingCarts
                     .Include(c => c.CartItems)
                     .FirstOrDefaultAsync(c => c.SessionId == sessionId);
-                
+
                 var accountCart = await GetOrCreateCartByAccountIdAsync(accountId);
-                
+
                 if (sessionCart == null || !sessionCart.CartItems.Any())
                 {
                     return true;
                 }
-                
+
                 foreach (var sessionItem in sessionCart.CartItems)
                 {
                     var existingAccountItem = await _context.ShoppingCartItems
-                        .FirstOrDefaultAsync(ci => ci.ShoppingCartId == accountCart.ShoppingCartId && 
+                        .FirstOrDefaultAsync(ci => ci.ShoppingCartId == accountCart.ShoppingCartId &&
                                                  ci.ProductId == sessionItem.ProductId);
-                    
+
                     if (existingAccountItem != null)
                     {
                         existingAccountItem.Quantity += sessionItem.Quantity;
@@ -298,14 +298,14 @@ namespace ElectronicsStoreAss3.Services
                             UnitPrice = sessionItem.UnitPrice,
                             AddedDate = DateTime.Now
                         };
-                        
+
                         _context.ShoppingCartItems.Add(newItem);
                     }
                 }
-                
+
                 _context.ShoppingCartItems.RemoveRange(sessionCart.CartItems);
                 accountCart.LastModified = DateTime.Now;
-                
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -314,25 +314,25 @@ namespace ElectronicsStoreAss3.Services
                 return false;
             }
         }
-        
+
         public async Task<int> GetCartItemCountAsync(string sessionId)
         {
             var cart = await _context.ShoppingCarts
                 .Include(c => c.CartItems)
                 .FirstOrDefaultAsync(c => c.SessionId == sessionId);
-            
+
             return cart?.CartItems.Sum(ci => ci.Quantity) ?? 0;
         }
-        
+
         public async Task<int> GetCartItemCountAsync(int accountId)
         {
             var cart = await _context.ShoppingCarts
                 .Include(c => c.CartItems)
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
-            
+
             return cart?.CartItems.Sum(ci => ci.Quantity) ?? 0;
         }
-        
+
         public async Task<bool> ValidateCartItemsAsync(string sessionId)
         {
             var cart = await _context.ShoppingCarts
@@ -340,12 +340,12 @@ namespace ElectronicsStoreAss3.Services
                     .ThenInclude(ci => ci.Product)
                         .ThenInclude(p => p.Inventory)
                 .FirstOrDefaultAsync(c => c.SessionId == sessionId);
-            
+
             if (cart == null) return true;
-            
+
             return ValidateCartItems(cart);
         }
-        
+
         public async Task<bool> ValidateCartItemsAsync(int accountId)
         {
             var cart = await _context.ShoppingCarts
@@ -353,12 +353,12 @@ namespace ElectronicsStoreAss3.Services
                     .ThenInclude(ci => ci.Product)
                         .ThenInclude(p => p.Inventory)
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
-            
+
             if (cart == null) return true;
-            
+
             return ValidateCartItems(cart);
         }
-        
+
         public async Task<ShoppingCartViewModel> CreateCartAsync(string sessionId, int? accountId = null)
         {
             var cart = new ShoppingCart
@@ -368,19 +368,19 @@ namespace ElectronicsStoreAss3.Services
                 CreatedDate = DateTime.Now,
                 LastModified = DateTime.Now
             };
-            
+
             _context.ShoppingCarts.Add(cart);
             await _context.SaveChangesAsync();
-            
+
             return MapToViewModel(cart);
         }
-        
+
         // Private helper methods
         private async Task<ShoppingCart> GetOrCreateCartAsync(string sessionId)
         {
             var cart = await _context.ShoppingCarts
                 .FirstOrDefaultAsync(c => c.SessionId == sessionId);
-            
+
             if (cart == null)
             {
                 cart = new ShoppingCart
@@ -389,36 +389,35 @@ namespace ElectronicsStoreAss3.Services
                     CreatedDate = DateTime.Now,
                     LastModified = DateTime.Now
                 };
-                
+
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
             }
-            
+
             return cart;
         }
-        
+
         private async Task<ShoppingCart> GetOrCreateCartByAccountIdAsync(int accountId)
         {
             var cart = await _context.ShoppingCarts
                 .FirstOrDefaultAsync(c => c.AccountId == accountId);
-            
+
             if (cart == null)
             {
                 cart = new ShoppingCart
                 {
-                    SessionId = Guid.NewGuid().ToString(),
                     AccountId = accountId,
                     CreatedDate = DateTime.Now,
                     LastModified = DateTime.Now
                 };
-                
+
                 _context.ShoppingCarts.Add(cart);
                 await _context.SaveChangesAsync();
             }
-            
+
             return cart;
         }
-        
+
         private static ShoppingCartViewModel MapToViewModel(ShoppingCart cart)
         {
             return new ShoppingCartViewModel
@@ -441,7 +440,7 @@ namespace ElectronicsStoreAss3.Services
                 }).ToList()
             };
         }
-        
+
         private static bool ValidateCartItems(ShoppingCart cart)
         {
             foreach (var item in cart.CartItems)
@@ -450,13 +449,13 @@ namespace ElectronicsStoreAss3.Services
                 {
                     return false;
                 }
-                
+
                 if (item.Product.Inventory == null || item.Quantity > item.Product.Inventory.StockLevel)
                 {
                     return false;
                 }
             }
-            
+
             return true;
         }
     }

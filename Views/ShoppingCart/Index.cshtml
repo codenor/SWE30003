@@ -233,3 +233,123 @@
         </div>
     }
 </div>
+
+@section Scripts {
+<script>
+    // Add to cart functionality (for testing)
+    function addToCart(productId, quantity = 1) {
+        fetch('/ShoppingCart/AddToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Product added to cart!');
+                location.reload();
+            } else {
+                alert('Failed to add product: ' + data.message);
+            }
+        });
+    }
+
+    // Update quantity
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('change', function() {
+            const cartItemId = this.dataset.cartItemId;
+            const quantity = parseInt(this.value);
+            
+            fetch('/ShoppingCart/UpdateQuantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cartItemId: cartItemId,
+                    quantity: quantity
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to update quantity: ' + data.message);
+                }
+            });
+        });
+    });
+
+    // Quantity buttons
+    document.querySelectorAll('.quantity-plus').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const max = parseInt(input.getAttribute('max'));
+            const current = parseInt(input.value);
+            if (current < max) {
+                input.value = current + 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+
+    document.querySelectorAll('.quantity-minus').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.nextElementSibling;
+            const current = parseInt(input.value);
+            if (current > 1) {
+                input.value = current - 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+
+    // Remove item
+    document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', function() {
+            const cartItemId = this.dataset.cartItemId;
+            
+            if (confirm('Remove this item from cart?')) {
+                fetch('/ShoppingCart/RemoveItem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'cartItemId=' + cartItemId
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Failed to remove item: ' + data.message);
+                    }
+                });
+            }
+        });
+    });
+
+    // Clear cart
+    document.querySelector('.clear-cart')?.addEventListener('click', function() {
+        if (confirm('Clear entire cart?')) {
+            fetch('/ShoppingCart/ClearCart', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to clear cart: ' + data.message);
+                }
+            });
+        }
+    });
+</script>
+}

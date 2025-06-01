@@ -1,6 +1,8 @@
 ﻿using ElectronicsStoreAss3.Models;
 using ElectronicsStoreAss3.Services;
 using Microsoft.AspNetCore.Mvc;
+using ElectronicsStoreAss3.Helpers;
+using System.Security.Claims;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -8,177 +10,166 @@ namespace ElectronicsStoreAss3.Controllers
     {
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IProductService _productService;
-        
+
         public ShoppingCartController(IShoppingCartService shoppingCartService, IProductService productService)
         {
             _shoppingCartService = shoppingCartService;
             _productService = productService;
         }
-        
+
         // GET: /ShoppingCart
         public async Task<IActionResult> Index()
         {
-            var sessionId = GetOrCreateSessionId();
-            var cart = await _shoppingCartService.GetCartBySessionIdAsync(sessionId);
+            int? accountId = GetAccountId();
+            var cart = accountId.HasValue
+                ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
+                : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
+
             return View(cart);
         }
-        
+
         // POST: /ShoppingCart/AddToCart
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToCart(int productId, int quantity = 1, string returnUrl = "")
         {
             if (!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "Invalid product or quantity.";
-                return RedirectToReturnUrl(returnUrl);
-            }
+                return Json(new { success = false, message = "Invalid request" });
 
-            var sessionId = GetOrCreateSessionId();
-            var request = new AddToCartRequest { ProductId = productId, Quantity = quantity };
-            var success = await _shoppingCartService.AddToCartAsync(sessionId, request);
-            
+            int? accountId = GetAccountId();
+            bool success = accountId.HasValue
+                ? await _shoppingCartService.AddToCartAsync(accountId.Value, request)
+                : await _shoppingCartService.AddToCartAsync(Session.GetOrCreate(HttpContext), request);
+
+            int itemCount = accountId.HasValue
+                ? await _shoppingCartService.GetCartItemCountAsync(accountId.Value)
+                : await _shoppingCartService.GetCartItemCountAsync(Session.GetOrCreate(HttpContext));
+
             if (success)
-            {
-                // Get product name for better message
-                var product = await _productService.GetProductByIdAsync(productId);
-                var productName = product?.Name ?? "Product";
-                
-                TempData["SuccessMessage"] = $"{productName} (x{quantity}) added to cart successfully!";
-                TempData["ToastMessage"] = $"{productName} added to cart!";
-                TempData["ToastType"] = "success";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Failed to add product to cart. Please check stock availability.";
-                TempData["ToastMessage"] = "Failed to add product to cart!";
-                TempData["ToastType"] = "error";
-            }
-            
-            return RedirectToReturnUrl(returnUrl);
+                return Json(new { success = true, message = "Product added to cart", itemCount });
+
+            return Json(new { success = false, message = "Failed to add product to cart. Please check stock availability." });
         }
-        
+
         // POST: /ShoppingCart/UpdateQuantity
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateQuantity(int cartItemId, int quantity)
         {
-            if (quantity < 1)
-            {
-                TempData["ErrorMessage"] = "Quantity must be at least 1.";
-                return RedirectToAction("Index");
-            }
+            if (!ModelState.IsValid)
+                return Json(new { success = false, message = "Invalid request" });
 
-            var success = await _shoppingCartService.UpdateCartItemQuantityAsync(cartItemId, quantity);
-            
+            bool success = await _shoppingCartService.UpdateCartItemQuantityAsync(request.CartItemId, request.Quantity);
+
             if (success)
             {
-                TempData["SuccessMessage"] = "Quantity updated successfully!";
-                TempData["ToastMessage"] = "Quantity updated!";
-                TempData["ToastType"] = "success";
+                int? accountId = GetAccountId();
+                var cart = accountId.HasValue
+                    ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
+                    : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Quantity updated",
+                    totalAmount = cart.TotalAmount,
+                    totalItems = cart.TotalItems,
+                    gst = cart.GST,
+                    grandTotal = cart.GrandTotal
+                });
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Failed to update quantity. Please check stock availability.";
-                TempData["ToastMessage"] = "Failed to update quantity!";
-                TempData["ToastType"] = "error";
-            }
-            
-            return RedirectToAction("Index");
+
+            return Json(new { success = false, message = "Failed to update quantity. Please check stock availability." });
         }
-        
+
         // POST: /ShoppingCart/RemoveItem
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveItem(int cartItemId)
         {
             var success = await _shoppingCartService.RemoveFromCartAsync(cartItemId);
-            
+
             if (success)
             {
-                TempData["SuccessMessage"] = "Item removed from cart successfully!";
-                TempData["ToastMessage"] = "Item removed from cart!";
-                TempData["ToastType"] = "success";
+                int? accountId = GetAccountId();
+                var cart = accountId.HasValue
+                    ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
+                    : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Item removed from cart",
+                    totalAmount = cart.TotalAmount,
+                    totalItems = cart.TotalItems,
+                    gst = cart.GST,
+                    grandTotal = cart.GrandTotal
+                });
             }
-            else
-            {
-                TempData["ErrorMessage"] = "Failed to remove item from cart.";
-                TempData["ToastMessage"] = "Failed to remove item!";
-                TempData["ToastType"] = "error";
-            }
-            
-            return RedirectToAction("Index");
+
+            return Json(new { success = false, message = "Failed to remove item from cart" });
         }
-        
+
         // POST: /ShoppingCart/ClearCart
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClearCart()
         {
-            var sessionId = GetOrCreateSessionId();
-            var success = await _shoppingCartService.ClearCartAsync(sessionId);
-            
+            int? accountId = GetAccountId();
+            var success = accountId.HasValue
+                ? await _shoppingCartService.ClearCartAsync(accountId.Value)
+                : await _shoppingCartService.ClearCartAsync(Session.GetOrCreate(HttpContext));
+
             if (success)
-            {
-                TempData["SuccessMessage"] = "Cart cleared successfully!";
-                TempData["ToastMessage"] = "Cart cleared!";
-                TempData["ToastType"] = "success";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Failed to clear cart.";
-                TempData["ToastMessage"] = "Failed to clear cart!";
-                TempData["ToastType"] = "error";
-            }
-            
-            return RedirectToAction("Index");
+                return Json(new { success = true, message = "Cart cleared successfully" });
+
+            return Json(new { success = false, message = "Failed to clear cart" });
         }
-        
-        // GET: Cart count for navigation (called from layout)
-        public async Task<int> GetCartCountAsync()
+
+        // GET: /ShoppingCart/GetCartCount
+        [HttpGet]
+        public async Task<IActionResult> GetCartCount()
         {
-            try
-            {
-                var sessionId = GetOrCreateSessionId();
-                return await _shoppingCartService.GetCartItemCountAsync(sessionId);
-            }
-            catch
-            {
-                return 0;
-            }
+            int? accountId = GetAccountId();
+            var count = accountId.HasValue
+                ? await _shoppingCartService.GetCartItemCountAsync(accountId.Value)
+                : await _shoppingCartService.GetCartItemCountAsync(Session.GetOrCreate(HttpContext));
+
+            return Json(new { count });
         }
-        
-        // Helper method to get or create session ID
-        private string GetOrCreateSessionId()
+
+        // GET: /ShoppingCart/ValidateCart
+        [HttpGet]
+        public async Task<IActionResult> ValidateCart()
         {
-            var sessionId = HttpContext.Session.GetString("CartSessionId");
-            
-            if (string.IsNullOrEmpty(sessionId))
-            {
-                sessionId = Guid.NewGuid().ToString();
-                HttpContext.Session.SetString("CartSessionId", sessionId);
-            }
-            
-            return sessionId;
+            int? accountId = GetAccountId();
+            var isValid = accountId.HasValue
+                ? await _shoppingCartService.ValidateCartItemsAsync(accountId.Value)
+                : await _shoppingCartService.ValidateCartItemsAsync(Session.GetOrCreate(HttpContext));
+
+            return Json(new { isValid });
         }
-        
-        // Helper method to handle return URLs
-        private IActionResult RedirectToReturnUrl(string returnUrl)
+
+        // Partial view for cart summary (can be used in layout)
+        public async Task<IActionResult> CartSummary()
         {
-            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            int? accountId = GetAccountId();
+            var cart = accountId.HasValue
+                ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
+                : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
+
+            return PartialView("_CartSummary", cart);
+        }
+
+        // Helper to get AccountId from claims
+        private int? GetAccountId()
+        {
+            if (User.Identity?.IsAuthenticated == true)
             {
-                return Redirect(returnUrl);
+                var idStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (int.TryParse(idStr, out int id)) return id;
             }
-            
-            // Default redirect locations in priority order
-            var referer = Request.Headers["Referer"].ToString();
-            if (!string.IsNullOrEmpty(referer) && referer.Contains(Request.Host.Value))
-            {
-                return Redirect(referer);
-            }
-            
-            // Fallback to product catalogue
-            return RedirectToAction("Catalogue", "Product");
+            return null;
         }
     }
 }
