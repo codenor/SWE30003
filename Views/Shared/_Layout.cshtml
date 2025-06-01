@@ -19,34 +19,49 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ElectronicsStoreAss3</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-lightning-charge"></i> AWE Electronics
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-house"></i> Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home"
-                               asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="Product" asp-action="Catalogue">
+                                <i class="bi bi-grid"></i> Products
+                            </a>  
                         </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav">
+                        <!-- Cart Link with Count -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                               asp-action="Catalogue">Products</a>  
+                            <a class="nav-link position-relative" asp-controller="ShoppingCart" asp-action="Index">
+                                <i class="bi bi-cart"></i> Cart
+                                @await Html.PartialAsync("_CartCount")
+                            </a>
                         </li>
+                        
                         @if (HttpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">Account</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">
+                                    <i class="bi bi-person"></i> Account
+                                </a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">
+                                    <i class="bi bi-box-arrow-in-right"></i> Login
+                                </a>
                             </li>
                         }
                     </ul>
@@ -90,6 +105,8 @@
             });
         </script>
     }
+    
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

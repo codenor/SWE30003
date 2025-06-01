@@ -1,0 +1,29 @@
+﻿@{
+    // Get cart count for navigation display
+    var cartService = Context.RequestServices.GetService<ElectronicsStoreAss3.Services.IShoppingCartService>();
+    int cartCount = 0;
+    
+    if (cartService != null)
+    {
+        try
+        {
+            var sessionId = Context.Session.GetString("CartSessionId");
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                cartCount = await cartService.GetCartItemCountAsync(sessionId);
+            }
+        }
+        catch
+        {
+            cartCount = 0;
+        }
+    }
+}
+
+@if (cartCount > 0)
+{
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7em;">
+        @cartCount
+        <span class="visually-hidden">items in cart</span>
+    </span>
+}

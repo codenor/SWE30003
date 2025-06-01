@@ -47,10 +47,12 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    app.Environment.IsDevelopment();
-    db.Database.EnsureDeleted();
-    db.Database.EnsureCreated();
-    Init.SeedAll(db);
+    if (app.Environment.IsDevelopment())
+    {
+        db.Database.EnsureDeleted();
+        db.Database.EnsureCreated();
+        Init.SeedAll(db);
+    }
 }
 
 app.UseHttpsRedirection();
