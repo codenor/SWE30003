@@ -38,8 +38,9 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
     app.Environment.IsDevelopment();
+    db.Database.EnsureDeleted();
     db.Database.EnsureCreated();
-    Init.SeedOwnerAccount(db);
+    Init.SeedAll(db);
 }
 
 app.UseHttpsRedirection();
