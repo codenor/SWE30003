@@ -4,6 +4,10 @@ namespace ElectronicsStoreAss3.Models
 {
     public class ProductViewModel
     {
+        /*
+         *  ProductViewModel - Purpose: Product Data formatting for views/forms
+         *  
+         */
         public int ProductId { get; set; }
 
         [Required(ErrorMessage = "Product name is required")]
@@ -43,6 +47,10 @@ namespace ElectronicsStoreAss3.Models
         public bool IsLowStock => StockLevel <= LowStockThreshold;
     }
 
+    /*
+     *  ProductSearchViewModel - Purpose: Simple implementation for handling search and filtering
+     * 
+     */
     public class ProductSearchViewModel
     {
         public string? SearchTerm { get; set; }

@@ -13,7 +13,7 @@ namespace ElectronicsStoreAss3
             _productService = productService;
         }
 
-        // GET: Product
+        // GET: Product 
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllProductsAsync();
