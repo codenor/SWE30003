@@ -2,6 +2,7 @@
 
 namespace ElectronicsStoreAss3.Models
 {
+    // Catalogue - Purpose: Groups products into categories
     public class Catalogue
     {
         [Key]
