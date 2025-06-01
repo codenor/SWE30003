@@ -30,8 +30,7 @@ namespace ElectronicsStoreAss3.Controllers
 
         // POST: /ShoppingCart/AddToCart
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToCart(int productId, int quantity = 1, string returnUrl = "")
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
         {
             if (!ModelState.IsValid)
                 return Json(new { success = false, message = "Invalid request" });
@@ -53,8 +52,7 @@ namespace ElectronicsStoreAss3.Controllers
 
         // POST: /ShoppingCart/UpdateQuantity
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateQuantity(int cartItemId, int quantity)
+        public async Task<IActionResult> UpdateQuantity([FromBody] UpdateCartItemRequest request)
         {
             if (!ModelState.IsValid)
                 return Json(new { success = false, message = "Invalid request" });
@@ -84,7 +82,6 @@ namespace ElectronicsStoreAss3.Controllers
 
         // POST: /ShoppingCart/RemoveItem
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveItem(int cartItemId)
         {
             var success = await _shoppingCartService.RemoveFromCartAsync(cartItemId);
@@ -112,7 +109,6 @@ namespace ElectronicsStoreAss3.Controllers
 
         // POST: /ShoppingCart/ClearCart
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ClearCart()
         {
             int? accountId = GetAccountId();
