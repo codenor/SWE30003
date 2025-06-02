@@ -13,8 +13,11 @@
             <a asp-action="Orders" class="@(action == "Orders" ? "active" : "")">Order History</a>
         </div>
 
-        <div class="mt-auto pt-3 border-top">
-            <a asp-action="Logout" class="logout">Logout</a>
+        <div class="mt-auto pt-3 border-top px-3">
+            <form asp-action="Logout" asp-controller="Account" method="post" class="w-100">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-dark btn-lg w-100">Logout</button>
+            </form>
         </div>
     </div>
 
