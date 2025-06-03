@@ -73,7 +73,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "Product",
-    pattern: "{controller=Product}/{action=Index}/{id?}/{sku?}")
+    pattern: "{controller=Product}/{action=Index}/{sku?}/{id?}/")
     .WithStaticAssets();
 
 app.Run();

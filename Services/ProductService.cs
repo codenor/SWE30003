@@ -99,7 +99,7 @@ namespace ElectronicsStoreAss3.Services
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
             {
                 query = query.Where(p => p.Name.Contains(searchModel.SearchTerm) || 
-                                       p.Description.Contains(searchModel.SearchTerm));
+                                        p.Description.Contains(searchModel.SearchTerm));
             }
             
             if (!string.IsNullOrEmpty(searchModel.Category))
@@ -122,28 +122,11 @@ namespace ElectronicsStoreAss3.Services
                 query = query.Where(p => p.Price <= searchModel.MaxPrice.Value);
             }
             
-            // Apply sorting
-            query = searchModel.SortBy.ToLower() switch
-            {
-                "price" => searchModel.SortOrder.ToUpper() == "DESC" 
-                    ? query.OrderByDescending(p => p.Price)
-                    : query.OrderBy(p => p.Price),
-                "category" => searchModel.SortOrder.ToUpper() == "DESC"
-                    ? query.OrderByDescending(p => p.Category)
-                    : query.OrderBy(p => p.Category),
-                "brand" => searchModel.SortOrder.ToUpper() == "DESC"
-                    ? query.OrderByDescending(p => p.Brand)
-                    : query.OrderBy(p => p.Brand),
-                _ => searchModel.SortOrder.ToUpper() == "DESC"
-                    ? query.OrderByDescending(p => p.Name)
-                    : query.OrderBy(p => p.Name)
-            };
-            
+            // Get total count
             searchModel.TotalProducts = await query.CountAsync();
             
-            var products = await query
-                .Skip((searchModel.Page - 1) * searchModel.PageSize)
-                .Take(searchModel.PageSize)
+            // Get all filtered data first, then apply sorting on client side
+            var allFilteredProducts = await query
                 .Select(p => new ProductViewModel
                 {
                     ProductId = p.ProductId,
@@ -161,7 +144,30 @@ namespace ElectronicsStoreAss3.Services
                 })
                 .ToListAsync();
             
-            searchModel.Products = products;
+            // Apply sorting on the client side (in memory)
+            var sortedProducts = searchModel.SortBy.ToLower() switch
+            {
+                "price" => searchModel.SortOrder.ToUpper() == "DESC" 
+                    ? allFilteredProducts.OrderByDescending(p => p.Price).ToList()
+                    : allFilteredProducts.OrderBy(p => p.Price).ToList(),
+                "category" => searchModel.SortOrder.ToUpper() == "DESC"
+                    ? allFilteredProducts.OrderByDescending(p => p.Category).ToList()
+                    : allFilteredProducts.OrderBy(p => p.Category).ToList(),
+                "brand" => searchModel.SortOrder.ToUpper() == "DESC"
+                    ? allFilteredProducts.OrderByDescending(p => p.Brand).ToList()
+                    : allFilteredProducts.OrderBy(p => p.Brand).ToList(),
+                _ => searchModel.SortOrder.ToUpper() == "DESC"
+                    ? allFilteredProducts.OrderByDescending(p => p.Name).ToList()
+                    : allFilteredProducts.OrderBy(p => p.Name).ToList()
+            };
+            
+            // Apply pagination on the sorted results
+            var paginatedProducts = sortedProducts
+                .Skip((searchModel.Page - 1) * searchModel.PageSize)
+                .Take(searchModel.PageSize)
+                .ToList();
+            
+            searchModel.Products = paginatedProducts;
             searchModel.Categories = (await GetCategoriesAsync()).ToList();
             searchModel.Brands = (await GetBrandsAsync()).ToList();
             
