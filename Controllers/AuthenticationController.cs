@@ -52,7 +52,8 @@ namespace ElectronicsStoreAss3.Controllers
                 AccountId = account.Id,
                 FirstName = model.FirstName!,
                 LastName = model.LastName!,
-                Mobile = model.Mobile!
+                Mobile = model.Mobile!,
+                Email = model.Email!
             };
 
             _context.Customers.Add(customer);
