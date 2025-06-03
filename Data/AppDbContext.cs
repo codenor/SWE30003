@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models; 
+using ElectronicsStoreAss3.Models.ShoppingCart;
 
 namespace ElectronicsStoreAss3.Data
 {
@@ -18,11 +19,11 @@ namespace ElectronicsStoreAss3.Data
 
 
         // Products
-        public DbSet<Product> Product { get; set; } = null!;
-        public DbSet<Inventory> Inventory { get; set; } = null!;
-        public DbSet<Catalogue> Catalogues { get; set; } = null!;
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; } = null!;
-        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; } = null!;
+        public DbSet<Product> Product { get; set; } 
+        public DbSet<Inventory> Inventory { get; set; } 
+        public DbSet<Catalogue> Catalogues { get; set; } 
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; } 
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; } 
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }

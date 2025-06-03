@@ -1,14 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.ShoppingCart
 {
     public class ShoppingCart
     {
         [Key]
         public int ShoppingCartId { get; set; }
-
-
+        
         public string? SessionId { get; set; }
 
         [ForeignKey("Account")]

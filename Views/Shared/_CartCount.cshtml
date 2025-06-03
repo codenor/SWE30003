@@ -1,5 +1,7 @@
-﻿@{
-    // Get cart count for navigation display
+﻿@using ElectronicsStoreAss3.Helpers
+@using System.Security.Claims
+
+@{
     var cartService = Context.RequestServices.GetService<ElectronicsStoreAss3.Services.IShoppingCartService>();
     int cartCount = 0;
     
@@ -7,9 +9,26 @@
     {
         try
         {
-            var sessionId = Context.Session.GetString("CartSessionId");
-            if (!string.IsNullOrEmpty(sessionId))
+            // Check if user is authenticated
+            if (Context.User.Identity.IsAuthenticated)
             {
+                // Try to get account ID from claims
+                var accountIdClaim = Context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (int.TryParse(accountIdClaim, out int accountId))
+                {
+                    cartCount = await cartService.GetCartItemCountAsync(accountId);
+                }
+                else
+                {
+                    // Fallback to session if account ID not found
+                    var sessionId = Session.GetOrCreate(Context);
+                    cartCount = await cartService.GetCartItemCountAsync(sessionId);
+                }
+            }
+            else
+            {
+                // Guest user - use session helper
+                var sessionId = Session.GetOrCreate(Context);
                 cartCount = await cartService.GetCartItemCountAsync(sessionId);
             }
         }

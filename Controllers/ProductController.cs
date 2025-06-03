@@ -3,7 +3,7 @@ using ElectronicsStoreAss3.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace ElectronicsStoreAss3
+namespace ElectronicsStoreAss3.Controllers
 {
     [Authorize(Roles = "Owner")]
     public class ProductController : Controller
@@ -21,7 +21,8 @@ namespace ElectronicsStoreAss3
             var products = await _productService.GetAllProductsAsync();
             return View(products);
         }
-
+        
+        [AllowAnonymous]
         // GET: Product/Details/5
         public async Task<IActionResult> Details(int id)
         {

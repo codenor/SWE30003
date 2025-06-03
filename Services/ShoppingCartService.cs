@@ -1,5 +1,6 @@
 ﻿using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.ShoppingCart;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Services
