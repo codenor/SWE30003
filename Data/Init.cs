@@ -25,10 +25,37 @@ namespace ElectronicsStoreAss3.Data
             {
                 AccountId = account.Id,
                 Name = "Max",
-                LastName = "Isghey"
+                LastName = "Isghey",
+                Email = "MaxIsGhey@gmail.com"
             };
 
             context.Owners.Add(owner);
+            context.SaveChanges();
+        }
+
+        public static void SeedCustomerAccount(AppDbContext context)
+        {
+            if (context.Accounts.Any(a => a.Role == Role.Customer))
+                return;
+            var hasher = new PasswordHasher<object>();
+            var account = new Account
+            {
+                Email = "Arbnor@test.com",
+                PasswordHash = hasher.HashPassword(null, "password"),
+                Role = Role.Customer
+            };
+            context.Accounts.Add(account);
+            context.SaveChanges();
+
+            var customer = new Customer
+            {
+                AccountId = account.Id,
+                FirstName = "Arbnor",
+                LastName = "Caravaku",
+                Mobile = "0412345678", 
+                Email = "Arbnor@test.com"
+            };
+            context.Customers.Add(customer);
             context.SaveChanges();
         }
 
@@ -104,6 +131,7 @@ namespace ElectronicsStoreAss3.Data
         {
             SeedTestProductsAndInventory(context);
             SeedOwnerAccount(context);
+            SeedCustomerAccount(context);
         }
     }
 }
