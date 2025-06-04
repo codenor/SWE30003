@@ -1,4 +1,5 @@
 ﻿using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Product;
 using ElectronicsStoreAss3.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -19,39 +20,39 @@ namespace ElectronicsStoreAss3.Controllers
         public async Task<IActionResult> Index(string searchTerm = null, string searchCategory = null)
         {
             var allProducts = await _productService.GetAllProductsAsync();
-            
+
             // Apply filters if search terms are provided
             if (!string.IsNullOrWhiteSpace(searchTerm) || !string.IsNullOrWhiteSpace(searchCategory))
             {
                 var filteredProducts = allProducts.AsQueryable();
-                
+
                 if (!string.IsNullOrWhiteSpace(searchTerm))
                 {
                     searchTerm = searchTerm.ToLower();
-                    filteredProducts = filteredProducts.Where(p => 
+                    filteredProducts = filteredProducts.Where(p =>
                         p.Name.ToLower().Contains(searchTerm) ||
                         p.SKU.ToLower().Contains(searchTerm) ||
                         p.Description.ToLower().Contains(searchTerm) ||
                         p.Brand.ToLower().Contains(searchTerm));
                 }
-                
+
                 if (!string.IsNullOrWhiteSpace(searchCategory))
                 {
-                    filteredProducts = filteredProducts.Where(p => 
+                    filteredProducts = filteredProducts.Where(p =>
                         p.Category.Equals(searchCategory, StringComparison.OrdinalIgnoreCase));
                 }
-                
+
                 ViewBag.SearchTerm = searchTerm;
                 ViewBag.SearchCategory = searchCategory;
                 ViewBag.Categories = allProducts.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
-                
+
                 return View(filteredProducts.ToList());
             }
-            
+
             ViewBag.Categories = allProducts.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
             return View(allProducts);
         }
-        
+
         // GET: Product/Details/5 OR Product/Details/APPLE-IP15P-128
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id, string? sku)
@@ -97,7 +98,7 @@ namespace ElectronicsStoreAss3.Controllers
                 StockLevel = 0,
                 LowStockThreshold = 10
             };
-            return View(productViewModel); 
+            return View(productViewModel);
         }
 
         // POST: Product/Create
@@ -121,6 +122,7 @@ namespace ElectronicsStoreAss3.Controllers
                     ModelState.AddModelError("SKU", "A product with this SKU already exists.");
                 }
             }
+
             return View(productViewModel);
         }
 
@@ -131,9 +133,10 @@ namespace ElectronicsStoreAss3.Controllers
             var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-            return View(product); 
+
+            return View(product);
         }
 
         // POST: Product/Edit/SKU
@@ -144,7 +147,7 @@ namespace ElectronicsStoreAss3.Controllers
         {
             if (id != productViewModel.ProductId)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             if (ModelState.IsValid)
@@ -155,14 +158,15 @@ namespace ElectronicsStoreAss3.Controllers
                     TempData["SuccessMessage"] = "Product updated successfully!";
                     TempData["ToastMessage"] = "Product updated!";
                     TempData["ToastType"] = "success";
-                    return RedirectToAction(nameof(Index)); 
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     ModelState.AddModelError("SKU", "A product with this SKU already exists.");
                 }
             }
-            return View(productViewModel); 
+
+            return View(productViewModel);
         }
 
         // GET: Product/Delete/SKU
@@ -174,6 +178,7 @@ namespace ElectronicsStoreAss3.Controllers
             {
                 return NotFound();
             }
+
             return View(product);
         }
 
@@ -196,34 +201,35 @@ namespace ElectronicsStoreAss3.Controllers
                 TempData["ToastMessage"] = "Failed to delete product!";
                 TempData["ToastType"] = "error";
             }
+
             return RedirectToAction(nameof(Index));
         }
 
- 
+
         // GET: Product/Catalogue
-        [AllowAnonymous] 
+        [AllowAnonymous]
         public async Task<IActionResult> Catalogue(ProductSearchViewModel searchModel)
         {
             if (searchModel.Page <= 0) searchModel.Page = 1;
             if (searchModel.PageSize <= 0) searchModel.PageSize = 12;
-            
+
             searchModel.PageSize = Math.Max(6, Math.Min(24, searchModel.PageSize));
-            
+
             var result = await _productService.SearchProductsAsync(searchModel);
-            
-            ViewBag.HasFilters = !string.IsNullOrEmpty(searchModel.SearchTerm) || 
-                                 !string.IsNullOrEmpty(searchModel.Category) || 
-                                 !string.IsNullOrEmpty(searchModel.Brand) || 
-                                 searchModel.MinPrice.HasValue || 
+
+            ViewBag.HasFilters = !string.IsNullOrEmpty(searchModel.SearchTerm) ||
+                                 !string.IsNullOrEmpty(searchModel.Category) ||
+                                 !string.IsNullOrEmpty(searchModel.Brand) ||
+                                 searchModel.MinPrice.HasValue ||
                                  searchModel.MaxPrice.HasValue;
-            
-            return View(result); 
+
+            return View(result);
         }
-        
+
         // =========================================================================
         // AJAX SECTION - Search
         // =========================================================================
-        
+
         // Search Suggestions - AJAX
         [AllowAnonymous]
         [HttpGet]
@@ -231,17 +237,17 @@ namespace ElectronicsStoreAss3.Controllers
         {
             if (string.IsNullOrWhiteSpace(query) || query.Length < 2)
             {
-                return Json(new { suggestions = new string[0] }); 
+                return Json(new { suggestions = new string[0] });
             }
 
             var searchModel = new ProductSearchViewModel
             {
                 SearchTerm = query,
-                PageSize = 8 
+                PageSize = 8
             };
 
             var results = await _productService.SearchProductsAsync(searchModel);
-            
+
             var suggestions = results.Products
                 .Select(p => p.Name)
                 .Distinct()
@@ -249,9 +255,9 @@ namespace ElectronicsStoreAss3.Controllers
                 .ToList();
 
 
-            return Json(new { suggestions }); 
+            return Json(new { suggestions });
         }
-        
+
 
         [AllowAnonymous]
         [HttpGet]
@@ -259,24 +265,24 @@ namespace ElectronicsStoreAss3.Controllers
         {
             if (string.IsNullOrWhiteSpace(query))
             {
-                return Json(new { products = new object[0] }); 
+                return Json(new { products = new object[0] });
             }
 
             var searchModel = new ProductSearchViewModel
             {
                 SearchTerm = query,
-                PageSize = 5 
+                PageSize = 5
             };
 
             var results = await _productService.SearchProductsAsync(searchModel);
-            
-   
+
+
             var products = results.Products.Select(p => new
             {
                 id = p.ProductId,
                 sku = p.SKU,
                 name = p.Name,
-                price = p.Price.ToString("C0"), 
+                price = p.Price.ToString("C0"),
                 image = p.ImagePath,
                 category = p.Category,
                 brand = p.Brand,
@@ -288,12 +294,12 @@ namespace ElectronicsStoreAss3.Controllers
             }).ToList();
 
             // Returns structured JSON for JavaScript consumption
-            return Json(new { 
-                products, 
+            return Json(new
+            {
+                products,
                 totalCount = results.TotalProducts,
                 hasMore = results.TotalProducts > searchModel.PageSize
             });
         }
-
     }
 }

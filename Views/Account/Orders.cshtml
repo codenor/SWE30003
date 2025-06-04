@@ -1,5 +1,4 @@
-@model IEnumerable<ElectronicsStoreAss3.Models.Order>
-
+@model List<ElectronicsStoreAss3.Models.Order.Order>
 @{
     ViewData["Title"] = "My Orders";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
@@ -35,7 +34,7 @@ else
                             </small>
                         </div>
                         <div class="text-end">
-                            <h5 class="text-primary mb-0">$@order.TotalAmount.ToString("F2")</h5>
+                            <h5 class="text-primary mb-0">$@order.TotalAmount.ToString("0.00")</h5>
                             <small class="text-muted">@order.TotalItems items</small>
                         </div>
                     </div>
@@ -80,8 +79,8 @@ else
                                                         </div>
                                                     </td>
                                                     <td>@item.Quantity</td>
-                                                    <td>$@item.UnitPrice.ToString("F2")</td>
-                                                    <td>$@item.TotalPrice.ToString("F2")</td>
+                                                    <td>$@item.UnitPrice.ToString("0.00")</td>
+                                                    <td>$@item.TotalPrice.ToString("0.00")</td>
                                                 </tr>
                                             }
                                         </tbody>

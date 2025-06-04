@@ -1,5 +1,7 @@
 ﻿using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Order;
+using ElectronicsStoreAss3.Models.Shipment;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Services
@@ -19,10 +21,10 @@ namespace ElectronicsStoreAss3.Services
         {
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .FirstOrDefaultAsync(s => s.ShipmentId == shipmentId);
         }
 
@@ -30,10 +32,10 @@ namespace ElectronicsStoreAss3.Services
         {
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .FirstOrDefaultAsync(s => s.OrderId == orderId);
         }
 
@@ -44,10 +46,10 @@ namespace ElectronicsStoreAss3.Services
 
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .FirstOrDefaultAsync(s => s.TrackingNumber == trackingNumber);
         }
 
@@ -55,7 +57,7 @@ namespace ElectronicsStoreAss3.Services
         {
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .OrderByDescending(s => s.CreatedDate)
                 .ToListAsync();
         }
@@ -67,7 +69,7 @@ namespace ElectronicsStoreAss3.Services
 
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .Where(s => s.Status.ToLower() == status.ToLower())
                 .OrderByDescending(s => s.CreatedDate)
                 .ToListAsync();
@@ -113,7 +115,7 @@ namespace ElectronicsStoreAss3.Services
                 _context.Shipments.Add(shipment);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Shipment created for Order {OrderId} with tracking {TrackingNumber}", 
+                _logger.LogInformation("Shipment created for Order {OrderId} with tracking {TrackingNumber}",
                     orderId, shipment.TrackingNumber);
 
                 return true;
@@ -147,20 +149,21 @@ namespace ElectronicsStoreAss3.Services
 
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Shipment {ShipmentId} status updated from {OldStatus} to {NewStatus}", 
+                _logger.LogInformation("Shipment {ShipmentId} status updated from {OldStatus} to {NewStatus}",
                     shipmentId, oldStatus, newStatus);
 
                 return true;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating shipment {ShipmentId} status to {Status}", 
+                _logger.LogError(ex, "Error updating shipment {ShipmentId} status to {Status}",
                     shipmentId, newStatus);
                 return false;
             }
         }
 
-        public async Task<bool> AssignTrackingNumberAsync(int shipmentId, string trackingNumber, string? carrierName = null)
+        public async Task<bool> AssignTrackingNumberAsync(int shipmentId, string trackingNumber,
+            string? carrierName = null)
         {
             try
             {
@@ -193,7 +196,7 @@ namespace ElectronicsStoreAss3.Services
 
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Tracking number {TrackingNumber} assigned to shipment {ShipmentId}", 
+                _logger.LogInformation("Tracking number {TrackingNumber} assigned to shipment {ShipmentId}",
                     trackingNumber, shipmentId);
 
                 return true;
@@ -209,7 +212,7 @@ namespace ElectronicsStoreAss3.Services
         {
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .Where(s => s.Status == "Processing")
                 .OrderBy(s => s.CreatedDate)
                 .ToListAsync();
@@ -220,7 +223,7 @@ namespace ElectronicsStoreAss3.Services
             var cutoffDate = DateTime.Now;
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.Customer)
+                .ThenInclude(o => o.Customer)
                 .Where(s => s.EstimatedDeliveryDate < cutoffDate && s.Status != "Delivered")
                 .OrderBy(s => s.EstimatedDeliveryDate)
                 .ToListAsync();
@@ -230,8 +233,8 @@ namespace ElectronicsStoreAss3.Services
         {
             return await _context.Shipments
                 .Include(s => s.Order)
-                    .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .Where(s => s.Order.AccountId == accountId)
                 .OrderByDescending(s => s.CreatedDate)
                 .ToListAsync();
@@ -243,7 +246,7 @@ namespace ElectronicsStoreAss3.Services
         {
             var startDate = DateTime.Now;
             var businessDays = 5; // Standard delivery time
-            
+
             return startDate.AddBusinessDays(businessDays);
         }
 
@@ -283,9 +286,9 @@ public static class DateTimeExtensions
         while (businessDaysRemaining > 0)
         {
             current = current.AddDays(direction);
-            
+
             // Skip weekends
-            if (current.DayOfWeek != DayOfWeek.Saturday && 
+            if (current.DayOfWeek != DayOfWeek.Saturday &&
                 current.DayOfWeek != DayOfWeek.Sunday)
             {
                 businessDaysRemaining--;
@@ -297,7 +300,7 @@ public static class DateTimeExtensions
 
     public static bool IsBusinessDay(this DateTime date)
     {
-        return date.DayOfWeek != DayOfWeek.Saturday && 
+        return date.DayOfWeek != DayOfWeek.Saturday &&
                date.DayOfWeek != DayOfWeek.Sunday;
     }
 }

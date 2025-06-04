@@ -1,4 +1,5 @@
 ﻿using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.ShoppingCart;
 
 namespace ElectronicsStoreAss3.Services
 {

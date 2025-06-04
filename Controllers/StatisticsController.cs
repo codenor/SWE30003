@@ -25,25 +25,26 @@ namespace ElectronicsStoreAss3.Controllers
             {
                 // Set ViewBag FIRST - before any potential errors
                 SetTimeFrameOptions();
-                
+
                 var (fromDate, toDate) = GetDateRange(timeFrame);
                 var statistics = await _statisticsService.GetSalesStatisticsAsync(fromDate, toDate);
                 statistics.TimeFrame = timeFrame;
-                
+
                 return View(statistics);
             }
             catch (DbUpdateException dbEx)
             {
-                _logger.LogError(dbEx, "Database error loading statistics: {Message}", dbEx.InnerException?.Message ?? dbEx.Message);
+                _logger.LogError(dbEx, "Database error loading statistics: {Message}",
+                    dbEx.InnerException?.Message ?? dbEx.Message);
                 TempData["ToastMessage"] = "Database error loading statistics. Please try again later.";
                 TempData["ToastType"] = "error";
-                
+
                 // Ensure ViewBag is set even on error
                 SetTimeFrameOptions();
-                
+
                 // Return empty model with proper timeframe
-                var emptyModel = new StatisticsViewModel 
-                { 
+                var emptyModel = new StatisticsViewModel
+                {
                     TimeFrame = timeFrame,
                     FromDate = GetDateRange(timeFrame).fromDate,
                     ToDate = GetDateRange(timeFrame).toDate
@@ -55,13 +56,13 @@ namespace ElectronicsStoreAss3.Controllers
                 _logger.LogError(ex, "Error loading statistics: {Message}", ex.Message);
                 TempData["ToastMessage"] = "Error loading statistics. Please try again later.";
                 TempData["ToastType"] = "error";
-                
+
                 // Ensure ViewBag is set even on error
                 SetTimeFrameOptions();
-                
+
                 // Return empty model with proper timeframe
-                var emptyModel = new StatisticsViewModel 
-                { 
+                var emptyModel = new StatisticsViewModel
+                {
                     TimeFrame = timeFrame,
                     FromDate = GetDateRange(timeFrame).fromDate,
                     ToDate = GetDateRange(timeFrame).toDate
@@ -96,7 +97,7 @@ namespace ElectronicsStoreAss3.Controllers
             try
             {
                 SetTimeFrameOptions();
-                
+
                 var statistics = await _statisticsService.GetSalesStatisticsAsync(fromDate.Value, toDate.Value);
                 statistics.TimeFrame = "custom";
                 statistics.FromDate = fromDate.Value;

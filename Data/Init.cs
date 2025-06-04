@@ -1,4 +1,8 @@
 using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Account;
+using ElectronicsStoreAss3.Models.Order;
+using ElectronicsStoreAss3.Models.Product;
+using ElectronicsStoreAss3.Models.Shipment;
 using Microsoft.AspNetCore.Identity;
 
 namespace ElectronicsStoreAss3.Data
@@ -741,25 +745,26 @@ namespace ElectronicsStoreAss3.Data
                 var random = new Random(42); // For reproducibility
                 var productIds = context.Product.Select(p => p.ProductId).ToList();
                 var currentDate = DateTime.Now;
-                
+
                 // Generate sample orders with different statuses
                 var orderStatuses = new[] { "Delivered", "In Transit", "Processing", "Delivered" };
-                var orderNotes = new[] { 
-                    "Regular delivery", 
-                    "Express shipping requested", 
-                    "Gift wrapping requested", 
-                    "Special instructions for delivery" 
+                var orderNotes = new[]
+                {
+                    "Regular delivery",
+                    "Express shipping requested",
+                    "Gift wrapping requested",
+                    "Special instructions for delivery"
                 };
-                
+
                 var daysAgo = new[] { -10, -7, -2, -15 };
                 var orders = new List<Order>();
-                
+
                 // Create orders
                 for (int i = 0; i < 4; i++)
                 {
                     var orderDate = currentDate.AddDays(daysAgo[i]);
                     var lastModified = i == 1 ? orderDate.AddDays(1) : orderDate; // In Transit order modified +1 day
-                    
+
                     var order = new Order
                     {
                         AccountId = customerAccount.Id,
@@ -769,35 +774,39 @@ namespace ElectronicsStoreAss3.Data
                         OrderNotes = orderNotes[i],
                         TotalAmount = 0 // Will be calculated after adding items
                     };
-                    
+
                     order.Customer = customer;
                     context.Orders.Add(order);
                     context.SaveChanges();
                     orders.Add(order);
                 }
-                
+
                 var customerName = $"{customer?.FirstName ?? "Customer"} {customer?.LastName ?? "User"}";
-                
+
                 // Define product combinations for orders
                 var orderProducts = new[]
                 {
                     new[] { new { ProductId = 3, Quantity = 1 }, new { ProductId = 41, Quantity = 2 } },
                     new[] { new { ProductId = 33, Quantity = 1 } },
-                    new[] { new { ProductId = 42, Quantity = 1 }, new { ProductId = 47, Quantity = 1 }, new { ProductId = 50, Quantity = 1 } },
+                    new[]
+                    {
+                        new { ProductId = 42, Quantity = 1 }, new { ProductId = 47, Quantity = 1 },
+                        new { ProductId = 50, Quantity = 1 }
+                    },
                     new[] { new { ProductId = 11, Quantity = 1 } }
                 };
-                
+
                 // Add order items
                 for (int i = 0; i < orders.Count; i++)
                 {
                     var orderItems = new List<OrderItem>();
                     decimal orderTotal = 0;
-                    
+
                     foreach (var product in orderProducts[i])
                     {
                         var productInfo = context.Product.Find(product.ProductId);
                         if (productInfo == null) continue;
-                        
+
                         var unitPrice = productInfo.Price;
                         orderItems.Add(new OrderItem
                         {
@@ -806,16 +815,16 @@ namespace ElectronicsStoreAss3.Data
                             Quantity = product.Quantity,
                             UnitPrice = unitPrice
                         });
-                        
+
                         orderTotal += unitPrice * product.Quantity;
                     }
-                    
+
                     // Update order total
                     orders[i].TotalAmount = orderTotal;
                     context.OrderItems.AddRange(orderItems);
                     context.SaveChanges();
                 }
-                
+
                 // Create shipments for each order
                 for (int i = 0; i < orders.Count; i++)
                 {
@@ -831,7 +840,7 @@ namespace ElectronicsStoreAss3.Data
                         CreatedDate = orderDate,
                         LastUpdated = order.LastModified
                     };
-                    
+
                     // Set dates and notes based on status
                     switch (order.Status)
                     {
@@ -851,7 +860,7 @@ namespace ElectronicsStoreAss3.Data
                             shipment.DeliveryNotes = "Preparing for shipment";
                             break;
                     }
-                    
+
                     context.Shipments.Add(shipment);
                     context.SaveChanges();
                 }
@@ -944,22 +953,23 @@ namespace ElectronicsStoreAss3.Data
                     order.Customer = customer;
                     context.Orders.Add(order);
                 }
+
                 context.SaveChanges();
-                
+
                 // Get the saved orders with their assigned IDs
                 var savedOrderIds = extendedOrders.Select(o => o.OrderId).ToList();
                 var orderItems = new List<OrderItem>();
-                
+
                 // Process each order one by one to ensure all have items
                 foreach (var orderId in savedOrderIds)
                 {
                     var order = context.Orders.Find(orderId);
                     if (order == null) continue;
-                    
+
                     // Each order gets 1-3 different products
                     int itemCount = random.Next(1, 4);
                     decimal orderTotal = 0;
-                    
+
                     var categoryDistribution = new Dictionary<string, double>
                     {
                         { "Smartphones", 0.25 },
@@ -967,40 +977,40 @@ namespace ElectronicsStoreAss3.Data
                         { "Tablets", 0.15 },
                         { "Accessories", 0.40 }
                     };
-                    
+
                     // Pick a category based on weighted distribution
                     string selectedCategory = SelectWeightedCategory(random, categoryDistribution);
-                    
+
                     // Find products in this category
                     var categoryProducts = context.Product
                         .Where(p => p.Category == selectedCategory)
                         .Select(p => p.ProductId)
                         .ToList();
-                        
+
                     if (!categoryProducts.Any())
                     {
                         // Fallback to any random product if category has no products
                         categoryProducts = productIds;
                     }
-                    
+
                     var orderItemsForThisOrder = new List<OrderItem>();
-                    
+
                     for (int i = 0; i < itemCount; i++)
                     {
                         // Ensure we have products to choose from
                         if (categoryProducts.Count == 0) continue;
-                        
+
                         // Select a product ID from our filtered category list
                         int productIndex = random.Next(0, categoryProducts.Count);
                         int productId = categoryProducts[productIndex];
-                        
+
                         // Find the product to get its price
                         var product = context.Product.Find(productId);
                         if (product == null) continue;
-                        
+
                         decimal unitPrice = product.Price;
                         int quantity = random.Next(1, 4);
-                        
+
                         var orderItem = new OrderItem
                         {
                             OrderId = orderId,
@@ -1008,11 +1018,11 @@ namespace ElectronicsStoreAss3.Data
                             Quantity = quantity,
                             UnitPrice = unitPrice
                         };
-                        
+
                         orderItemsForThisOrder.Add(orderItem);
                         orderTotal += unitPrice * quantity;
                     }
-                    
+
                     // Ensure each order has at least one item
                     if (orderItemsForThisOrder.Count == 0 && productIds.Any())
                     {
@@ -1022,7 +1032,7 @@ namespace ElectronicsStoreAss3.Data
                         {
                             decimal unitPrice = defaultProduct.Price;
                             int quantity = random.Next(1, 4);
-                            
+
                             orderItemsForThisOrder.Add(new OrderItem
                             {
                                 OrderId = orderId,
@@ -1030,30 +1040,30 @@ namespace ElectronicsStoreAss3.Data
                                 Quantity = quantity,
                                 UnitPrice = unitPrice
                             });
-                            
+
                             orderTotal += unitPrice * quantity;
                         }
                     }
-                    
+
                     // Add items to the order and update total
                     orderItems.AddRange(orderItemsForThisOrder);
                     order.TotalAmount = orderTotal;
                     context.SaveChanges();
                 }
-                
+
                 // Add all order items to the database
                 context.OrderItems.AddRange(orderItems);
                 context.SaveChanges();
-                
+
                 // Create shipments for all orders
                 var customerName = $"{customer?.FirstName ?? "Customer"} {customer?.LastName ?? "User"}";
                 var shipments = new List<Shipment>();
-                
+
                 foreach (var orderId in savedOrderIds)
                 {
                     var order = context.Orders.Find(orderId);
                     if (order == null) continue;
-                    
+
                     // Create a shipment that matches the order's status
                     var shipment = new Shipment
                     {
@@ -1066,7 +1076,7 @@ namespace ElectronicsStoreAss3.Data
                         CreatedDate = order.OrderDate,
                         LastUpdated = order.LastModified
                     };
-                    
+
                     // Set appropriate dates based on status
                     if (order.Status == "Delivered" || order.Status == "Completed")
                     {
@@ -1083,17 +1093,18 @@ namespace ElectronicsStoreAss3.Data
                     {
                         shipment.DeliveryNotes = "Preparing for shipment";
                     }
-                    
+
                     shipments.Add(shipment);
                 }
-                
+
                 // Add all shipments to the context
                 context.Shipments.AddRange(shipments);
                 context.SaveChanges();
             }
             catch
             {
-                // Silently handle errors in statistics data generation
+                Console.WriteLine(
+                    "Error seeding extended statistics data. This is expected if the database already has sufficient data.");
             }
         }
 
@@ -1124,7 +1135,7 @@ namespace ElectronicsStoreAss3.Data
 
             return categoryDistribution.Keys.First();
         }
-        
+
         public static void SeedAll(AppDbContext context)
         {
             SeedTestProductsAndInventory(context);

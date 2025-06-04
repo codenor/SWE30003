@@ -35,8 +35,8 @@ namespace ElectronicsStoreAss3.Controllers
 
             var invoice = await _context.Invoices
                 .Include(i => i.Order)
-                    .ThenInclude(o => o.OrderItems)
-                        .ThenInclude(oi => oi.Product)
+                .ThenInclude(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
             if (invoice == null)
@@ -136,4 +136,4 @@ namespace ElectronicsStoreAss3.Controllers
             return order?.AccountId == accountId;
         }
     }
-} 
+}

@@ -12,7 +12,7 @@ namespace ElectronicsStoreAss3.Models.Invoice
         public int OrderId { get; set; }
         
         [ForeignKey("OrderId")]
-        public virtual Order Order { get; set; }
+        public virtual Order.Order Order { get; set; }
         
         [Required]
         public DateTime InvoiceDate { get; set; }

@@ -1,4 +1,5 @@
 ﻿using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Product;
 using ElectronicsStoreAss3.Models.Statistics;
 
 namespace ElectronicsStoreAss3.Services

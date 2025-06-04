@@ -3,6 +3,8 @@ using ElectronicsStoreAss3.Models;
 using ElectronicsStoreAss3.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Models.Account;
+using ElectronicsStoreAss3.Models.Authentication;
 using Microsoft.AspNetCore.Authentication;
 
 namespace ElectronicsStoreAss3.Controllers

@@ -1,7 +1,6 @@
 ﻿using ElectronicsStoreAss3.Data;
-using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Product;
 using ElectronicsStoreAss3.Models.Statistics;
-using ElectronicsStoreAss3.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Services

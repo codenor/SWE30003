@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using ElectronicsStoreAss3.Services;
 using ElectronicsStoreAss3.Models;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Models.Shipment;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -253,7 +254,7 @@ namespace ElectronicsStoreAss3.Controllers
                 return Json(new { success = false });
             }
         }
-        
+
         /// <summary>
         /// Gets the current authenticated user's account ID
         /// </summary>

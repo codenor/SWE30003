@@ -1,7 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Models; 
+using ElectronicsStoreAss3.Models.Account;
 using ElectronicsStoreAss3.Models.ShoppingCart;
 using ElectronicsStoreAss3.Models.Invoice;
+using ElectronicsStoreAss3.Models.Order;
+using ElectronicsStoreAss3.Models.Product;
+using ElectronicsStoreAss3.Models.Shipment;
 
 namespace ElectronicsStoreAss3.Data
 {
@@ -10,9 +14,8 @@ namespace ElectronicsStoreAss3.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
 
-        // Test 
+        
         public required DbSet<Test> Test { get; set; }
-
         // Accounts
         public required DbSet<Account> Accounts { get; set; }
         public required DbSet<Customer> Customers { get; set; }

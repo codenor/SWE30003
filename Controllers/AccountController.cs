@@ -3,6 +3,7 @@ using ElectronicsStoreAss3.Models;
 using ElectronicsStoreAss3.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Models.Account;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;

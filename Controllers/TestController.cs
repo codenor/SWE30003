@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using ElectronicsStoreAss3.Data;
-using ElectronicsStoreAss3.Models;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -25,7 +24,7 @@ namespace ElectronicsStoreAss3.Controllers
         {
             if (!string.IsNullOrWhiteSpace(message))
             {
-                _context.Test.Add(new Test { Message = message });
+                _context.Test.Add(new ElectronicsStoreAss3.Models.Test { Message = message });
                 _context.SaveChanges();
             }
 

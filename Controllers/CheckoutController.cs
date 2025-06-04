@@ -3,8 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
 using ElectronicsStoreAss3.Services;
-using ElectronicsStoreAss3.Helpers;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Helper;
+using ElectronicsStoreAss3.Models.Account;
+using ElectronicsStoreAss3.Models.Checkout;
+using ElectronicsStoreAss3.Models.Order;
+using ElectronicsStoreAss3.Models.Shipment;
+using ElectronicsStoreAss3.Models.ShoppingCart;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -165,7 +170,6 @@ namespace ElectronicsStoreAss3.Controllers
             return View(viewModel);
         }
 
-        #region Private Helper Methods
 
         private async Task<ShoppingCartViewModel?> GetCurrentCartAsync()
         {
@@ -425,8 +429,6 @@ namespace ElectronicsStoreAss3.Controllers
             else
                 await _shoppingCartService.ClearCartAsync(Session.GetOrCreate(HttpContext));
         }
-
-        #endregion
     }
 
     // Helper class for order processing results

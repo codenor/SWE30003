@@ -1,4 +1,4 @@
-namespace ElectronicsStoreAss3.Helpers
+namespace ElectronicsStoreAss3.Helper
 {
     public static class Session
     {
@@ -18,4 +18,3 @@ namespace ElectronicsStoreAss3.Helpers
         }
     }
 }
-

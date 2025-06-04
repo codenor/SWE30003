@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
 
-
 namespace ElectronicsStoreAss3.Controllers
 
 {
@@ -130,13 +129,15 @@ namespace ElectronicsStoreAss3.Controllers
             // Update order status
             order.Status = "Cancelled";
             order.LastModified = DateTime.Now;
-            
+
             // Update shipment status if exists
             if (order.Shipment != null)
             {
                 order.Shipment.Status = "Cancelled";
                 order.Shipment.LastUpdated = DateTime.Now;
-                order.Shipment.DeliveryNotes = (order.Shipment.DeliveryNotes ?? "") + "\nOrder cancelled by customer on " + DateTime.Now.ToString("MMM dd, yyyy");
+                order.Shipment.DeliveryNotes = (order.Shipment.DeliveryNotes ?? "") +
+                                               "\nOrder cancelled by customer on " +
+                                               DateTime.Now.ToString("MMM dd, yyyy");
             }
 
             // Return items to inventory
