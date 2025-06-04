@@ -30,6 +30,11 @@
             <label class="form-label">Mobile</label>
             <input name="Mobile" class="form-control" value="@Model.Mobile" />
         </div>
+
+        <div class="mb-3">
+            <label class="form-label">Shipping Address</label>
+            <textarea name="Address" class="form-control" rows="3" placeholder="Street address, city, state, postcode">@Model.Address</textarea>
+        </div>
     }
     else if (ViewBag.Role == "Owner")
     {

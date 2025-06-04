@@ -244,6 +244,21 @@ namespace ElectronicsStoreAss3.Controllers
             {
                 _logger.LogInformation("Creating order for {Email}", model.Email);
                 
+                // Update customer address if logged in
+                var accountId = GetCurrentAccountId();
+                if (accountId.HasValue && !string.IsNullOrEmpty(model.Address))
+                {
+                    var customer = await _context.Customers
+                        .FirstOrDefaultAsync(c => c.AccountId == accountId.Value);
+                        
+                    if (customer != null)
+                    {
+                        customer.Address = model.Address;
+                        await _context.SaveChangesAsync();
+                        _logger.LogInformation("Updated shipping address for customer {CustomerId}", customer.Id);
+                    }
+                }
+                
                 // 1. Create order
                 var order = await CreateOrderAsync(model, cart);
                 _logger.LogInformation("Order {OrderId} created", order.OrderId);

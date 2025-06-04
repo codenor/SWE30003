@@ -96,6 +96,7 @@ namespace ElectronicsStoreAss3.Controllers
                     customer.LastName = Request.Form["LastName"];
                     customer.Mobile = Request.Form["Mobile"];
                     customer.Email = newEmail;
+                    customer.Address = Request.Form["Address"];
                     _context.Customers.Update(customer);
                 }
             }
