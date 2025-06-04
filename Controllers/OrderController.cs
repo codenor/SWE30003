@@ -105,5 +105,61 @@ namespace ElectronicsStoreAss3.Controllers
 
             return RedirectToAction("Details", new { id = order.OrderId });
         }
+
+        // POST: /Order/Cancel/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Cancel(int id)
+        {
+            var order = _context.Orders
+                .Include(o => o.OrderItems)
+                .Include(o => o.Shipment)
+                .FirstOrDefault(o => o.OrderId == id);
+
+            if (order == null)
+                return NotFound();
+
+            // Check if the order can be cancelled
+            if (!order.CanBeCancelled())
+            {
+                TempData["ToastMessage"] = $"Order #{order.OrderId} cannot be cancelled in its current state.";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Details", new { id = order.OrderId });
+            }
+
+            // Update order status
+            order.Status = "Cancelled";
+            order.LastModified = DateTime.Now;
+            
+            // Update shipment status if exists
+            if (order.Shipment != null)
+            {
+                order.Shipment.Status = "Cancelled";
+                order.Shipment.LastUpdated = DateTime.Now;
+                order.Shipment.DeliveryNotes = (order.Shipment.DeliveryNotes ?? "") + "\nOrder cancelled by customer on " + DateTime.Now.ToString("MMM dd, yyyy");
+            }
+
+            // Return items to inventory
+            foreach (var item in order.OrderItems)
+            {
+                var inventory = _context.Inventory.FirstOrDefault(i => i.ProductId == item.ProductId);
+                if (inventory != null)
+                {
+                    inventory.StockLevel += item.Quantity;
+                    inventory.LastUpdated = DateTime.Now;
+                }
+            }
+
+            _context.SaveChanges();
+
+            TempData["ToastMessage"] = $"Order #{order.OrderId} has been cancelled successfully.";
+            TempData["ToastType"] = "success";
+
+            // If this is called from Account/Orders, redirect back there
+            if (Request.Headers["Referer"].ToString().Contains("/Account/Orders"))
+                return Redirect(Request.Headers["Referer"].ToString());
+
+            return RedirectToAction("Index");
+        }
     }
 }
