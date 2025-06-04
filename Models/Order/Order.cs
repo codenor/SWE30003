@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ElectronicsStoreAss3.Models.Account;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Order
 {
     public class Order
     {
@@ -40,11 +41,11 @@ namespace ElectronicsStoreAss3.Models
             set => _customer = value;
         }
         private Customer? _customer;
-        public virtual Account? Account { get; set; }
+        public virtual Account.Account? Account { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         
         // One-to-One relationship with Shipment
-        public virtual Shipment? Shipment { get; set; }
+        public virtual Shipment.Shipment? Shipment { get; set; }
 
         // Computed properties
         public decimal SubTotal => OrderItems.Sum(item => item.UnitPrice * item.Quantity);

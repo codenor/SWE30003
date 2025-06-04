@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Authentication
 {
     public class ForgotPasswordViewModel
     {

@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ElectronicsStoreAss3.Models.Product; 
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Order
 {
     public class OrderItem
     {
@@ -24,7 +25,7 @@ namespace ElectronicsStoreAss3.Models
 
         // Navigation properties
         public virtual Order Order { get; set; } = null!;
-        public virtual Product Product { get; set; } = null!;
+        public virtual Product.Product Product { get; set; } = null!;
 
         // Computed property
         public decimal TotalPrice => Quantity * UnitPrice;

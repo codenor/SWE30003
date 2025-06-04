@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Product
 {
     // Catalogue - Purpose: Groups products into categories
     public class Catalogue

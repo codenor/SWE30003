@@ -1,4 +1,4 @@
-﻿namespace ElectronicsStoreAss3.Models
+﻿namespace ElectronicsStoreAss3.Models.Checkout
 {
     public class CheckoutSuccessViewModel
     {

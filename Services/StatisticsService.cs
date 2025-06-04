@@ -34,9 +34,9 @@ namespace ElectronicsStoreAss3.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error retrieving sales statistics for period {FromDate} to {ToDate}: {Message}", 
+                _logger.LogError(ex, "Error retrieving sales statistics for period {FromDate} to {ToDate}: {Message}",
                     fromDate, toDate, ex.Message);
-                    
+
                 // Return a minimal model with empty collections to prevent null reference exceptions
                 return new StatisticsViewModel
                 {
@@ -55,16 +55,16 @@ namespace ElectronicsStoreAss3.Services
         {
             var orders = await _context.Orders
                 .Include(o => o.OrderItems)
-                .Where(o => o.OrderDate >= fromDate && o.OrderDate <= toDate && 
-                           (o.Status == "Completed" || o.Status == "Delivered"))
+                .Where(o => o.OrderDate >= fromDate && o.OrderDate <= toDate &&
+                            (o.Status == "Completed" || o.Status == "Delivered"))
                 .ToListAsync();
 
             var totalRevenue = orders.Sum(o => o.TotalAmount);
             var totalOrders = orders.Count;
             var uniqueCustomers = orders.Where(o => o.AccountId.HasValue)
-                                       .Select(o => o.AccountId)
-                                       .Distinct()
-                                       .Count();
+                .Select(o => o.AccountId)
+                .Distinct()
+                .Count();
             var totalItemsSold = orders.SelectMany(o => o.OrderItems).Sum(oi => oi.Quantity);
             var averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
@@ -74,16 +74,16 @@ namespace ElectronicsStoreAss3.Services
             var previousToDate = fromDate.AddDays(-1);
 
             var previousOrders = await _context.Orders
-                .Where(o => o.OrderDate >= previousFromDate && o.OrderDate <= previousToDate && 
-                           (o.Status == "Completed" || o.Status == "Delivered"))
+                .Where(o => o.OrderDate >= previousFromDate && o.OrderDate <= previousToDate &&
+                            (o.Status == "Completed" || o.Status == "Delivered"))
                 .ToListAsync();
 
             var previousRevenue = previousOrders.Sum(o => o.TotalAmount);
             var previousOrderCount = previousOrders.Count;
             var previousCustomers = previousOrders.Where(o => o.AccountId.HasValue)
-                                                 .Select(o => o.AccountId)
-                                                 .Distinct()
-                                                 .Count();
+                .Select(o => o.AccountId)
+                .Distinct()
+                .Count();
 
             return new SalesOverview
             {
@@ -93,12 +93,17 @@ namespace ElectronicsStoreAss3.Services
                 AverageOrderValue = averageOrderValue,
                 TotalItemsSold = totalItemsSold,
                 RevenueGrowth = previousRevenue > 0 ? ((totalRevenue - previousRevenue) / previousRevenue) * 100 : 0,
-                OrderGrowth = previousOrderCount > 0 ? ((totalOrders - previousOrderCount) / (decimal)previousOrderCount) * 100 : 0,
-                CustomerGrowth = previousCustomers > 0 ? ((uniqueCustomers - previousCustomers) / (decimal)previousCustomers) * 100 : 0
+                OrderGrowth = previousOrderCount > 0
+                    ? ((totalOrders - previousOrderCount) / (decimal)previousOrderCount) * 100
+                    : 0,
+                CustomerGrowth = previousCustomers > 0
+                    ? ((uniqueCustomers - previousCustomers) / (decimal)previousCustomers) * 100
+                    : 0
             };
         }
 
-        public async Task<List<ProductPerformance>> GetTopProductsAsync(DateTime fromDate, DateTime toDate, int count = 10)
+        public async Task<List<ProductPerformance>> GetTopProductsAsync(DateTime fromDate, DateTime toDate,
+            int count = 10)
         {
             try
             {
@@ -107,7 +112,7 @@ namespace ElectronicsStoreAss3.Services
                     .Include(oi => oi.Product)
                     .Include(oi => oi.Order)
                     .Where(oi => oi.Order.OrderDate >= fromDate && oi.Order.OrderDate <= toDate &&
-                               (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
+                                 (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
                     .GroupBy(oi => new { oi.ProductId, oi.Product.Name, oi.Product.SKU, oi.Product.Category })
                     .Select(g => new ProductPerformance
                     {
@@ -121,7 +126,7 @@ namespace ElectronicsStoreAss3.Services
                         AveragePrice = g.Average(oi => oi.UnitPrice)
                     })
                     .ToListAsync();
-                    
+
                 // Then sort in memory
                 return query
                     .OrderByDescending(p => p.Revenue)
@@ -142,7 +147,7 @@ namespace ElectronicsStoreAss3.Services
                 var totalRevenue = await _context.OrderItems
                     .Include(oi => oi.Order)
                     .Where(oi => oi.Order.OrderDate >= fromDate && oi.Order.OrderDate <= toDate &&
-                               (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
+                                 (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
                     .SumAsync(oi => oi.Quantity * oi.UnitPrice);
 
                 // Get all data first without ordering at the database level
@@ -150,7 +155,7 @@ namespace ElectronicsStoreAss3.Services
                     .Include(oi => oi.Product)
                     .Include(oi => oi.Order)
                     .Where(oi => oi.Order.OrderDate >= fromDate && oi.Order.OrderDate <= toDate &&
-                               (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
+                                 (oi.Order.Status == "Completed" || oi.Order.Status == "Delivered"))
                     .GroupBy(oi => oi.Product.Category)
                     .Select(g => new CategoryPerformance
                     {
@@ -175,7 +180,8 @@ namespace ElectronicsStoreAss3.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting category performance for period {FromDate} to {ToDate}", fromDate, toDate);
+                _logger.LogError(ex, "Error getting category performance for period {FromDate} to {ToDate}", fromDate,
+                    toDate);
                 return new List<CategoryPerformance>();
             }
         }
@@ -188,7 +194,7 @@ namespace ElectronicsStoreAss3.Services
                 var dailySales = await _context.Orders
                     .Include(o => o.OrderItems)
                     .Where(o => o.OrderDate >= fromDate && o.OrderDate <= toDate &&
-                               (o.Status == "Completed" || o.Status == "Delivered"))
+                                (o.Status == "Completed" || o.Status == "Delivered"))
                     .GroupBy(o => o.OrderDate.Date)
                     .Select(g => new DailySales
                     {
@@ -216,12 +222,12 @@ namespace ElectronicsStoreAss3.Services
             try
             {
                 var fromDate = DateTime.Now.AddMonths(-months);
-                
+
                 // Get data without ordering at database level
                 var monthlySales = await _context.Orders
                     .Include(o => o.OrderItems)
                     .Where(o => o.OrderDate >= fromDate &&
-                               (o.Status == "Completed" || o.Status == "Delivered"))
+                                (o.Status == "Completed" || o.Status == "Delivered"))
                     .GroupBy(o => new { o.OrderDate.Year, o.OrderDate.Month })
                     .Select(g => new MonthlySales
                     {

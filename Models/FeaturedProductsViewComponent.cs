@@ -19,7 +19,7 @@ namespace ElectronicsStoreAss3.Models
             var products = await _context.Product
                 .Where(p => p.IsActive)
                 .ToListAsync();
-                
+
             // Perform random ordering in memory after data is retrieved from database
             products = products
                 .OrderBy(p => Guid.NewGuid())
@@ -29,4 +29,4 @@ namespace ElectronicsStoreAss3.Models
             return View(products);
         }
     }
-} 
+}

@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using ElectronicsStoreAss3.Models.ShoppingCart;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Checkout
 {
     public class CheckoutViewModel
     {
-        // Remove the [Required] attribute from Cart since it's not a form field
         public ShoppingCartViewModel Cart { get; set; } = new ShoppingCartViewModel();
 
         [Required(ErrorMessage = "First name is required")]

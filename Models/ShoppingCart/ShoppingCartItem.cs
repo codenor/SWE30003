@@ -25,7 +25,7 @@ namespace ElectronicsStoreAss3.Models.ShoppingCart
         public DateTime AddedDate { get; set; } = DateTime.Now;
 
         public virtual ShoppingCart? ShoppingCart { get; set; }
-        public virtual Product? Product { get; set; }
+        public virtual Product.Product? Product { get; set; }
         
         public decimal TotalPrice => Quantity * UnitPrice;
     }

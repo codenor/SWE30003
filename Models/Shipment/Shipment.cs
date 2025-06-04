@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.Shipment
 {
     public class Shipment
     {
@@ -40,7 +40,7 @@ namespace ElectronicsStoreAss3.Models
         public DateTime LastUpdated { get; set; } = DateTime.Now;
 
         // Navigation property
-        public virtual Order Order { get; set; } = null!;
+        public virtual Order.Order Order { get; set; } = null!;
 
         // Computed properties
         public bool IsDelivered => Status.Equals("Delivered", StringComparison.OrdinalIgnoreCase);

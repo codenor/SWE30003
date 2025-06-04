@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ElectronicsStoreAss3.Models.Statistics;
 
-namespace ElectronicsStoreAss3.Models
+namespace ElectronicsStoreAss3.Models.ShoppingCart
 {
     public class ShoppingCartViewModel
     {

@@ -1,17 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ElectronicsStoreAss3.Models;
-
-public class ResetPasswordViewModel
+namespace ElectronicsStoreAss3.Models.Authentication
 {
-    [Required]
-    [DataType(DataType.Password)]
-    public string? NewPassword { get; set; }
+    public class ResetPasswordViewModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        public string? NewPassword { get; set; }
 
-    [Required]
-    [DataType(DataType.Password)]
-    [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
-    public string? ConfirmPassword { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("NewPassword", ErrorMessage = "Passwords do not match.")]
+        public string? ConfirmPassword { get; set; }
 
-    public string? Email { get; set; }
+        public string? Email { get; set; }
+    }
 }
