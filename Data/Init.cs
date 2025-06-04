@@ -37,6 +37,7 @@ namespace ElectronicsStoreAss3.Data
         {
             if (context.Accounts.Any(a => a.Role == Role.Customer))
                 return;
+
             var hasher = new PasswordHasher<object>();
             var account = new Account
             {
@@ -141,7 +142,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Google's most advanced Pixel with Tensor G3 and AI photography features.",
                     Specifications =
                         "6.7-inch LTPO OLED display\nGoogle Tensor G3\n128GB storage\n50MP triple camera system\nMagic Eraser\n7 years of updates",
-                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/662718-Product-0-I-638302518603197997.jpg?v=1717049313",
+                    ImagePath =
+                        "https://www.jbhifi.com.au/cdn/shop/files/662718-Product-0-I-638302518603197997.jpg?v=1717049313",
                     IsActive = true
                 },
                 new()
@@ -151,7 +153,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Pure Google experience with advanced computational photography.",
                     Specifications =
                         "6.2-inch OLED display\nGoogle Tensor G3\n128GB storage\n50MP dual camera system\nMagic Eraser\n7 years of updates",
-                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/662713-Product-0-I-638319943214794111.jpg?v=1717049072",
+                    ImagePath =
+                        "https://www.jbhifi.com.au/cdn/shop/files/662713-Product-0-I-638319943214794111.jpg?v=1717049072",
                     IsActive = true
                 },
                 new()
@@ -182,7 +185,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Unique transparent design with Glyph Interface and clean Android experience.",
                     Specifications =
                         "6.7-inch AMOLED display\nMediaTek Dimensity 7200 Pro\n256GB storage\n50MP dual camera system\nGlyph Interface\nNothing OS 2.5",
-                    ImagePath = "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRMtBHjJqJDHixqV6h-TSV6rSJuRyUCAWhQxiP331EOshpuz9XpHKuTcfxjDZfWDawjkbPjnHpv3kkv1F-yPmQYuN-INISt",
+                    ImagePath =
+                        "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRMtBHjJqJDHixqV6h-TSV6rSJuRyUCAWhQxiP331EOshpuz9XpHKuTcfxjDZfWDawjkbPjnHpv3kkv1F-yPmQYuN-INISt",
                     IsActive = true
                 },
                 new()
@@ -192,7 +196,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Professional camera phone with 4K 120Hz display and Alpha camera technology.",
                     Specifications =
                         "6.5-inch 4K OLED display\nSnapdragon 8 Gen 3\n256GB storage\n48MP triple camera system\nAlpha camera tech\n3.5mm headphone jack",
-                    ImagePath = "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTWa7M78wX5nMfd8p1MHT3DLZ0V7oPBrYISy_mLHDDSXL0jj5JGLYCgOhTeemkQ1qiZh3b0VVsOXIP7H3qTZ47DeZDTtZrcDaTtrmOrCQOMO-oubOJFbGDMpjQ",
+                    ImagePath =
+                        "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTWa7M78wX5nMfd8p1MHT3DLZ0V7oPBrYISy_mLHDDSXL0jj5JGLYCgOhTeemkQ1qiZh3b0VVsOXIP7H3qTZ47DeZDTtZrcDaTtrmOrCQOMO-oubOJFbGDMpjQ",
                     IsActive = true
                 },
                 new()
@@ -225,7 +230,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Premium smartphone with 200MP camera and 125W fast charging.",
                     Specifications =
                         "6.7-inch pOLED display\nSnapdragon 8s Gen 3\n512GB storage\n50MP triple camera system\n125W TurboPower charging\nMyUX on Android 14",
-                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/781690-Product-0-I-638593570204663109.jpg?v=1723770674",
+                    ImagePath =
+                        "https://www.jbhifi.com.au/cdn/shop/files/781690-Product-0-I-638593570204663109.jpg?v=1723770674",
                     IsActive = true
                 },
 
@@ -304,7 +310,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Most powerful Surface laptop with unique rotating touchscreen design.",
                     Specifications =
                         "14.4-inch PixelSense Flow touchscreen\nIntel Core i7-13700H\n32GB LPDDR5X RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nSurface Pen support\nWindows 11 Pro",
-                    ImagePath = "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/b00-Surface-Laptop-Studio-2-03",
+                    ImagePath =
+                        "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/b00-Surface-Laptop-Studio-2-03",
                     IsActive = true
                 },
                 new()
@@ -315,7 +322,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Elegant laptop with premium materials and excellent performance.",
                     Specifications =
                         "13.5-inch PixelSense touchscreen\nAMD Ryzen 7 5980HS\n16GB LPDDR4X RAM\n512GB PCIe SSD\nAMD Radeon Graphics\nSurface Pen support\nWindows 11 Home",
-                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/805977-Product-0-I-638821678815712286.jpg?v=1746571157",
+                    ImagePath =
+                        "https://www.jbhifi.com.au/cdn/shop/files/805977-Product-0-I-638821678815712286.jpg?v=1746571157",
                     IsActive = true
                 },
                 new()
@@ -337,7 +345,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Convertible laptop with 3K OLED display and premium design.",
                     Specifications =
                         "16-inch 3K OLED touchscreen\nIntel Core i7-13700H\n16GB DDR5 RAM\n1TB PCIe SSD\nIntel Arc A370M Graphics\nHP Pen included\nWindows 11 Home",
-                    ImagePath = "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQa0YD7pgegg-LU_ntGT4tayIk3ImrtMjg63nisTgfZ9C-WT81XlwESWq0v8f6YaHIhIfRhie40JYvf03PEubKySgCYdEnShds9nXqEwqaGQl0FwDa2ljKKOA",
+                    ImagePath =
+                        "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQa0YD7pgegg-LU_ntGT4tayIk3ImrtMjg63nisTgfZ9C-WT81XlwESWq0v8f6YaHIhIfRhie40JYvf03PEubKySgCYdEnShds9nXqEwqaGQl0FwDa2ljKKOA",
                     IsActive = true
                 },
                 new()
@@ -347,7 +356,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Gaming laptop with RTX 4080 graphics and premium OLED display.",
                     Specifications =
                         "16-inch 2.5K OLED 240Hz display\nIntel Core i9-13900H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4080\nROG Nebula HDR display\nWindows 11 Home",
-                    ImagePath = "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRGk1eZDgA0yZNrLc62ri8L5ZLY3CsD01E2l4odyOy_7AGkc7r1dfO1Su4A8JJDYENWqH-zRHaaBsHDxLRNLnxaUrCsckctHYvb7vFgJ8hWg3_lL4dcOhS2RQ",
+                    ImagePath =
+                        "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRGk1eZDgA0yZNrLc62ri8L5ZLY3CsD01E2l4odyOy_7AGkc7r1dfO1Su4A8JJDYENWqH-zRHaaBsHDxLRNLnxaUrCsckctHYvb7vFgJ8hWg3_lL4dcOhS2RQ",
                     IsActive = true
                 },
                 new()
@@ -378,7 +388,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Ultra-lightweight 17-inch laptop with all-day battery life.",
                     Specifications =
                         "17-inch WQXGA IPS display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB NVMe SSD\nIntel Iris Xe Graphics\n1.35kg weight\nWindows 11 Home",
-                    ImagePath = "https://www.lg.com/content/dam/channel/wcms/au/images/laptops/17z90q-g_aa78a_ehap_au_c/gallery/17Z90Q-G.AA76A3-Laptops-DZ-1.jpg",
+                    ImagePath =
+                        "https://www.lg.com/content/dam/channel/wcms/au/images/laptops/17z90q-g_aa78a_ehap_au_c/gallery/17Z90Q-G.AA76A3-Laptops-DZ-1.jpg",
                     IsActive = true
                 },
                 new()
@@ -479,7 +490,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "2-in-1 tablet with laptop performance and versatility.",
                     Specifications =
                         "13-inch PixelSense Flow touchscreen\nIntel Core i7-1255U\n16GB LPDDR5 RAM\n512GB SSD\nThunderbolt 4\nSurface Pen support\nWindows 11 Pro",
-                    ImagePath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREgfH14iefiCLhEMiwEAbswa0F0uVv8qT63g",
+                    ImagePath =
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREgfH14iefiCLhEMiwEAbswa0F0uVv8qT63g",
                     IsActive = true
                 },
                 new()
@@ -512,7 +524,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Next-generation AirPods Pro with H2 chip and enhanced audio.",
                     Specifications =
                         "H2 chip\nAdaptive Transparency\nPersonalized Spatial Audio\nUp to 6 hours listening time\nMagSafe charging case\nTouch control",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-2-hero-select-202409",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-2-hero-select-202409",
                     IsActive = true
                 },
                 new()
@@ -522,7 +535,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Reimagined AirPods with Spatial Audio and longer battery life.",
                     Specifications =
                         "H1 chip\nSpatial Audio\nAdaptive EQ\nUp to 6 hours listening time\nMagSafe charging case\nSweat and water resistant",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-4-hero-select-202409",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-4-hero-select-202409",
                     IsActive = true
                 },
                 new()
@@ -568,7 +582,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Full-size keyboard with trackpad for iPad Pro productivity.",
                     Specifications =
                         "Backlit keys\nPrecision trackpad\nUSB-C pass-through charging\nFloating cantilever design\nCompatible with iPad Pro 11-inch and 12.9-inch",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/magic-keyboard-ipad-air-202503_GEO_AU",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/magic-keyboard-ipad-air-202503_GEO_AU",
                     IsActive = true
                 },
                 new()
@@ -602,7 +617,8 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Industry-leading noise canceling with exceptional sound quality.",
                     Specifications =
                         "Industry-leading noise canceling\n30-hour battery life\nMultipoint connection\nSpeak-to-Chat technology\nTouch Sensor controls\nQuick Charge",
-                    ImagePath = "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw280eceea/images/WH1000XM5L/WH1000XM5L.png",
+                    ImagePath =
+                        "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw280eceea/images/WH1000XM5L/WH1000XM5L.png",
                     IsActive = true
                 },
                 new()
@@ -694,29 +710,21 @@ namespace ElectronicsStoreAss3.Data
 
             try
             {
-                // Get a valid customer account
                 var customerAccount = context.Accounts
                     .FirstOrDefault(a => a.Role == Role.Customer);
 
                 if (customerAccount == null)
                 {
-                    Console.WriteLine("No customer account found. Creating one first.");
                     SeedCustomerAccount(context);
                     customerAccount = context.Accounts.FirstOrDefault(a => a.Role == Role.Customer);
 
                     if (customerAccount == null)
-                    {
-                        throw new Exception("Failed to create customer account.");
-                    }
+                        throw new Exception("Failed to create customer account");
                 }
 
-                // Verify that this account has a corresponding Customer record
                 var customer = context.Customers.FirstOrDefault(c => c.AccountId == customerAccount.Id);
                 if (customer == null)
                 {
-                    Console.WriteLine("Customer record not found for account ID: " + customerAccount.Id);
-                    Console.WriteLine("Creating a new Customer record for this account.");
-
                     customer = new Customer
                     {
                         AccountId = customerAccount.Id,
@@ -730,176 +738,391 @@ namespace ElectronicsStoreAss3.Data
                     context.SaveChanges();
                 }
 
-                Console.WriteLine(
-                    $"Using customer account with ID: {customerAccount.Id} and Customer ID: {customer.Id}");
-
-                // Create orders with valid AccountId
-                var orders = new List<Order>
-                {
-                    new Order
-                    {
-                        AccountId = customerAccount.Id,
-                        OrderDate = DateTime.Now.AddDays(-10),
-                        LastModified = DateTime.Now.AddDays(-10),
-                        Status = "Delivered",
-                        OrderNotes = "Regular delivery",
-                        TotalAmount = 2399.98m
-                    },
-                    new Order
-                    {
-                        AccountId = customerAccount.Id,
-                        OrderDate = DateTime.Now.AddDays(-7),
-                        LastModified = DateTime.Now.AddDays(-6),
-                        Status = "In Transit",
-                        OrderNotes = "Express shipping requested",
-                        TotalAmount = 899.99m
-                    },
-                    new Order
-                    {
-                        AccountId = customerAccount.Id,
-                        OrderDate = DateTime.Now.AddDays(-2),
-                        LastModified = DateTime.Now.AddDays(-2),
-                        Status = "Processing",
-                        OrderNotes = "Gift wrapping requested",
-                        TotalAmount = 1049.98m
-                    },
-                    new Order
-                    {
-                        AccountId = customerAccount.Id,
-                        OrderDate = DateTime.Now.AddDays(-15),
-                        LastModified = DateTime.Now.AddDays(-14),
-                        Status = "Delivered",
-                        OrderNotes = "Special instructions for delivery",
-                        TotalAmount = 699.99m
-                    }
+                var random = new Random(42); // For reproducibility
+                var productIds = context.Product.Select(p => p.ProductId).ToList();
+                var currentDate = DateTime.Now;
+                
+                // Generate sample orders with different statuses
+                var orderStatuses = new[] { "Delivered", "In Transit", "Processing", "Delivered" };
+                var orderNotes = new[] { 
+                    "Regular delivery", 
+                    "Express shipping requested", 
+                    "Gift wrapping requested", 
+                    "Special instructions for delivery" 
                 };
-
-                // Add and save orders individually to ensure proper ID assignment
-                foreach (var order in orders)
+                
+                var daysAgo = new[] { -10, -7, -2, -15 };
+                var orders = new List<Order>();
+                
+                // Create orders
+                for (int i = 0; i < 4; i++)
                 {
-                    // Explicitly set the Customer navigation property
+                    var orderDate = currentDate.AddDays(daysAgo[i]);
+                    var lastModified = i == 1 ? orderDate.AddDays(1) : orderDate; // In Transit order modified +1 day
+                    
+                    var order = new Order
+                    {
+                        AccountId = customerAccount.Id,
+                        OrderDate = orderDate,
+                        LastModified = lastModified,
+                        Status = orderStatuses[i],
+                        OrderNotes = orderNotes[i],
+                        TotalAmount = 0 // Will be calculated after adding items
+                    };
+                    
                     order.Customer = customer;
                     context.Orders.Add(order);
-                    try
-                    {
-                        context.SaveChanges();
-                        Console.WriteLine($"Successfully added order with ID: {order.OrderId}");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"Error adding order: {ex.Message}");
-                        if (ex.InnerException != null)
-                        {
-                            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-                        }
-
-                        throw;
-                    }
+                    context.SaveChanges();
+                    orders.Add(order);
                 }
-
-                // Now retrieve the saved orders to get their IDs
-                var savedOrders = context.Orders.ToList();
-
-                // Get customer info for address
+                
                 var customerName = $"{customer?.FirstName ?? "Customer"} {customer?.LastName ?? "User"}";
-
+                
+                // Define product combinations for orders
+                var orderProducts = new[]
+                {
+                    new[] { new { ProductId = 3, Quantity = 1 }, new { ProductId = 41, Quantity = 2 } },
+                    new[] { new { ProductId = 33, Quantity = 1 } },
+                    new[] { new { ProductId = 42, Quantity = 1 }, new { ProductId = 47, Quantity = 1 }, new { ProductId = 50, Quantity = 1 } },
+                    new[] { new { ProductId = 11, Quantity = 1 } }
+                };
+                
                 // Add order items
-                var orderItems = new List<OrderItem>
+                for (int i = 0; i < orders.Count; i++)
                 {
-                    new OrderItem
-                        { OrderId = savedOrders[0].OrderId, ProductId = 3, Quantity = 1, UnitPrice = 1499.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[0].OrderId, ProductId = 41, Quantity = 2, UnitPrice = 399.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[1].OrderId, ProductId = 33, Quantity = 1, UnitPrice = 899.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[2].OrderId, ProductId = 42, Quantity = 1, UnitPrice = 279.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[2].OrderId, ProductId = 47, Quantity = 1, UnitPrice = 199.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[2].OrderId, ProductId = 50, Quantity = 1, UnitPrice = 149.99m },
-                    new OrderItem
-                        { OrderId = savedOrders[3].OrderId, ProductId = 11, Quantity = 1, UnitPrice = 699.99m }
-                };
-
-                context.OrderItems.AddRange(orderItems);
-                context.SaveChanges();
-
-                // Create shipments 
-                var shipments = new List<Shipment>
-                {
-                    new Shipment
+                    var orderItems = new List<OrderItem>();
+                    decimal orderTotal = 0;
+                    
+                    foreach (var product in orderProducts[i])
                     {
-                        OrderId = savedOrders[0].OrderId,
-                        Status = "Delivered",
-                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}001",
-                        CarrierName = "AWE Express",
-                        EstimatedDeliveryDate = DateTime.Now.AddDays(-5),
-                        ShippedDate = DateTime.Now.AddDays(-8),
-                        DeliveredDate = DateTime.Now.AddDays(-5),
-                        DeliveryNotes = "Left at front door",
-                        ShippingAddress = $"{customerName}, {customer.Address}",
-                        CreatedDate = DateTime.Now.AddDays(-10),
-                        LastUpdated = DateTime.Now.AddDays(-5)
-                    },
-                    new Shipment
-                    {
-                        OrderId = savedOrders[1].OrderId,
-                        Status = "In Transit",
-                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}002",
-                        CarrierName = "AWE Express",
-                        EstimatedDeliveryDate = DateTime.Now.AddDays(1),
-                        ShippedDate = DateTime.Now.AddDays(-2),
-                        DeliveryNotes = "Package in transit to local facility",
-                        ShippingAddress = $"{customerName}, {customer.Address}",
-                        CreatedDate = DateTime.Now.AddDays(-7),
-                        LastUpdated = DateTime.Now.AddDays(-2)
-                    },
-                    new Shipment
-                    {
-                        OrderId = savedOrders[2].OrderId,
-                        Status = "Processing",
-                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}003",
-                        CarrierName = "AWE Express",
-                        EstimatedDeliveryDate = DateTime.Now.AddDays(5),
-                        DeliveryNotes = "Preparing for shipment",
-                        ShippingAddress = $"{customerName}, {customer.Address}",
-                        CreatedDate = DateTime.Now.AddDays(-2),
-                        LastUpdated = DateTime.Now.AddDays(-1)
-                    },
-                    new Shipment
-                    {
-                        OrderId = savedOrders[3].OrderId,
-                        Status = "Delivered",
-                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}004",
-                        CarrierName = "AWE Express",
-                        EstimatedDeliveryDate = DateTime.Now.AddDays(-10),
-                        ShippedDate = DateTime.Now.AddDays(-14),
-                        DeliveredDate = DateTime.Now.AddDays(-10),
-                        DeliveryNotes = "Signed by recipient",
-                        ShippingAddress = $"{customerName}, {customer.Address}",
-                        CreatedDate = DateTime.Now.AddDays(-15),
-                        LastUpdated = DateTime.Now.AddDays(-10)
+                        var productInfo = context.Product.Find(product.ProductId);
+                        if (productInfo == null) continue;
+                        
+                        var unitPrice = productInfo.Price;
+                        orderItems.Add(new OrderItem
+                        {
+                            OrderId = orders[i].OrderId,
+                            ProductId = product.ProductId,
+                            Quantity = product.Quantity,
+                            UnitPrice = unitPrice
+                        });
+                        
+                        orderTotal += unitPrice * product.Quantity;
                     }
-                };
-
-                // Add shipments individually
-                foreach (var shipment in shipments)
+                    
+                    // Update order total
+                    orders[i].TotalAmount = orderTotal;
+                    context.OrderItems.AddRange(orderItems);
+                    context.SaveChanges();
+                }
+                
+                // Create shipments for each order
+                for (int i = 0; i < orders.Count; i++)
                 {
+                    var order = orders[i];
+                    var orderDate = order.OrderDate;
+                    var shipment = new Shipment
+                    {
+                        OrderId = order.OrderId,
+                        Status = order.Status,
+                        TrackingNumber = $"AWE{currentDate:yyyyMMdd}{i + 1:D3}",
+                        CarrierName = "AWE Express",
+                        ShippingAddress = $"{customerName}, {customer.Address}",
+                        CreatedDate = orderDate,
+                        LastUpdated = order.LastModified
+                    };
+                    
+                    // Set dates and notes based on status
+                    switch (order.Status)
+                    {
+                        case "Delivered":
+                            shipment.EstimatedDeliveryDate = orderDate.AddDays(5);
+                            shipment.ShippedDate = orderDate.AddDays(2);
+                            shipment.DeliveredDate = orderDate.AddDays(5);
+                            shipment.DeliveryNotes = i == 0 ? "Left at front door" : "Signed by recipient";
+                            break;
+                        case "In Transit":
+                            shipment.EstimatedDeliveryDate = currentDate.AddDays(1);
+                            shipment.ShippedDate = orderDate.AddDays(5);
+                            shipment.DeliveryNotes = "Package in transit to local facility";
+                            break;
+                        case "Processing":
+                            shipment.EstimatedDeliveryDate = currentDate.AddDays(5);
+                            shipment.DeliveryNotes = "Preparing for shipment";
+                            break;
+                    }
+                    
                     context.Shipments.Add(shipment);
                     context.SaveChanges();
                 }
-
-                Console.WriteLine($"Successfully seeded {savedOrders.Count} orders and {shipments.Count} shipments");
             }
-
             catch (Exception ex)
             {
-                Console.WriteLine($"Error seeding orders and shipments: {ex.Message}");
-                if (ex.InnerException != null)
-                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-                throw;
+                // Silently handle errors
             }
+        }
+
+        public static void SeedExtendedStatisticsData(AppDbContext context)
+        {
+            if (context.Orders.Count() >= 30)
+                return;
+
+            try
+            {
+                var customerAccount = context.Accounts
+                    .FirstOrDefault(a => a.Role == Role.Customer);
+
+                if (customerAccount == null)
+                {
+                    SeedCustomerAccount(context);
+                    customerAccount = context.Accounts.FirstOrDefault(a => a.Role == Role.Customer);
+                    if (customerAccount == null)
+                        return;
+                }
+
+                var customer = context.Customers.FirstOrDefault(c => c.AccountId == customerAccount.Id);
+                if (customer == null)
+                    return;
+
+                var random = new Random(42);
+                var productIds = context.Product.Select(p => p.ProductId).ToList();
+                var currentDate = DateTime.Now;
+                var extendedOrders = new List<Order>();
+
+                // Month 1-3 (Most recent 3 months)
+                for (int i = 0; i < 20; i++)
+                {
+                    var daysAgo = random.Next(1, 90);
+                    extendedOrders.Add(CreateHistoricalOrder(customerAccount.Id, currentDate.AddDays(-daysAgo),
+                        "Delivered"));
+                }
+
+                // Month 4-6
+                for (int i = 0; i < 15; i++)
+                {
+                    var daysAgo = random.Next(91, 180);
+                    extendedOrders.Add(CreateHistoricalOrder(customerAccount.Id, currentDate.AddDays(-daysAgo),
+                        "Delivered"));
+                }
+
+                // Month 7-9
+                for (int i = 0; i < 10; i++)
+                {
+                    var daysAgo = random.Next(181, 270);
+                    extendedOrders.Add(CreateHistoricalOrder(customerAccount.Id, currentDate.AddDays(-daysAgo),
+                        "Delivered"));
+                }
+
+                // Month 10-12
+                for (int i = 0; i < 8; i++)
+                {
+                    var daysAgo = random.Next(271, 365);
+                    extendedOrders.Add(CreateHistoricalOrder(customerAccount.Id, currentDate.AddDays(-daysAgo),
+                        "Delivered"));
+                }
+
+                // End of month sales spike
+                for (int month = 1; month <= 12; month++)
+                {
+                    var endOfMonth = new DateTime(currentDate.Year, month,
+                        DateTime.DaysInMonth(currentDate.Year, month));
+
+                    if (endOfMonth > currentDate)
+                        continue;
+
+                    int orderCount = random.Next(1, 4);
+                    for (int i = 0; i < orderCount; i++)
+                    {
+                        extendedOrders.Add(CreateHistoricalOrder(customerAccount.Id,
+                            endOfMonth.AddDays(-random.Next(0, 2)), "Delivered"));
+                    }
+                }
+
+                // First, add all orders to the database and save
+                foreach (var order in extendedOrders)
+                {
+                    order.Customer = customer;
+                    context.Orders.Add(order);
+                }
+                context.SaveChanges();
+                
+                // Get the saved orders with their assigned IDs
+                var savedOrderIds = extendedOrders.Select(o => o.OrderId).ToList();
+                var orderItems = new List<OrderItem>();
+                
+                // Process each order one by one to ensure all have items
+                foreach (var orderId in savedOrderIds)
+                {
+                    var order = context.Orders.Find(orderId);
+                    if (order == null) continue;
+                    
+                    // Each order gets 1-3 different products
+                    int itemCount = random.Next(1, 4);
+                    decimal orderTotal = 0;
+                    
+                    var categoryDistribution = new Dictionary<string, double>
+                    {
+                        { "Smartphones", 0.25 },
+                        { "Laptops", 0.20 },
+                        { "Tablets", 0.15 },
+                        { "Accessories", 0.40 }
+                    };
+                    
+                    // Pick a category based on weighted distribution
+                    string selectedCategory = SelectWeightedCategory(random, categoryDistribution);
+                    
+                    // Find products in this category
+                    var categoryProducts = context.Product
+                        .Where(p => p.Category == selectedCategory)
+                        .Select(p => p.ProductId)
+                        .ToList();
+                        
+                    if (!categoryProducts.Any())
+                    {
+                        // Fallback to any random product if category has no products
+                        categoryProducts = productIds;
+                    }
+                    
+                    var orderItemsForThisOrder = new List<OrderItem>();
+                    
+                    for (int i = 0; i < itemCount; i++)
+                    {
+                        // Ensure we have products to choose from
+                        if (categoryProducts.Count == 0) continue;
+                        
+                        // Select a product ID from our filtered category list
+                        int productIndex = random.Next(0, categoryProducts.Count);
+                        int productId = categoryProducts[productIndex];
+                        
+                        // Find the product to get its price
+                        var product = context.Product.Find(productId);
+                        if (product == null) continue;
+                        
+                        decimal unitPrice = product.Price;
+                        int quantity = random.Next(1, 4);
+                        
+                        var orderItem = new OrderItem
+                        {
+                            OrderId = orderId,
+                            ProductId = productId,
+                            Quantity = quantity,
+                            UnitPrice = unitPrice
+                        };
+                        
+                        orderItemsForThisOrder.Add(orderItem);
+                        orderTotal += unitPrice * quantity;
+                    }
+                    
+                    // Ensure each order has at least one item
+                    if (orderItemsForThisOrder.Count == 0 && productIds.Any())
+                    {
+                        int defaultProductId = productIds[random.Next(productIds.Count)];
+                        var defaultProduct = context.Product.Find(defaultProductId);
+                        if (defaultProduct != null)
+                        {
+                            decimal unitPrice = defaultProduct.Price;
+                            int quantity = random.Next(1, 4);
+                            
+                            orderItemsForThisOrder.Add(new OrderItem
+                            {
+                                OrderId = orderId,
+                                ProductId = defaultProductId,
+                                Quantity = quantity,
+                                UnitPrice = unitPrice
+                            });
+                            
+                            orderTotal += unitPrice * quantity;
+                        }
+                    }
+                    
+                    // Add items to the order and update total
+                    orderItems.AddRange(orderItemsForThisOrder);
+                    order.TotalAmount = orderTotal;
+                    context.SaveChanges();
+                }
+                
+                // Add all order items to the database
+                context.OrderItems.AddRange(orderItems);
+                context.SaveChanges();
+                
+                // Create shipments for all orders
+                var customerName = $"{customer?.FirstName ?? "Customer"} {customer?.LastName ?? "User"}";
+                var shipments = new List<Shipment>();
+                
+                foreach (var orderId in savedOrderIds)
+                {
+                    var order = context.Orders.Find(orderId);
+                    if (order == null) continue;
+                    
+                    // Create a shipment that matches the order's status
+                    var shipment = new Shipment
+                    {
+                        OrderId = order.OrderId,
+                        Status = order.Status == "Pending" ? "Processing" : order.Status,
+                        TrackingNumber = $"AWE{order.OrderDate:yyyyMMdd}{order.OrderId:D6}",
+                        CarrierName = "AWE Express",
+                        EstimatedDeliveryDate = order.OrderDate.AddDays(5),
+                        ShippingAddress = $"{customerName}, {customer.Address ?? "123 Main St, Melbourne VIC 3000"}",
+                        CreatedDate = order.OrderDate,
+                        LastUpdated = order.LastModified
+                    };
+                    
+                    // Set appropriate dates based on status
+                    if (order.Status == "Delivered" || order.Status == "Completed")
+                    {
+                        shipment.ShippedDate = order.OrderDate.AddDays(1);
+                        shipment.DeliveredDate = order.OrderDate.AddDays(4);
+                        shipment.DeliveryNotes = "Delivered on time";
+                    }
+                    else if (order.Status == "In Transit" || order.Status == "Shipped")
+                    {
+                        shipment.ShippedDate = order.OrderDate.AddDays(1);
+                        shipment.DeliveryNotes = "In transit to destination";
+                    }
+                    else if (order.Status == "Processing")
+                    {
+                        shipment.DeliveryNotes = "Preparing for shipment";
+                    }
+                    
+                    shipments.Add(shipment);
+                }
+                
+                // Add all shipments to the context
+                context.Shipments.AddRange(shipments);
+                context.SaveChanges();
+            }
+            catch
+            {
+                // Silently handle errors in statistics data generation
+            }
+        }
+
+        private static Order CreateHistoricalOrder(int accountId, DateTime orderDate, string status)
+        {
+            return new Order
+            {
+                AccountId = accountId,
+                OrderDate = orderDate,
+                LastModified = orderDate.AddDays(status == "Delivered" ? 2 : 0),
+                Status = status,
+                OrderNotes = $"Historical order for statistics ({orderDate:yyyy-MM-dd})",
+                TotalAmount = 0 // Will be updated after adding order items
+            };
+        }
+
+        private static string SelectWeightedCategory(Random random, Dictionary<string, double> categoryDistribution)
+        {
+            double value = random.NextDouble();
+            double cumulativeProbability = 0.0;
+
+            foreach (var category in categoryDistribution)
+            {
+                cumulativeProbability += category.Value;
+                if (value <= cumulativeProbability)
+                    return category.Key;
+            }
+
+            return categoryDistribution.Keys.First();
         }
         
         public static void SeedAll(AppDbContext context)
@@ -908,6 +1131,7 @@ namespace ElectronicsStoreAss3.Data
             SeedOwnerAccount(context);
             SeedCustomerAccount(context);
             SeedTestOrdersAndShipments(context);
+            SeedExtendedStatisticsData(context);
         }
     }
 }
