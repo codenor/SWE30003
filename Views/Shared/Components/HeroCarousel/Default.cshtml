@@ -1,0 +1,54 @@
+@model IEnumerable<ElectronicsStoreAss3.Models.Product>
+
+<div class="hero-carousel">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></button>
+            }
+        </div>
+        <div class="carousel-inner">
+            @{
+                var backgrounds = new[] {
+                    "linear-gradient(135deg, #13547a 0%, #80d0c7 100%)",
+                    "linear-gradient(135deg, #2b5876 0%, #4e4376 100%)",
+                    "linear-gradient(135deg, #3a1c71 0%, #d76d77 50%, #ffaf7b 100%)"
+                };
+                var index = 0;
+            }
+            @foreach (var product in Model)
+            {
+                var background = backgrounds[index % backgrounds.Length];
+                index++;
+                <div class="carousel-item @(index == 1 ? "active" : "")">
+                    <div class="hero-slide d-flex align-items-center" style="background: @background">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 text-white">
+                                    <h1 class="display-4 fw-bold mb-3">@product.Name</h1>
+                                    <p class="lead mb-4">@product.Description</p>
+                                    <a href="@Url.Action("Details", "Product", new { sku = product.SKU })" class="btn btn-light btn-lg">Shop Now</a>
+                                </div>
+                                <div class="col-lg-6 text-center">
+                                    <img src="@product.ImagePath" 
+                                         alt="@product.Name" 
+                                         class="img-fluid hero-product-image rounded"
+                                         style="max-height: 400px; width: auto; object-fit: contain;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div> 
