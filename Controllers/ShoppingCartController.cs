@@ -95,7 +95,7 @@ namespace ElectronicsStoreAss3.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: /ShoppingCart/RemoveItem - 
+        // POST: /ShoppingCart/RemoveItem
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveItem(int cartItemId)
@@ -118,33 +118,7 @@ namespace ElectronicsStoreAss3.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: /ShoppingCart/ClearCart - Traditional Form Post
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClearCart()
-        {
-            int? accountId = GetAccountId();
-            var success = accountId.HasValue
-                ? await _shoppingCartService.ClearCartAsync(accountId.Value)
-                : await _shoppingCartService.ClearCartAsync(Session.GetOrCreate(HttpContext));
-
-            if (success)
-            {
-                TempData["SuccessMessage"] = "Cart cleared successfully!";
-                TempData["ToastMessage"] = "Cart cleared!";
-                TempData["ToastType"] = "success";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Failed to clear cart.";
-                TempData["ToastMessage"] = "Failed to clear cart!";
-                TempData["ToastType"] = "error";
-            }
-
-            return RedirectToAction("Index");
-        }
-
-        // Method to handle user login - merges session cart with account cart
+        // POST: /ShoppingCart/ClearCart 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MergeCartOnLogin()
@@ -152,23 +126,28 @@ namespace ElectronicsStoreAss3.Controllers
             if (User.Identity?.IsAuthenticated == true)
             {
                 var accountId = GetAccountId();
-                var sessionId = Session.GetOrCreate(HttpContext);
-                
+                var sessionId = HttpContext.Session.GetString("CartSessionId");
+        
                 if (accountId.HasValue && !string.IsNullOrEmpty(sessionId))
                 {
-                    await _shoppingCartService.MergeCartsAsync(sessionId, accountId.Value);
-                    
-                    // Clear the session cart ID since it's now merged
-                    HttpContext.Session.Remove("CartSessionId");
-                    
-                    TempData["SuccessMessage"] = "Your cart has been updated with your account!";
-                    TempData["ToastMessage"] = "Cart merged successfully!";
-                    TempData["ToastType"] = "success";
+                    var mergeSuccess = await _shoppingCartService.MergeCartsAsync(sessionId, accountId.Value);
+            
+                    if (mergeSuccess)
+                    {
+                        // Clear the session cart ID since it's now merged
+                        HttpContext.Session.Remove("CartSessionId");
+                
+                        TempData["SuccessMessage"] = "Your cart has been updated with your account!";
+                        TempData["ToastMessage"] = "Cart merged successfully!";
+                        TempData["ToastType"] = "success";
+                    }
                 }
             }
-            
+    
             return RedirectToAction("Index");
         }
+
+     
 
         // GET: Cart count for navigation (used by _CartCount partial)
         public async Task<int> GetCartCountAsync()
