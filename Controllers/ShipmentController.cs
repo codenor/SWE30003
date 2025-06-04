@@ -213,7 +213,7 @@ namespace ElectronicsStoreAss3.Controllers
 
         // GET: /Shipment/MyShipments - Customer shipments
         [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> MyShipments()
+        public async Task<IActionResult> MyShipments(int page = 1, int pageSize = 4)
         {
             try
             {
@@ -224,6 +224,8 @@ namespace ElectronicsStoreAss3.Controllers
                 }
 
                 var customerShipments = await _shipmentService.GetShipmentsByCustomerAsync(accountId.Value);
+                ViewBag.CurrentPage = page;
+                ViewBag.PageSize = pageSize;
                 return View(customerShipments);
             }
             catch (Exception ex)
@@ -251,9 +253,7 @@ namespace ElectronicsStoreAss3.Controllers
                 return Json(new { success = false });
             }
         }
-
-        //#region Private Helper Methods
-
+        
         /// <summary>
         /// Gets the current authenticated user's account ID
         /// </summary>

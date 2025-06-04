@@ -1,5 +1,6 @@
 ﻿using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Statistics;
 using ElectronicsStoreAss3.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -371,6 +372,39 @@ namespace ElectronicsStoreAss3.Services
             }
             
             return !await query.AnyAsync();
+        }
+        
+        public async Task<List<ProductPerformance>> GetRelatedProductsAsync(List<int> productIds, List<string> categories, int count = 3)
+        {
+            try
+            {
+                // Find products that are in the same categories but not already in the cart
+                var relatedProducts = await _context.Product
+                    .Include(p => p.Inventory)
+                    .Where(p => p.IsActive && 
+                               !productIds.Contains(p.ProductId) && 
+                               categories.Contains(p.Category))
+                    .Select(p => new ProductPerformance
+                    {
+                        ProductId = p.ProductId,
+                        ProductName = p.Name,
+                        SKU = p.SKU,
+                        Category = p.Category,
+                        AveragePrice = p.Price,
+                        Revenue = 0, // Not applicable for recommendations
+                        QuantitySold = p.Inventory != null ? p.Inventory.StockLevel : 0,
+                        OrderCount = 0 // Not applicable for recommendations
+                    })
+                    .Take(count)
+                    .ToListAsync();
+
+                return relatedProducts;
+            }
+            catch (Exception)
+            {
+                // Return empty list in case of error
+                return new List<ProductPerformance>();
+            }
         }
     }
 }

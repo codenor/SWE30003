@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using ElectronicsStoreAss3.Services;
 using ElectronicsStoreAss3.Models.Statistics;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -31,17 +32,40 @@ namespace ElectronicsStoreAss3.Controllers
                 
                 return View(statistics);
             }
-            catch (Exception ex)
+            catch (DbUpdateException dbEx)
             {
-                _logger.LogError(ex, "Error loading statistics");
-                TempData["ToastMessage"] = "Error loading statistics";
+                _logger.LogError(dbEx, "Database error loading statistics: {Message}", dbEx.InnerException?.Message ?? dbEx.Message);
+                TempData["ToastMessage"] = "Database error loading statistics. Please try again later.";
                 TempData["ToastType"] = "error";
                 
                 // Ensure ViewBag is set even on error
                 SetTimeFrameOptions();
                 
                 // Return empty model with proper timeframe
-                var emptyModel = new StatisticsViewModel { TimeFrame = timeFrame };
+                var emptyModel = new StatisticsViewModel 
+                { 
+                    TimeFrame = timeFrame,
+                    FromDate = GetDateRange(timeFrame).fromDate,
+                    ToDate = GetDateRange(timeFrame).toDate
+                };
+                return View(emptyModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading statistics: {Message}", ex.Message);
+                TempData["ToastMessage"] = "Error loading statistics. Please try again later.";
+                TempData["ToastType"] = "error";
+                
+                // Ensure ViewBag is set even on error
+                SetTimeFrameOptions();
+                
+                // Return empty model with proper timeframe
+                var emptyModel = new StatisticsViewModel 
+                { 
+                    TimeFrame = timeFrame,
+                    FromDate = GetDateRange(timeFrame).fromDate,
+                    ToDate = GetDateRange(timeFrame).toDate
+                };
                 return View(emptyModel);
             }
         }

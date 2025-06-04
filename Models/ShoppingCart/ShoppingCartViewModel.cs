@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ElectronicsStoreAss3.Models.Statistics;
 
 namespace ElectronicsStoreAss3.Models
 {

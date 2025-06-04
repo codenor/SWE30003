@@ -3,6 +3,7 @@ using ElectronicsStoreAss3.Services;
 using ElectronicsStoreAss3.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Models.Statistics;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -11,37 +12,58 @@ namespace ElectronicsStoreAss3.Controllers
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IProductService _productService;
         private readonly IStatisticsService _statisticsService;
+        private readonly ILogger<ShoppingCartController> _logger;
 
         public ShoppingCartController(
             IShoppingCartService shoppingCartService, 
             IProductService productService,
-            IStatisticsService statisticsService)
+            IStatisticsService statisticsService,
+            ILogger<ShoppingCartController> logger)
         {
             _shoppingCartService = shoppingCartService;
             _productService = productService;
             _statisticsService = statisticsService;
+            _logger = logger;
         }
 
         // GET: /ShoppingCart
         public async Task<IActionResult> Index()
         {
-            int? accountId = GetAccountId();
-            var cart = accountId.HasValue
-                ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
-                : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
-
-            // Get recommendations if cart is not empty
-            if (!cart.IsEmpty)
+            try
             {
-                await EnrichCartWithRecommendations(cart);
-            }
-            else
-            {
-                // For empty cart, get top selling products
-                await EnrichCartWithPopularProducts(cart);
-            }
+                int? accountId = GetAccountId();
+                var cart = accountId.HasValue
+                    ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
+                    : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
 
-            return View(cart);
+                // Get recommendations if cart is not empty
+                if (!cart.IsEmpty)
+                {
+                    await EnrichCartWithRecommendations(cart);
+                }
+                else
+                {
+                    // For empty cart, get top selling products
+                    await EnrichCartWithPopularProducts(cart);
+                }
+
+                return View(cart);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading shopping cart");
+                
+                // Create a minimal cart to prevent errors
+                var fallbackCart = new ShoppingCartViewModel
+                {
+                    SessionId = Session.GetOrCreate(HttpContext)
+                };
+                
+                // Add error message
+                ViewBag.StatisticsError = "Unable to load product statistics. Please try refreshing the page.";
+                
+                return View(fallbackCart);
+            }
         }
 
         // Helper method to add recommendations to cart
@@ -80,8 +102,11 @@ namespace ElectronicsStoreAss3.Controllers
             }
             catch (Exception ex)
             {
-                // Log error but don't fail the page load
-                // _logger.LogError(ex, "Error loading recommendations");
+                _logger.LogError(ex, "Error loading recommendations");
+                // Set empty lists to prevent null reference exceptions in the view
+                ViewBag.RecommendedProducts = new List<ProductPerformance>();
+                ViewBag.ComplementaryProducts = new List<ProductPerformance>();
+                ViewBag.StatisticsError = "Unable to load product recommendations.";
             }
         }
 
@@ -96,8 +121,10 @@ namespace ElectronicsStoreAss3.Controllers
             }
             catch (Exception ex)
             {
-                // Log error but don't fail the page load
-                // _logger.LogError(ex, "Error loading popular products");
+                _logger.LogError(ex, "Error loading popular products");
+                // Set empty list to prevent null reference exceptions
+                ViewBag.PopularProducts = new List<ProductPerformance>();
+                ViewBag.StatisticsError = "Unable to load popular products.";
             }
         }
 
@@ -216,35 +243,6 @@ namespace ElectronicsStoreAss3.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: /ShoppingCart/ClearCart 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> MergeCartOnLogin()
-        {
-            if (User.Identity?.IsAuthenticated == true)
-            {
-                var accountId = GetAccountId();
-                var sessionId = HttpContext.Session.GetString("CartSessionId");
-        
-                if (accountId.HasValue && !string.IsNullOrEmpty(sessionId))
-                {
-                    var mergeSuccess = await _shoppingCartService.MergeCartsAsync(sessionId, accountId.Value);
-            
-                    if (mergeSuccess)
-                    {
-                        // Clear the session cart ID since it's now merged
-                        HttpContext.Session.Remove("CartSessionId");
-                
-                        TempData["SuccessMessage"] = "Your cart has been updated with your account!";
-                        TempData["ToastMessage"] = "Cart merged successfully!";
-                        TempData["ToastType"] = "success";
-                    }
-                }
-            }
-    
-            return RedirectToAction("Index");
-        }
-
         // POST: /ShoppingCart/ClearCart
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -286,33 +284,6 @@ namespace ElectronicsStoreAss3.Controllers
             }
 
             return RedirectToAction("Index");
-        }
-
-        // GET: Cart count for navigation (used by _CartCount partial)
-        public async Task<int> GetCartCountAsync()
-        {
-            try
-            {
-                int? accountId = GetAccountId();
-                return accountId.HasValue
-                    ? await _shoppingCartService.GetCartItemCountAsync(accountId.Value)
-                    : await _shoppingCartService.GetCartItemCountAsync(Session.GetOrCreate(HttpContext));
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-
-        // Partial view for cart summary (can be used in layout)
-        public async Task<IActionResult> CartSummary()
-        {
-            int? accountId = GetAccountId();
-            var cart = accountId.HasValue
-                ? await _shoppingCartService.GetCartByAccountIdAsync(accountId.Value)
-                : await _shoppingCartService.GetCartBySessionIdAsync(Session.GetOrCreate(HttpContext));
-
-            return PartialView("_CartSummary", cart);
         }
 
         // Helper to get AccountId from claims
