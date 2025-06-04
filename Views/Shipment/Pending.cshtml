@@ -84,34 +84,7 @@
                                         <i class="bi bi-eye"></i> View
                                     </a>
                                     
-                                    <!-- Quick Actions -->
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" 
-                                                data-bs-toggle="dropdown">
-                                            <i class="bi bi-lightning"></i> Quick Action
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#" 
-                                                   onclick="updateStatus(@shipment.ShipmentId, 'Shipped')">
-                                                    <i class="bi bi-truck"></i> Mark as Shipped
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#" 
-                                                   onclick="updateStatus(@shipment.ShipmentId, 'In Transit')">
-                                                    <i class="bi bi-arrow-right"></i> Mark In Transit
-                                                </a>
-                                            </li>
-                                            <li><hr class="dropdown-divider"></li>
-                                            <li>
-                                                <a class="dropdown-item" href="#" 
-                                                   onclick="updateStatus(@shipment.ShipmentId, 'Failed')">
-                                                    <i class="bi bi-x-circle"></i> Mark as Failed
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+
                                 </div>
                             </td>
                         </tr>
@@ -134,19 +107,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Bulk Actions</h5>
-                            <button class="btn btn-outline-primary btn-sm me-2" onclick="selectAll()">
-                                <i class="bi bi-check-all"></i> Select All
-                            </button>
-                            <button class="btn btn-outline-success btn-sm" onclick="bulkShip()">
-                                <i class="bi bi-truck"></i> Bulk Ship Selected
-                            </button>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
         </div>
     }
@@ -180,16 +141,6 @@ function updateStatus(shipmentId, status) {
             alert('Error updating status');
         });
     }
-}
-
-function selectAll() {
-    // Implement bulk selection logic if needed
-    alert('Bulk selection feature coming soon!');
-}
-
-function bulkShip() {
-    // Implement bulk shipping logic if needed
-    alert('Bulk shipping feature coming soon!');
 }
 </script>
 }
