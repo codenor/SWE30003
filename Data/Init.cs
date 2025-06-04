@@ -52,7 +52,7 @@ namespace ElectronicsStoreAss3.Data
                 AccountId = account.Id,
                 FirstName = "Arbnor",
                 LastName = "Caravaku",
-                Mobile = "0412345678", 
+                Mobile = "0412345678",
                 Email = "Arbnor@test.com"
             };
             context.Customers.Add(customer);
@@ -70,135 +70,161 @@ namespace ElectronicsStoreAss3.Data
                 new()
                 {
                     ProductId = 1, Name = "iPhone 15 Pro Max", SKU = "APPLE-IP15PM-256", Category = "Smartphones",
-                    Brand = "Apple", Price = 1999.99m, 
+                    Brand = "Apple", Price = 1999.99m,
                     Description = "The ultimate iPhone with titanium design, A17 Pro chip, and advanced camera system.",
-                    Specifications = "6.7-inch Super Retina XDR display\nA17 Pro chip\n256GB storage\nPro camera system with 5x Telephoto\nTitanium design\nUSB-C connector",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-max-naturaltitanium.jpg",
+                    Specifications =
+                        "6.7-inch Super Retina XDR display\nA17 Pro chip\n256GB storage\nPro camera system with 5x Telephoto\nTitanium design\nUSB-C connector",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-max-naturaltitanium.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 2, Name = "iPhone 15 Pro", SKU = "APPLE-IP15P-128", Category = "Smartphones",
-                    Brand = "Apple", Price = 1649.99m, 
+                    Brand = "Apple", Price = 1649.99m,
                     Description = "Pro performance in a more compact size with titanium design and A17 Pro chip.",
-                    Specifications = "6.1-inch Super Retina XDR display\nA17 Pro chip\n128GB storage\nPro camera system with 3x Telephoto\nTitanium design\nAction Button",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-naturaltitanium.jpg",
+                    Specifications =
+                        "6.1-inch Super Retina XDR display\nA17 Pro chip\n128GB storage\nPro camera system with 3x Telephoto\nTitanium design\nAction Button",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-naturaltitanium.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 3, Name = "iPhone 15", SKU = "APPLE-IP15-128", Category = "Smartphones",
-                    Brand = "Apple", Price = 1499.99m, 
+                    Brand = "Apple", Price = 1499.99m,
                     Description = "The new iPhone 15 with Dynamic Island and 48MP camera system.",
-                    Specifications = "6.1-inch Super Retina XDR display\nA16 Bionic chip\n128GB storage\n48MP Main camera\nDynamic Island\nUSB-C connector",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pink.jpg",
+                    Specifications =
+                        "6.1-inch Super Retina XDR display\nA16 Bionic chip\n128GB storage\n48MP Main camera\nDynamic Island\nUSB-C connector",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pink.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 4, Name = "Samsung Galaxy S24 Ultra", SKU = "SAMSUNG-GS24U-256", Category = "Smartphones",
-                    Brand = "Samsung", Price = 1949.99m, 
+                    ProductId = 4, Name = "Samsung Galaxy S24 Ultra", SKU = "SAMSUNG-GS24U-256",
+                    Category = "Smartphones",
+                    Brand = "Samsung", Price = 1949.99m,
                     Description = "The most powerful Galaxy with S Pen, AI features, and 200MP camera.",
-                    Specifications = "6.8-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n200MP quad camera system\nBuilt-in S Pen\nTitanium frame",
-                    ImagePath = "https://images.samsung.com/au/smartphones/galaxy-s24-ultra/buy/carousel/mobile/01-carousel-kv-s24-ultra-titanium-gray-mobile.jpg",
+                    Specifications =
+                        "6.8-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n200MP quad camera system\nBuilt-in S Pen\nTitanium frame",
+                    ImagePath =
+                        "https://images.samsung.com/au/smartphones/galaxy-s24-ultra/buy/carousel/mobile/01-carousel-kv-s24-ultra-titanium-gray-mobile.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 5, Name = "Samsung Galaxy S24+", SKU = "SAMSUNG-GS24P-256", Category = "Smartphones",
-                    Brand = "Samsung", Price = 1549.99m, 
+                    Brand = "Samsung", Price = 1549.99m,
                     Description = "Enhanced Galaxy experience with larger display and advanced AI features.",
-                    Specifications = "6.7-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
-                    ImagePath = "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-plus-marble-gray-mobile.jpg",
+                    Specifications =
+                        "6.7-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
+                    ImagePath =
+                        "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-plus-marble-gray-mobile.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 6, Name = "Samsung Galaxy S24", SKU = "SAMSUNG-GS24-128", Category = "Smartphones",
-                    Brand = "Samsung", Price = 1349.99m, 
+                    Brand = "Samsung", Price = 1349.99m,
                     Description = "Compact Galaxy flagship with AI-powered photography and performance.",
-                    Specifications = "6.2-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n128GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
-                    ImagePath = "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-marble-gray-mobile.jpg",
+                    Specifications =
+                        "6.2-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n128GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
+                    ImagePath =
+                        "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-marble-gray-mobile.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 7, Name = "Google Pixel 8 Pro", SKU = "GOOGLE-P8P-128", Category = "Smartphones",
-                    Brand = "Google", Price = 1699.99m, 
+                    Brand = "Google", Price = 1699.99m,
                     Description = "Google's most advanced Pixel with Tensor G3 and AI photography features.",
-                    Specifications = "6.7-inch LTPO OLED display\nGoogle Tensor G3\n128GB storage\n50MP triple camera system\nMagic Eraser\n7 years of updates",
+                    Specifications =
+                        "6.7-inch LTPO OLED display\nGoogle Tensor G3\n128GB storage\n50MP triple camera system\nMagic Eraser\n7 years of updates",
                     ImagePath = "https://lh3.googleusercontent.com/lJn7xiJXGp__AeJsqOPSh8BgYGJ6mgx6YGiP8Z-d5fQ",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 8, Name = "Google Pixel 8", SKU = "GOOGLE-P8-128", Category = "Smartphones",
-                    Brand = "Google", Price = 1199.99m, 
+                    Brand = "Google", Price = 1199.99m,
                     Description = "Pure Google experience with advanced computational photography.",
-                    Specifications = "6.2-inch OLED display\nGoogle Tensor G3\n128GB storage\n50MP dual camera system\nMagic Eraser\n7 years of updates",
+                    Specifications =
+                        "6.2-inch OLED display\nGoogle Tensor G3\n128GB storage\n50MP dual camera system\nMagic Eraser\n7 years of updates",
                     ImagePath = "https://lh3.googleusercontent.com/pixel8-image.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 9, Name = "OnePlus 12", SKU = "ONEPLUS-OP12-256", Category = "Smartphones",
-                    Brand = "OnePlus", Price = 1299.99m, 
+                    Brand = "OnePlus", Price = 1299.99m,
                     Description = "Flagship killer with Snapdragon 8 Gen 3 and 100W fast charging.",
-                    Specifications = "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\n100W SuperVOOC charging\nOxygenOS 14",
-                    ImagePath = "https://oasis.opstatics.com/content/dam/oasis/page/2024/global/products/12/pc/1-intro-green.png",
+                    Specifications =
+                        "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\n100W SuperVOOC charging\nOxygenOS 14",
+                    ImagePath =
+                        "https://oasis.opstatics.com/content/dam/oasis/page/2024/global/products/12/pc/1-intro-green.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 10, Name = "Xiaomi 14 Ultra", SKU = "XIAOMI-14U-512", Category = "Smartphones",
-                    Brand = "Xiaomi", Price = 1799.99m, 
+                    Brand = "Xiaomi", Price = 1799.99m,
                     Description = "Photography powerhouse with Leica cameras and Snapdragon 8 Gen 3.",
-                    Specifications = "6.73-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Leica camera system\n90W fast charging\nMIUI 15",
+                    Specifications =
+                        "6.73-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Leica camera system\n90W fast charging\nMIUI 15",
                     ImagePath = "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-14-ultra/pc/black.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 11, Name = "Nothing Phone (2a)", SKU = "NOTHING-P2A-256", Category = "Smartphones",
-                    Brand = "Nothing", Price = 699.99m, 
+                    Brand = "Nothing", Price = 699.99m,
                     Description = "Unique transparent design with Glyph Interface and clean Android experience.",
-                    Specifications = "6.7-inch AMOLED display\nMediaTek Dimensity 7200 Pro\n256GB storage\n50MP dual camera system\nGlyph Interface\nNothing OS 2.5",
+                    Specifications =
+                        "6.7-inch AMOLED display\nMediaTek Dimensity 7200 Pro\n256GB storage\n50MP dual camera system\nGlyph Interface\nNothing OS 2.5",
                     ImagePath = "https://nothing.tech/cdn/shop/files/Phone-2a-Milk-1.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 12, Name = "Sony Xperia 1 VI", SKU = "SONY-X1VI-256", Category = "Smartphones",
-                    Brand = "Sony", Price = 1899.99m, 
+                    Brand = "Sony", Price = 1899.99m,
                     Description = "Professional camera phone with 4K 120Hz display and Alpha camera technology.",
-                    Specifications = "6.5-inch 4K OLED display\nSnapdragon 8 Gen 3\n256GB storage\n48MP triple camera system\nAlpha camera tech\n3.5mm headphone jack",
+                    Specifications =
+                        "6.5-inch 4K OLED display\nSnapdragon 8 Gen 3\n256GB storage\n48MP triple camera system\nAlpha camera tech\n3.5mm headphone jack",
                     ImagePath = "https://www.sony.com.au/image/5d02da5df552836db894b213e5c49cc0",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 13, Name = "OPPO Find X7 Ultra", SKU = "OPPO-FX7U-512", Category = "Smartphones",
-                    Brand = "OPPO", Price = 1699.99m, 
+                    Brand = "OPPO", Price = 1699.99m,
                     Description = "Hasselblad camera system with periscope telephoto and fast charging.",
-                    Specifications = "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Hasselblad camera system\n100W SuperVOOC charging\nColorOS 14",
-                    ImagePath = "https://image01.oppo.com/content/dam/oppo/common/mkt/v2-2/find-x7-ultra/navigation/find-x7-ultra-brown.png",
+                    Specifications =
+                        "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Hasselblad camera system\n100W SuperVOOC charging\nColorOS 14",
+                    ImagePath =
+                        "https://image01.oppo.com/content/dam/oppo/common/mkt/v2-2/find-x7-ultra/navigation/find-x7-ultra-brown.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 14, Name = "Huawei P60 Pro", SKU = "HUAWEI-P60P-256", Category = "Smartphones",
-                    Brand = "Huawei", Price = 1549.99m, 
+                    Brand = "Huawei", Price = 1549.99m,
                     Description = "Professional photography with Ultra Lighting camera and elegant design.",
-                    Specifications = "6.67-inch LTPO OLED display\nSnapdragon 8+ Gen 1\n256GB storage\n48MP triple camera system\nUltra Lighting camera\nHarmonyOS 3.1",
-                    ImagePath = "https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p60-pro/images/kv/p60-pro-kv-white.png",
+                    Specifications =
+                        "6.67-inch LTPO OLED display\nSnapdragon 8+ Gen 1\n256GB storage\n48MP triple camera system\nUltra Lighting camera\nHarmonyOS 3.1",
+                    ImagePath =
+                        "https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p60-pro/images/kv/p60-pro-kv-white.png",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 15, Name = "Motorola Edge 50 Ultra", SKU = "MOTOROLA-E50U-512", Category = "Smartphones",
-                    Brand = "Motorola", Price = 1399.99m, 
+                    ProductId = 15, Name = "Motorola Edge 50 Ultra", SKU = "MOTOROLA-E50U-512",
+                    Category = "Smartphones",
+                    Brand = "Motorola", Price = 1399.99m,
                     Description = "Premium smartphone with 200MP camera and 125W fast charging.",
-                    Specifications = "6.7-inch pOLED display\nSnapdragon 8s Gen 3\n512GB storage\n50MP triple camera system\n125W TurboPower charging\nMyUX on Android 14",
+                    Specifications =
+                        "6.7-inch pOLED display\nSnapdragon 8s Gen 3\n512GB storage\n50MP triple camera system\n125W TurboPower charging\nMyUX on Android 14",
                     ImagePath = "https://motorola-global-portal.s3.amazonaws.com/images/edge-50-ultra-peach-fuzz.png",
                     IsActive = true
                 },
@@ -207,136 +233,163 @@ namespace ElectronicsStoreAss3.Data
                 new()
                 {
                     ProductId = 16, Name = "MacBook Pro 16\" M3 Max", SKU = "APPLE-MBP16-M3MAX", Category = "Laptops",
-                    Brand = "Apple", Price = 4999.99m, 
+                    Brand = "Apple", Price = 4999.99m,
                     Description = "Ultimate creative powerhouse with M3 Max chip and Liquid Retina XDR display.",
-                    Specifications = "16.2-inch Liquid Retina XDR display\nApple M3 Max chip\n36GB unified memory\n1TB SSD storage\n40-core GPU\n22-hour battery life\nThunderbolt 4 ports",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202310.jpg",
+                    Specifications =
+                        "16.2-inch Liquid Retina XDR display\nApple M3 Max chip\n36GB unified memory\n1TB SSD storage\n40-core GPU\n22-hour battery life\nThunderbolt 4 ports",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202310.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 17, Name = "MacBook Pro 14\" M3 Pro", SKU = "APPLE-MBP14-M3PRO", Category = "Laptops",
-                    Brand = "Apple", Price = 3499.99m, 
+                    Brand = "Apple", Price = 3499.99m,
                     Description = "Professional performance in a compact form with M3 Pro chip.",
-                    Specifications = "14.2-inch Liquid Retina XDR display\nApple M3 Pro chip\n18GB unified memory\n512GB SSD storage\n18-core GPU\n18-hour battery life\nThunderbolt 4 ports",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310.jpg",
+                    Specifications =
+                        "14.2-inch Liquid Retina XDR display\nApple M3 Pro chip\n18GB unified memory\n512GB SSD storage\n18-core GPU\n18-hour battery life\nThunderbolt 4 ports",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 18, Name = "MacBook Air 15\" M3", SKU = "APPLE-MBA15-M3", Category = "Laptops",
-                    Brand = "Apple", Price = 2199.99m, 
+                    Brand = "Apple", Price = 2199.99m,
                     Description = "Larger Air with incredible performance and all-day battery life.",
-                    Specifications = "15.3-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n10-core GPU\n18-hour battery life\nMagSafe 3 charging",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba15-midnight-select-202306.jpg",
+                    Specifications =
+                        "15.3-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n10-core GPU\n18-hour battery life\nMagSafe 3 charging",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba15-midnight-select-202306.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 19, Name = "MacBook Air 13\" M3", SKU = "APPLE-MBA13-M3", Category = "Laptops",
-                    Brand = "Apple", Price = 1799.99m, 
+                    Brand = "Apple", Price = 1799.99m,
                     Description = "The world's most popular laptop, now with M3 chip for incredible performance.",
-                    Specifications = "13.6-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n8-core GPU\n18-hour battery life\nMagSafe 3 charging",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-midnight-select-202402.jpg",
+                    Specifications =
+                        "13.6-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n8-core GPU\n18-hour battery life\nMagSafe 3 charging",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-midnight-select-202402.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 20, Name = "Dell XPS 15 OLED", SKU = "DELL-XPS15-OLED", Category = "Laptops",
-                    Brand = "Dell", Price = 3299.99m, 
+                    Brand = "Dell", Price = 3299.99m,
                     Description = "Premium Windows laptop with stunning OLED display and powerful performance.",
-                    Specifications = "15.6-inch 3.5K OLED InfinityEdge display\nIntel Core i7-13700H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nThunderbolt 4\nWindows 11 Pro",
-                    ImagePath = "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/notebook-xps-15-9530-nt-silver-gallery-1.psd",
+                    Specifications =
+                        "15.6-inch 3.5K OLED InfinityEdge display\nIntel Core i7-13700H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nThunderbolt 4\nWindows 11 Pro",
+                    ImagePath =
+                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/notebook-xps-15-9530-nt-silver-gallery-1.psd",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 21, Name = "Dell XPS 13 Plus", SKU = "DELL-XPS13P-I7", Category = "Laptops",
-                    Brand = "Dell", Price = 2199.99m, 
+                    Brand = "Dell", Price = 2199.99m,
                     Description = "Ultra-modern ultrabook with edge-to-edge keyboard and invisible touchpad.",
-                    Specifications = "13.4-inch 4K+ InfinityEdge display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Home",
-                    ImagePath = "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
+                    Specifications =
+                        "13.4-inch 4K+ InfinityEdge display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Home",
+                    ImagePath =
+                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 22, Name = "Microsoft Surface Laptop Studio 2", SKU = "MICROSOFT-SLS2-I7", Category = "Laptops",
-                    Brand = "Microsoft", Price = 3699.99m, 
+                    ProductId = 22, Name = "Microsoft Surface Laptop Studio 2", SKU = "MICROSOFT-SLS2-I7",
+                    Category = "Laptops",
+                    Brand = "Microsoft", Price = 3699.99m,
                     Description = "Most powerful Surface laptop with unique rotating touchscreen design.",
-                    Specifications = "14.4-inch PixelSense Flow touchscreen\nIntel Core i7-13700H\n32GB LPDDR5X RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nSurface Pen support\nWindows 11 Pro",
+                    Specifications =
+                        "14.4-inch PixelSense Flow touchscreen\nIntel Core i7-13700H\n32GB LPDDR5X RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nSurface Pen support\nWindows 11 Pro",
                     ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW16TUt",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 23, Name = "Microsoft Surface Laptop 5", SKU = "MICROSOFT-SL5-AMD", Category = "Laptops",
-                    Brand = "Microsoft", Price = 1899.99m, 
+                    ProductId = 23, Name = "Microsoft Surface Laptop 5", SKU = "MICROSOFT-SL5-AMD",
+                    Category = "Laptops",
+                    Brand = "Microsoft", Price = 1899.99m,
                     Description = "Elegant laptop with premium materials and excellent performance.",
-                    Specifications = "13.5-inch PixelSense touchscreen\nAMD Ryzen 7 5980HS\n16GB LPDDR4X RAM\n512GB PCIe SSD\nAMD Radeon Graphics\nSurface Pen support\nWindows 11 Home",
+                    Specifications =
+                        "13.5-inch PixelSense touchscreen\nAMD Ryzen 7 5980HS\n16GB LPDDR4X RAM\n512GB PCIe SSD\nAMD Radeon Graphics\nSurface Pen support\nWindows 11 Home",
                     ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW15cpb",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 24, Name = "Lenovo ThinkPad X1 Carbon Gen 11", SKU = "LENOVO-X1C11-I7", Category = "Laptops",
-                    Brand = "Lenovo", Price = 2799.99m, 
+                    ProductId = 24, Name = "Lenovo ThinkPad X1 Carbon Gen 11", SKU = "LENOVO-X1C11-I7",
+                    Category = "Laptops",
+                    Brand = "Lenovo", Price = 2799.99m,
                     Description = "Business ultrabook with military-grade durability and enterprise security.",
-                    Specifications = "14-inch 2.8K OLED display\nIntel Core i7-1365U\n32GB LPDDR5 RAM\n1TB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Pro",
-                    ImagePath = "https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MzczNzU4fGltYWdlL3BuZ3xoMTYvaDc4LzE0NDk4Mzc5MzE1MjMwLnBuZ3xhOWIzYjUzZDVhNmY1YzllNzNhNzJhZmViMzFhMGE1MjZkOWNmZmUzZmQwZDE1NGU1YWZlZjQyMDNjZGVhMGVj",
+                    Specifications =
+                        "14-inch 2.8K OLED display\nIntel Core i7-1365U\n32GB LPDDR5 RAM\n1TB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Pro",
+                    ImagePath =
+                        "https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MzczNzU4fGltYWdlL3BuZ3xoMTYvaDc4LzE0NDk4Mzc5MzE1MjMwLnBuZ3xhOWIzYjUzZDVhNmY1YzllNzNhNzJhZmViMzFhMGE1MjZkOWNmZmUzZmQwZDE1NGU1YWZlZjQyMDNjZGVhMGVj",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 25, Name = "HP Spectre x360 16", SKU = "HP-SPECTRE-X360-16", Category = "Laptops",
-                    Brand = "HP", Price = 2599.99m, 
+                    Brand = "HP", Price = 2599.99m,
                     Description = "Convertible laptop with 3K OLED display and premium design.",
-                    Specifications = "16-inch 3K OLED touchscreen\nIntel Core i7-13700H\n16GB DDR5 RAM\n1TB PCIe SSD\nIntel Arc A370M Graphics\nHP Pen included\nWindows 11 Home",
+                    Specifications =
+                        "16-inch 3K OLED touchscreen\nIntel Core i7-13700H\n16GB DDR5 RAM\n1TB PCIe SSD\nIntel Arc A370M Graphics\nHP Pen included\nWindows 11 Home",
                     ImagePath = "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08271538.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 26, Name = "ASUS ROG Zephyrus G16", SKU = "ASUS-ROGG16-RTX4080", Category = "Laptops",
-                    Brand = "ASUS", Price = 4199.99m, 
+                    Brand = "ASUS", Price = 4199.99m,
                     Description = "Gaming laptop with RTX 4080 graphics and premium OLED display.",
-                    Specifications = "16-inch 2.5K OLED 240Hz display\nIntel Core i9-13900H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4080\nROG Nebula HDR display\nWindows 11 Home",
+                    Specifications =
+                        "16-inch 2.5K OLED 240Hz display\nIntel Core i9-13900H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4080\nROG Nebula HDR display\nWindows 11 Home",
                     ImagePath = "https://dlcdnwebimgs.asus.com/gain/C8A1F7D5-B85E-4C1F-8C2F-8D0ED3FD46B1",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 27, Name = "Framework Laptop 13", SKU = "FRAMEWORK-L13-I7", Category = "Laptops",
-                    Brand = "Framework", Price = 1899.99m, 
+                    Brand = "Framework", Price = 1899.99m,
                     Description = "Modular laptop designed for repairability and upgradability.",
-                    Specifications = "13.5-inch 2256×1504 display\nIntel Core i7-1360P\n32GB DDR4 RAM\n1TB NVMe SSD\nIntel Iris Xe Graphics\nModular ports\nWindows 11 Home",
+                    Specifications =
+                        "13.5-inch 2256×1504 display\nIntel Core i7-1360P\n32GB DDR4 RAM\n1TB NVMe SSD\nIntel Iris Xe Graphics\nModular ports\nWindows 11 Home",
                     ImagePath = "https://frame.work/cdn/shop/files/Hero_Silver_No_Ports.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 28, Name = "Razer Blade 15 Advanced", SKU = "RAZER-B15-RTX4070", Category = "Laptops",
-                    Brand = "Razer", Price = 3799.99m, 
+                    Brand = "Razer", Price = 3799.99m,
                     Description = "Gaming laptop with RTX 4070 graphics and high refresh rate display.",
-                    Specifications = "15.6-inch QHD 240Hz display\nIntel Core i7-13800H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4070\nPer-key RGB keyboard\nWindows 11 Home",
-                    ImagePath = "https://assets2.razerzone.com/images/pnx.product.blade-15-advanced-model-early-2022/a8c4f3b7b5a8a7b7f8b3b8c4c6d1a2e5.png",
+                    Specifications =
+                        "15.6-inch QHD 240Hz display\nIntel Core i7-13800H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4070\nPer-key RGB keyboard\nWindows 11 Home",
+                    ImagePath =
+                        "https://assets2.razerzone.com/images/pnx.product.blade-15-advanced-model-early-2022/a8c4f3b7b5a8a7b7f8b3b8c4c6d1a2e5.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 29, Name = "LG Gram 17", SKU = "LG-GRAM17-I7", Category = "Laptops",
-                    Brand = "LG", Price = 2299.99m, 
+                    Brand = "LG", Price = 2299.99m,
                     Description = "Ultra-lightweight 17-inch laptop with all-day battery life.",
-                    Specifications = "17-inch WQXGA IPS display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB NVMe SSD\nIntel Iris Xe Graphics\n1.35kg weight\nWindows 11 Home",
+                    Specifications =
+                        "17-inch WQXGA IPS display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB NVMe SSD\nIntel Iris Xe Graphics\n1.35kg weight\nWindows 11 Home",
                     ImagePath = "https://www.lg.com/au/images/laptops/md07510957/gallery/17Z90R-G.AA75A5-DZ-01.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 30, Name = "Alienware m18 R1", SKU = "ALIENWARE-M18-RTX4090", Category = "Laptops",
-                    Brand = "Dell", Price = 5999.99m, 
+                    Brand = "Dell", Price = 5999.99m,
                     Description = "Ultimate gaming laptop with RTX 4090 graphics and desktop-class performance.",
-                    Specifications = "18-inch QHD+ 165Hz display\nIntel Core i9-13980HX\n64GB DDR5 RAM\n2TB PCIe SSD\nNVIDIA GeForce RTX 4090\nAdvanced cooling\nWindows 11 Home",
-                    ImagePath = "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/alienware-notebooks/alienware-m18-r1/media-gallery/notebook-alienware-m18-r1-nt-dark-side-of-the-moon-gallery-1.psd",
+                    Specifications =
+                        "18-inch QHD+ 165Hz display\nIntel Core i9-13980HX\n64GB DDR5 RAM\n2TB PCIe SSD\nNVIDIA GeForce RTX 4090\nAdvanced cooling\nWindows 11 Home",
+                    ImagePath =
+                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/alienware-notebooks/alienware-m18-r1/media-gallery/notebook-alienware-m18-r1-nt-dark-side-of-the-moon-gallery-1.psd",
                     IsActive = true
                 },
 
@@ -344,37 +397,45 @@ namespace ElectronicsStoreAss3.Data
                 new()
                 {
                     ProductId = 31, Name = "iPad Pro 12.9\" M2", SKU = "APPLE-IPADPRO129-M2", Category = "Tablets",
-                    Brand = "Apple", Price = 1749.99m, 
+                    Brand = "Apple", Price = 1749.99m,
                     Description = "The ultimate iPad experience with M2 chip and Liquid Retina XDR display.",
-                    Specifications = "12.9-inch Liquid Retina XDR display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-9-6th-gen-space-gray-wifi-select-202210.jpg",
+                    Specifications =
+                        "12.9-inch Liquid Retina XDR display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-9-6th-gen-space-gray-wifi-select-202210.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 32, Name = "iPad Pro 11\" M2", SKU = "APPLE-IPADPRO11-M2", Category = "Tablets",
-                    Brand = "Apple", Price = 1399.99m, 
+                    Brand = "Apple", Price = 1399.99m,
                     Description = "Pro performance in a portable design with M2 chip.",
-                    Specifications = "11-inch Liquid Retina display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-6th-gen-space-gray-wifi-select-202210.jpg",
+                    Specifications =
+                        "11-inch Liquid Retina display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-6th-gen-space-gray-wifi-select-202210.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 33, Name = "iPad Air 10.9\" M1", SKU = "APPLE-IPADAIR-M1", Category = "Tablets",
-                    Brand = "Apple", Price = 899.99m, 
+                    Brand = "Apple", Price = 899.99m,
                     Description = "Colorful and powerful with M1 chip and advanced cameras.",
-                    Specifications = "10.9-inch Liquid Retina display\nApple M1 chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-5th-gen-blue-wifi-select-202203.jpg",
+                    Specifications =
+                        "10.9-inch Liquid Retina display\nApple M1 chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-5th-gen-blue-wifi-select-202203.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 34, Name = "iPad 10.9\" 10th Gen", SKU = "APPLE-IPAD109-10TH", Category = "Tablets",
-                    Brand = "Apple", Price = 649.99m, 
+                    Brand = "Apple", Price = 649.99m,
                     Description = "Colorful all-screen design with powerful A14 Bionic chip.",
-                    Specifications = "10.9-inch Liquid Retina display\nA14 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (1st gen)\nUSB-C connector",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-10th-gen-blue-wifi-select-202210.jpg",
+                    Specifications =
+                        "10.9-inch Liquid Retina display\nA14 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (1st gen)\nUSB-C connector",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-10th-gen-blue-wifi-select-202210.jpg",
                     IsActive = true
                 },
                 new()
@@ -382,52 +443,63 @@ namespace ElectronicsStoreAss3.Data
                     ProductId = 35, Name = "iPad mini 8.3\" 6th Gen", SKU = "APPLE-IPADMINI-6TH", Category = "Tablets",
                     Brand = "Apple", Price = 749.99m,
                     Description = "Mega performance in a compact design with A15 Bionic chip.",
-                    Specifications = "8.3-inch Liquid Retina display\nA15 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-6th-gen-purple-wifi-select-202109.jpg",
+                    Specifications =
+                        "8.3-inch Liquid Retina display\nA15 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-6th-gen-purple-wifi-select-202109.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 36, Name = "Samsung Galaxy Tab S9 Ultra", SKU = "SAMSUNG-TABS9U-512", Category = "Tablets",
-                    Brand = "Samsung", Price = 1899.99m, 
+                    ProductId = 36, Name = "Samsung Galaxy Tab S9 Ultra", SKU = "SAMSUNG-TABS9U-512",
+                    Category = "Tablets",
+                    Brand = "Samsung", Price = 1899.99m,
                     Description = "Largest Galaxy Tab with S Pen and desktop-class performance.",
-                    Specifications = "14.6-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n512GB storage\nS Pen included\nDual cameras\nDeX mode support",
-                    ImagePath = "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-ultra-5g-beige-front-pen-mobilecarousel.jpg",
+                    Specifications =
+                        "14.6-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n512GB storage\nS Pen included\nDual cameras\nDeX mode support",
+                    ImagePath =
+                        "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-ultra-5g-beige-front-pen-mobilecarousel.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 37, Name = "Samsung Galaxy Tab S9+", SKU = "SAMSUNG-TABS9P-256", Category = "Tablets",
-                    Brand = "Samsung", Price = 1399.99m, 
+                    Brand = "Samsung", Price = 1399.99m,
                     Description = "Premium Android tablet with AMOLED display and S Pen.",
-                    Specifications = "12.4-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n256GB storage\nS Pen included\nDual cameras\nDeX mode support",
-                    ImagePath = "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-plus-5g-beige-front-pen-mobilecarousel.jpg",
+                    Specifications =
+                        "12.4-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n256GB storage\nS Pen included\nDual cameras\nDeX mode support",
+                    ImagePath =
+                        "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-plus-5g-beige-front-pen-mobilecarousel.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 38, Name = "Microsoft Surface Pro 9", SKU = "MICROSOFT-SP9-I7", Category = "Tablets",
-                    Brand = "Microsoft", Price = 1899.99m, 
+                    Brand = "Microsoft", Price = 1899.99m,
                     Description = "2-in-1 tablet with laptop performance and versatility.",
-                    Specifications = "13-inch PixelSense Flow touchscreen\nIntel Core i7-1255U\n16GB LPDDR5 RAM\n512GB SSD\nThunderbolt 4\nSurface Pen support\nWindows 11 Pro",
+                    Specifications =
+                        "13-inch PixelSense Flow touchscreen\nIntel Core i7-1255U\n16GB LPDDR5 RAM\n512GB SSD\nThunderbolt 4\nSurface Pen support\nWindows 11 Pro",
                     ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW11est",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 39, Name = "Lenovo Tab P12 Pro", SKU = "LENOVO-TABP12PRO", Category = "Tablets",
-                    Brand = "Lenovo", Price = 899.99m, 
+                    Brand = "Lenovo", Price = 899.99m,
                     Description = "Premium Android tablet with OLED display and productivity features.",
-                    Specifications = "12.6-inch 2K OLED display\nMediaTek Kompanio 1300T\n8GB RAM\n256GB storage\nQuad JBL speakers\nLenovo Precision Pen 3",
-                    ImagePath = "https://p4-ofp.static.pub/ShareResource/na/subseries/hero/lenovo-tablet-tab-p12-pro-hero.png",
+                    Specifications =
+                        "12.6-inch 2K OLED display\nMediaTek Kompanio 1300T\n8GB RAM\n256GB storage\nQuad JBL speakers\nLenovo Precision Pen 3",
+                    ImagePath =
+                        "https://p4-ofp.static.pub/ShareResource/na/subseries/hero/lenovo-tablet-tab-p12-pro-hero.png",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 40, Name = "Amazon Fire Max 11", SKU = "AMAZON-FIREMAX11", Category = "Tablets",
-                    Brand = "Amazon", Price = 349.99m, 
+                    Brand = "Amazon", Price = 349.99m,
                     Description = "Largest Fire tablet with vivid display and Alexa built-in.",
-                    Specifications = "11-inch 2K display\nOcta-core processor\n4GB RAM\n64GB storage\n14-hour battery\nAlexa hands-free\nFire OS",
+                    Specifications =
+                        "11-inch 2K display\nOcta-core processor\n4GB RAM\n64GB storage\n14-hour battery\nAlexa hands-free\nFire OS",
                     ImagePath = "https://m.media-amazon.com/images/I/61H5ElhvKaL._AC_SL1500_.jpg",
                     IsActive = true
                 },
@@ -436,91 +508,113 @@ namespace ElectronicsStoreAss3.Data
                 new()
                 {
                     ProductId = 41, Name = "AirPods Pro 2nd Gen", SKU = "APPLE-AIRPODSPRO2", Category = "Accessories",
-                    Brand = "Apple", Price = 399.99m, 
+                    Brand = "Apple", Price = 399.99m,
                     Description = "Next-generation AirPods Pro with H2 chip and enhanced audio.",
-                    Specifications = "H2 chip\nAdaptive Transparency\nPersonalized Spatial Audio\nUp to 6 hours listening time\nMagSafe charging case\nTouch control",
+                    Specifications =
+                        "H2 chip\nAdaptive Transparency\nPersonalized Spatial Audio\nUp to 6 hours listening time\nMagSafe charging case\nTouch control",
                     ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 42, Name = "AirPods 3rd Generation", SKU = "APPLE-AIRPODS3", Category = "Accessories",
-                    Brand = "Apple", Price = 279.99m, 
+                    Brand = "Apple", Price = 279.99m,
                     Description = "Reimagined AirPods with Spatial Audio and longer battery life.",
-                    Specifications = "H1 chip\nSpatial Audio\nAdaptive EQ\nUp to 6 hours listening time\nMagSafe charging case\nSweat and water resistant",
+                    Specifications =
+                        "H1 chip\nSpatial Audio\nAdaptive EQ\nUp to 6 hours listening time\nMagSafe charging case\nSweat and water resistant",
                     ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MME73.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 43, Name = "AirPods Max", SKU = "APPLE-AIRPODSMAX", Category = "Accessories",
-                    Brand = "Apple", Price = 899.99m, 
+                    Brand = "Apple", Price = 899.99m,
                     Description = "Over-ear headphones with Active Noise Cancellation and Spatial Audio.",
-                    Specifications = "H1 chip\nActive Noise Cancellation\nTransparency mode\nSpatial Audio\n20-hour battery life\nDigital Crown\nStainless steel frame",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-silver-select-202011.jpg",
+                    Specifications =
+                        "H1 chip\nActive Noise Cancellation\nTransparency mode\nSpatial Audio\n20-hour battery life\nDigital Crown\nStainless steel frame",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-silver-select-202011.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 44, Name = "Apple Watch Series 9 45mm", SKU = "APPLE-WATCH9-45", Category = "Accessories",
-                    Brand = "Apple", Price = 649.99m, 
+                    ProductId = 44, Name = "Apple Watch Series 9 45mm", SKU = "APPLE-WATCH9-45",
+                    Category = "Accessories",
+                    Brand = "Apple", Price = 649.99m,
                     Description = "Most advanced Apple Watch with Double Tap gesture and S9 chip.",
-                    Specifications = "45mm Always-On Retina display\nS9 SiP\nDouble Tap gesture\nBlood Oxygen app\nECG app\n18-hour battery life\nCrash Detection",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-series-9-gps-45mm-pink-aluminum-sport-band-pink-pdp-image-position-1__en-us.jpg",
+                    Specifications =
+                        "45mm Always-On Retina display\nS9 SiP\nDouble Tap gesture\nBlood Oxygen app\nECG app\n18-hour battery life\nCrash Detection",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-series-9-gps-45mm-pink-aluminum-sport-band-pink-pdp-image-position-1__en-us.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 45, Name = "Apple Watch SE 2nd Gen 44mm", SKU = "APPLE-WATCHSE2-44", Category = "Accessories",
-                    Brand = "Apple", Price = 399.99m, 
+                    ProductId = 45, Name = "Apple Watch SE 2nd Gen 44mm", SKU = "APPLE-WATCHSE2-44",
+                    Category = "Accessories",
+                    Brand = "Apple", Price = 399.99m,
                     Description = "Essential Apple Watch features at an accessible price.",
-                    Specifications = "44mm Retina display\nS8 SiP\nActivity tracking\nSleep tracking\n18-hour battery life\nCrash Detection\nWater resistant to 50 meters",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-2nd-gen-gps-44mm-silver-aluminum-white-sport-band-pdp-image-position-1__en-us.jpg",
+                    Specifications =
+                        "44mm Retina display\nS8 SiP\nActivity tracking\nSleep tracking\n18-hour battery life\nCrash Detection\nWater resistant to 50 meters",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-2nd-gen-gps-44mm-silver-aluminum-white-sport-band-pdp-image-position-1__en-us.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 46, Name = "Magic Keyboard for iPad Pro", SKU = "APPLE-MAGICKB-IPADPRO", Category = "Accessories",
-                    Brand = "Apple", Price = 499.99m, 
+                    ProductId = 46, Name = "Magic Keyboard for iPad Pro", SKU = "APPLE-MAGICKB-IPADPRO",
+                    Category = "Accessories",
+                    Brand = "Apple", Price = 499.99m,
                     Description = "Full-size keyboard with trackpad for iPad Pro productivity.",
-                    Specifications = "Backlit keys\nPrecision trackpad\nUSB-C pass-through charging\nFloating cantilever design\nCompatible with iPad Pro 11-inch and 12.9-inch",
+                    Specifications =
+                        "Backlit keys\nPrecision trackpad\nUSB-C pass-through charging\nFloating cantilever design\nCompatible with iPad Pro 11-inch and 12.9-inch",
                     ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJQJ3.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 47, Name = "Apple Pencil 2nd Generation", SKU = "APPLE-PENCIL2", Category = "Accessories",
-                    Brand = "Apple", Price = 199.99m, 
+                    ProductId = 47, Name = "Apple Pencil 2nd Generation", SKU = "APPLE-PENCIL2",
+                    Category = "Accessories",
+                    Brand = "Apple", Price = 199.99m,
                     Description = "Precision drawing and writing tool for iPad with magnetic attachment.",
-                    Specifications = "Pixel-perfect precision\nTilt and pressure sensitivity\nMagnetic attachment and charging\nDouble-tap to change tools\nCompatible with iPad Pro, iPad Air, iPad mini",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-2nd-gen-hero-202210.jpg",
+                    Specifications =
+                        "Pixel-perfect precision\nTilt and pressure sensitivity\nMagnetic attachment and charging\nDouble-tap to change tools\nCompatible with iPad Pro, iPad Air, iPad mini",
+                    ImagePath =
+                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-2nd-gen-hero-202210.jpg",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 48, Name = "Samsung Galaxy Buds2 Pro", SKU = "SAMSUNG-BUDS2PRO", Category = "Accessories",
-                    Brand = "Samsung", Price = 349.99m, 
+                    ProductId = 48, Name = "Samsung Galaxy Buds2 Pro", SKU = "SAMSUNG-BUDS2PRO",
+                    Category = "Accessories",
+                    Brand = "Samsung", Price = 349.99m,
                     Description = "Premium wireless earbuds with intelligent ANC and 360 Audio.",
-                    Specifications = "Intelligent Active Noise Cancellation\n360 Audio\nVoice Detect\nUp to 8 hours battery\nWireless charging case\nIPX7 water resistance",
-                    ImagePath = "https://images.samsung.com/au/galaxy-buds/galaxy-buds2-pro/images/galaxy-buds2-pro_highlights_kv.jpg",
+                    Specifications =
+                        "Intelligent Active Noise Cancellation\n360 Audio\nVoice Detect\nUp to 8 hours battery\nWireless charging case\nIPX7 water resistance",
+                    ImagePath =
+                        "https://images.samsung.com/au/galaxy-buds/galaxy-buds2-pro/images/galaxy-buds2-pro_highlights_kv.jpg",
                     IsActive = true
                 },
                 new()
                 {
                     ProductId = 49, Name = "Sony WH-1000XM5", SKU = "SONY-WH1000XM5", Category = "Accessories",
-                    Brand = "Sony", Price = 549.99m, 
+                    Brand = "Sony", Price = 549.99m,
                     Description = "Industry-leading noise canceling with exceptional sound quality.",
-                    Specifications = "Industry-leading noise canceling\n30-hour battery life\nMultipoint connection\nSpeak-to-Chat technology\nTouch Sensor controls\nQuick Charge",
+                    Specifications =
+                        "Industry-leading noise canceling\n30-hour battery life\nMultipoint connection\nSpeak-to-Chat technology\nTouch Sensor controls\nQuick Charge",
                     ImagePath = "https://www.sony.com.au/image/5d02da5df552836db894b213e5c49cc0",
                     IsActive = true
                 },
                 new()
                 {
-                    ProductId = 50, Name = "Logitech MX Master 3S", SKU = "LOGITECH-MXMASTER3S", Category = "Accessories",
-                    Brand = "Logitech", Price = 149.99m, 
+                    ProductId = 50, Name = "Logitech MX Master 3S", SKU = "LOGITECH-MXMASTER3S",
+                    Category = "Accessories",
+                    Brand = "Logitech", Price = 149.99m,
                     Description = "Advanced wireless mouse with ultra-precise scrolling and customization.",
-                    Specifications = "MagSpeed electromagnetic scrolling\n4000 DPI sensor\n70-day battery life\nFlow cross-computer control\nUSB-C quick charging\nQuiet clicks",
-                    ImagePath = "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png",
+                    Specifications =
+                        "MagSpeed electromagnetic scrolling\n4000 DPI sensor\n70-day battery life\nFlow cross-computer control\nUSB-C quick charging\nQuiet clicks",
+                    ImagePath =
+                        "https://resource.logitech.com/w_692,c_lpad,ar_4:3,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/mx-master-3s/gallery/mx-master-3s-mouse-top-view-graphite.png",
                     IsActive = true
                 }
             };
@@ -592,12 +686,221 @@ namespace ElectronicsStoreAss3.Data
             context.Inventory.AddRange(inventory);
             context.SaveChanges();
         }
-        
+
+        public static void SeedTestOrdersAndShipments(AppDbContext context)
+        {
+            if (context.Orders.Any())
+                return;
+
+            try
+            {
+                // Get a valid customer account
+                var customerAccount = context.Accounts
+                    .FirstOrDefault(a => a.Role == Role.Customer);
+
+                if (customerAccount == null)
+                {
+                    Console.WriteLine("No customer account found. Creating one first.");
+                    SeedCustomerAccount(context);
+                    customerAccount = context.Accounts.FirstOrDefault(a => a.Role == Role.Customer);
+
+                    if (customerAccount == null)
+                    {
+                        throw new Exception("Failed to create customer account.");
+                    }
+                }
+
+                // Verify that this account has a corresponding Customer record
+                var customer = context.Customers.FirstOrDefault(c => c.AccountId == customerAccount.Id);
+                if (customer == null)
+                {
+                    Console.WriteLine("Customer record not found for account ID: " + customerAccount.Id);
+                    Console.WriteLine("Creating a new Customer record for this account.");
+                    
+                    customer = new Customer
+                    {
+                        AccountId = customerAccount.Id,
+                        FirstName = "Default",
+                        LastName = "Customer",
+                        Mobile = "0400000000",
+                        Email = customerAccount.Email,
+                        Address = "123 Main St, Melbourne VIC 3000"
+                    };
+                    context.Customers.Add(customer);
+                    context.SaveChanges();
+                }
+
+                Console.WriteLine($"Using customer account with ID: {customerAccount.Id} and Customer ID: {customer.Id}");
+
+                // Create orders with valid AccountId
+                var orders = new List<Order>
+                {
+                    new Order
+                    {
+                        AccountId = customerAccount.Id,
+                        OrderDate = DateTime.Now.AddDays(-10),
+                        LastModified = DateTime.Now.AddDays(-10),
+                        Status = "Delivered",
+                        OrderNotes = "Regular delivery",
+                        TotalAmount = 2399.98m
+                    },
+                    new Order
+                    {
+                        AccountId = customerAccount.Id,
+                        OrderDate = DateTime.Now.AddDays(-7),
+                        LastModified = DateTime.Now.AddDays(-6),
+                        Status = "In Transit",
+                        OrderNotes = "Express shipping requested",
+                        TotalAmount = 899.99m
+                    },
+                    new Order
+                    {
+                        AccountId = customerAccount.Id,
+                        OrderDate = DateTime.Now.AddDays(-2),
+                        LastModified = DateTime.Now.AddDays(-2),
+                        Status = "Processing",
+                        OrderNotes = "Gift wrapping requested",
+                        TotalAmount = 1049.98m
+                    },
+                    new Order
+                    {
+                        AccountId = customerAccount.Id,
+                        OrderDate = DateTime.Now.AddDays(-15),
+                        LastModified = DateTime.Now.AddDays(-14),
+                        Status = "Delivered",
+                        OrderNotes = "Special instructions for delivery",
+                        TotalAmount = 699.99m
+                    }
+                };
+
+                // Add and save orders individually to ensure proper ID assignment
+                foreach (var order in orders)
+                {
+                    // Explicitly set the Customer navigation property
+                    order.Customer = customer;
+                    context.Orders.Add(order);
+                    try {
+                        context.SaveChanges();
+                        Console.WriteLine($"Successfully added order with ID: {order.OrderId}");
+                    } catch (Exception ex) {
+                        Console.WriteLine($"Error adding order: {ex.Message}");
+                        if (ex.InnerException != null) {
+                            Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                        }
+                        throw;
+                    }
+                }
+
+                // Now retrieve the saved orders to get their IDs
+                var savedOrders = context.Orders.ToList();
+
+                // Get customer info for address
+                var customerName = $"{customer?.FirstName ?? "Customer"} {customer?.LastName ?? "User"}";
+
+                // Add order items
+                var orderItems = new List<OrderItem>
+                {
+                    new OrderItem
+                        { OrderId = savedOrders[0].OrderId, ProductId = 3, Quantity = 1, UnitPrice = 1499.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[0].OrderId, ProductId = 41, Quantity = 2, UnitPrice = 399.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[1].OrderId, ProductId = 33, Quantity = 1, UnitPrice = 899.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[2].OrderId, ProductId = 42, Quantity = 1, UnitPrice = 279.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[2].OrderId, ProductId = 47, Quantity = 1, UnitPrice = 199.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[2].OrderId, ProductId = 50, Quantity = 1, UnitPrice = 149.99m },
+                    new OrderItem
+                        { OrderId = savedOrders[3].OrderId, ProductId = 11, Quantity = 1, UnitPrice = 699.99m }
+                };
+
+                context.OrderItems.AddRange(orderItems);
+                context.SaveChanges();
+
+                // Create shipments 
+                var shipments = new List<Shipment>
+                {
+                    new Shipment
+                    {
+                        OrderId = savedOrders[0].OrderId,
+                        Status = "Delivered",
+                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}001",
+                        CarrierName = "AWE Express",
+                        EstimatedDeliveryDate = DateTime.Now.AddDays(-5),
+                        ShippedDate = DateTime.Now.AddDays(-8),
+                        DeliveredDate = DateTime.Now.AddDays(-5),
+                        DeliveryNotes = "Left at front door",
+                        ShippingAddress = $"{customerName}, {customer.Address}",
+                        CreatedDate = DateTime.Now.AddDays(-10),
+                        LastUpdated = DateTime.Now.AddDays(-5)
+                    },
+                    new Shipment
+                    {
+                        OrderId = savedOrders[1].OrderId,
+                        Status = "In Transit",
+                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}002",
+                        CarrierName = "AWE Express",
+                        EstimatedDeliveryDate = DateTime.Now.AddDays(1),
+                        ShippedDate = DateTime.Now.AddDays(-2),
+                        DeliveryNotes = "Package in transit to local facility",
+                        ShippingAddress = $"{customerName}, {customer.Address}",
+                        CreatedDate = DateTime.Now.AddDays(-7),
+                        LastUpdated = DateTime.Now.AddDays(-2)
+                    },
+                    new Shipment
+                    {
+                        OrderId = savedOrders[2].OrderId,
+                        Status = "Processing",
+                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}003",
+                        CarrierName = "AWE Express",
+                        EstimatedDeliveryDate = DateTime.Now.AddDays(5),
+                        DeliveryNotes = "Preparing for shipment",
+                        ShippingAddress = $"{customerName}, {customer.Address}",
+                        CreatedDate = DateTime.Now.AddDays(-2),
+                        LastUpdated = DateTime.Now.AddDays(-1)
+                    },
+                    new Shipment
+                    {
+                        OrderId = savedOrders[3].OrderId,
+                        Status = "Delivered",
+                        TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}004",
+                        CarrierName = "AWE Express",
+                        EstimatedDeliveryDate = DateTime.Now.AddDays(-10),
+                        ShippedDate = DateTime.Now.AddDays(-14),
+                        DeliveredDate = DateTime.Now.AddDays(-10),
+                        DeliveryNotes = "Signed by recipient",
+                        ShippingAddress = $"{customerName}, {customer.Address}",
+                        CreatedDate = DateTime.Now.AddDays(-15),
+                        LastUpdated = DateTime.Now.AddDays(-10)
+                    }
+                };
+
+                // Add shipments individually
+                foreach (var shipment in shipments)
+                {
+                    context.Shipments.Add(shipment);
+                    context.SaveChanges();
+                }
+
+                Console.WriteLine($"Successfully seeded {savedOrders.Count} orders and {shipments.Count} shipments");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error seeding orders and shipments: {ex.Message}");
+                if (ex.InnerException != null)
+                    Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+                throw;
+            }
+        }
+
         public static void SeedAll(AppDbContext context)
         {
             SeedTestProductsAndInventory(context);
             SeedOwnerAccount(context);
             SeedCustomerAccount(context);
+            SeedTestOrdersAndShipments(context);
         }
     }
 }

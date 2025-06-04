@@ -108,12 +108,9 @@ namespace ElectronicsStoreAss3.Data
                     .OnDelete(DeleteBehavior.SetNull)
                     .IsRequired(false); // This is crucial - allows NULL AccountId
 
-                // Order to Customer (Many-to-One) - ALLOW NULL for guest orders  
-                entity.HasOne(o => o.Customer)
-                    .WithMany()
-                    .HasForeignKey(o => o.AccountId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .IsRequired(false); // This is crucial - allows NULL AccountId
+                // Remove the direct foreign key relationship between Order and Customer
+                // Instead, configure the navigation property without a direct foreign key constraint
+                entity.Navigation(o => o.Customer).UsePropertyAccessMode(PropertyAccessMode.Property);
             });
 
             // OrderItem configuration
