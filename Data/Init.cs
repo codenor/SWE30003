@@ -716,7 +716,7 @@ namespace ElectronicsStoreAss3.Data
                 {
                     Console.WriteLine("Customer record not found for account ID: " + customerAccount.Id);
                     Console.WriteLine("Creating a new Customer record for this account.");
-                    
+
                     customer = new Customer
                     {
                         AccountId = customerAccount.Id,
@@ -730,7 +730,8 @@ namespace ElectronicsStoreAss3.Data
                     context.SaveChanges();
                 }
 
-                Console.WriteLine($"Using customer account with ID: {customerAccount.Id} and Customer ID: {customer.Id}");
+                Console.WriteLine(
+                    $"Using customer account with ID: {customerAccount.Id} and Customer ID: {customer.Id}");
 
                 // Create orders with valid AccountId
                 var orders = new List<Order>
@@ -779,14 +780,19 @@ namespace ElectronicsStoreAss3.Data
                     // Explicitly set the Customer navigation property
                     order.Customer = customer;
                     context.Orders.Add(order);
-                    try {
+                    try
+                    {
                         context.SaveChanges();
                         Console.WriteLine($"Successfully added order with ID: {order.OrderId}");
-                    } catch (Exception ex) {
+                    }
+                    catch (Exception ex)
+                    {
                         Console.WriteLine($"Error adding order: {ex.Message}");
-                        if (ex.InnerException != null) {
+                        if (ex.InnerException != null)
+                        {
                             Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
                         }
+
                         throw;
                     }
                 }
@@ -886,6 +892,7 @@ namespace ElectronicsStoreAss3.Data
 
                 Console.WriteLine($"Successfully seeded {savedOrders.Count} orders and {shipments.Count} shipments");
             }
+
             catch (Exception ex)
             {
                 Console.WriteLine($"Error seeding orders and shipments: {ex.Message}");
@@ -894,7 +901,7 @@ namespace ElectronicsStoreAss3.Data
                 throw;
             }
         }
-
+        
         public static void SeedAll(AppDbContext context)
         {
             SeedTestProductsAndInventory(context);

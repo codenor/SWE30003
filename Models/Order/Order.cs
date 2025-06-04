@@ -27,7 +27,19 @@ namespace ElectronicsStoreAss3.Models
         public DateTime LastModified { get; set; } = DateTime.Now;
 
         // Navigation properties
-        public virtual Customer? Customer { get; set; }
+        public virtual Customer? Customer 
+        { 
+            get 
+            {
+                if (_customer == null && AccountId.HasValue)
+                {
+                    return _customer;
+                }
+                return _customer;
+            }
+            set => _customer = value;
+        }
+        private Customer? _customer;
         public virtual Account? Account { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         

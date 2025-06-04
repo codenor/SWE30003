@@ -106,6 +106,7 @@ namespace ElectronicsStoreAss3.Services
 
         public async Task<bool> AddToCartAsync(int accountId, AddToCartRequest request)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
                 var cart = await GetOrCreateCartByAccountIdAsync(accountId);
@@ -113,34 +114,36 @@ namespace ElectronicsStoreAss3.Services
                     .Include(p => p.Inventory)
                     .FirstOrDefaultAsync(p => p.ProductId == request.ProductId && p.IsActive);
 
-                if (product == null || product.Inventory == null || !product.Inventory.IsInStock)
+                if (product?.Inventory == null || !product.Inventory.IsInStock)
+                {
+                    return false;
+                }
+
+                // Lock the inventory row to prevent race conditions
+                var inventory = await _context.Inventory
+                    .Where(i => i.ProductId == request.ProductId)
+                    .FirstOrDefaultAsync();
+
+                if (inventory == null || inventory.StockLevel < request.Quantity)
                 {
                     return false;
                 }
 
                 var existingItem = await _context.ShoppingCartItems
                     .FirstOrDefaultAsync(ci => ci.ShoppingCartId == cart.ShoppingCartId &&
-                                             ci.ProductId == request.ProductId);
+                                               ci.ProductId == request.ProductId);
 
                 if (existingItem != null)
                 {
                     var newQuantity = existingItem.Quantity + request.Quantity;
-
-                    if (newQuantity > product.Inventory.StockLevel)
+                    if (newQuantity > inventory.StockLevel)
                     {
                         return false;
                     }
-
                     existingItem.Quantity = newQuantity;
-                    existingItem.ShoppingCart!.LastModified = DateTime.Now;
                 }
                 else
                 {
-                    if (request.Quantity > product.Inventory.StockLevel)
-                    {
-                        return false;
-                    }
-
                     var cartItem = new ShoppingCartItem
                     {
                         ShoppingCartId = cart.ShoppingCartId,
@@ -149,16 +152,17 @@ namespace ElectronicsStoreAss3.Services
                         UnitPrice = product.Price,
                         AddedDate = DateTime.Now
                     };
-
                     _context.ShoppingCartItems.Add(cartItem);
-                    cart.LastModified = DateTime.Now;
                 }
 
+                cart.LastModified = DateTime.Now;
                 await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
                 return true;
             }
             catch
             {
+                await transaction.RollbackAsync();
                 return false;
             }
         }

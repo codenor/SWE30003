@@ -20,7 +20,7 @@
                     
                     <a href="@Url.Action("Orders", "Account")" 
                        class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")">
-                        <i class="bi bi-bag-check"></i> My Orders
+                        <i class="bi bi-bag-check"></i> Orders
                     </a>
                     
                     @if (User.IsInRole("Customer"))
@@ -41,22 +41,27 @@
                         <div class="list-group-item bg-light">
                             <strong><i class="bi bi-gear"></i> Admin</strong>
                         </div>
-                        
+    
                         <a href="@Url.Action("Index", "Product")" 
                            class="list-group-item list-group-item-action">
                             <i class="bi bi-box"></i> Manage Products
                         </a>
-                        
+    
+                        <a href="@Url.Action("Index", "Statistics")" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Statistics" ? "active" : "")">
+                            <i class="bi bi-graph-up"></i> Sales Statistics
+                        </a>
+    
                         <a href="@Url.Action("Index", "Shipment")" 
                            class="list-group-item list-group-item-action">
                             <i class="bi bi-truck"></i> All Shipments
                         </a>
-                        
+    
                         <a href="@Url.Action("Pending", "Shipment")" 
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Pending" ? "active" : "")">
                             <i class="bi bi-clock"></i> Pending Shipments
                         </a>
-                        
+    
                         <a href="@Url.Action("Overdue", "Shipment")" 
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Overdue" ? "active" : "")">
                             <i class="bi bi-exclamation-triangle"></i> Overdue Shipments

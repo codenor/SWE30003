@@ -40,9 +40,21 @@ button.accept-policy {
 }
 
 .footer {
-  position: relative;
+  position: absolute;
+  bottom: 0;
   width: 100%;
-  padding: 1rem 0;
+  padding: 0.5rem 0; /
   text-align: center;
   border-top: 1px solid #e5e5e5;
+  font-size: 0.9rem; /* Makes the text smaller */
+  line-height: 1.2; /* Tightens line spacing */
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+main {
+  padding-bottom: 60px; /* Should be slightly larger than footer height */
 }

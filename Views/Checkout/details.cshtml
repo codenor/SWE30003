@@ -5,111 +5,332 @@
     bool isLoggedIn = !string.IsNullOrEmpty(Model.Email);
 }
 
-<div class="container">
-    <h2>Checkout</h2>
-
+<div class="container mt-4">
     <div class="row">
-        <div class="col-md-6">
-            @if (isLoggedIn)
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Catalogue", "Product")">Shopping</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "ShoppingCart")">Cart</a></li>
+                    <li class="breadcrumb-item active">Checkout</li>
+                </ol>
+            </nav>
+            <h2><i class="bi bi-credit-card"></i> Checkout</h2>
+            
+            @if (!ViewData.ModelState.IsValid)
             {
+                <div class="alert alert-danger">
+                    <h6><i class="bi bi-exclamation-triangle"></i> Please fix the following errors:</h6>
+                    <ul class="mb-0">
+                        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+
+    <form asp-action="ProcessPayment" method="post" id="checkoutForm">
+        @Html.AntiForgeryToken()
+        
+        <div class="row">
+            <!-- Shipping Information -->
+            <div class="col-lg-7">
                 <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>Shipping Information</span>
-                        <a href="/Account" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <div class="card-header">
+                        <h5><i class="bi bi-truck"></i> Shipping Information</h5>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <small class="text-muted">
+                                <a href="@Url.Action("Index", "Account")" class="text-decoration-none">
+                                    <i class="bi bi-pencil"></i> Edit profile
+                                </a>
+                            </small>
+                        }
                     </div>
                     <div class="card-body">
-                        <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
-                        <p><strong>Email:</strong> @Model.Email</p>
-                        <p><strong>Mobile:</strong> @Model.Mobile</p>
-
-                        <form asp-action="ProcessPayment" method="post">
-                            <input type="hidden" asp-for="FirstName" />
-                            <input type="hidden" asp-for="LastName" />
-                            <input type="hidden" asp-for="Email" />
-                            <input type="hidden" asp-for="Mobile" />
-
-                            @if (string.IsNullOrWhiteSpace(Model.Address))
-                            {
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label asp-for="Address" class="form-label">Shipping Address</label>
-                                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
-                                    <span asp-validation-for="Address" class="text-danger"></span>
+                                    <label asp-for="FirstName" class="form-label">First Name *</label>
+                                    <input asp-for="FirstName" class="form-control" required />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="LastName" class="form-label">Last Name *</label>
+                                    <input asp-for="LastName" class="form-control" required />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label">Email Address *</label>
+                                    <input asp-for="Email" type="email" class="form-control" required />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Mobile" class="form-label">Mobile Number *</label>
+                                    <input asp-for="Mobile" class="form-control" placeholder="04XX XXX XXX" required />
+                                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                                    <div class="form-text">Australian mobile format: 04XX XXX XXX or +614X XXX XXX</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Shipping Address *</label>
+                            <textarea asp-for="Address" class="form-control" rows="3" 
+                                     placeholder="Street address, city, state, postcode" required></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Want to save this information?</strong>
+                                <a href="@Url.Action("Register", "Authentication")" class="alert-link">Create an account</a>
+                                or <a href="@Url.Action("Login", "Authentication")" class="alert-link">sign in</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-credit-card"></i> Payment Method</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Demo Mode:</strong> This is a demo checkout. No actual payment will be processed.
+                            Your order will be confirmed immediately upon submission.
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="credit" checked>
+                            <label class="form-check-label" for="creditCard">
+                                <i class="bi bi-credit-card"></i> Credit/Debit Card (Demo)
+                            </label>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                            <label class="form-check-label" for="paypal">
+                                <i class="bi bi-paypal"></i> PayPal (Demo)
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="afterpay" value="afterpay">
+                            <label class="form-check-label" for="afterpay">
+                                <i class="bi bi-calendar-check"></i> Afterpay (Demo)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-5">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-receipt"></i> Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Cart Items -->
+                        <div class="mb-3">
+                            @if (Model.Cart?.CartItems?.Any() == true)
+                            {
+                                @foreach (var item in Model.Cart.CartItems)
+                                {
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <h6 class="mb-0">@item.ProductName</h6>
+                                            <small class="text-muted">
+                                                SKU: @item.ProductSKU | Qty: @item.Quantity
+                                            </small>
+                                        </div>
+                                        <span class="fw-bold">$@item.TotalPrice.ToString("F2")</span>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    Your cart appears to be empty. Please add items before checkout.
+                                </div>
+                            }
+                        </div>
+
+                        @if (Model.Cart?.CartItems?.Any() == true)
+                        {
+                            <hr>
+
+                            <!-- Order Totals -->
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal (@Model.Cart.TotalItems items):</span>
+                                <span>$@Model.Cart.SubTotal.ToString("F2")</span>
+                            </div>
+
+                            @if (Model.Cart.ShippingFee > 0)
+                            {
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Shipping:</span>
+                                    <span>$@Model.Cart.ShippingFee.ToString("F2")</span>
                                 </div>
                             }
                             else
                             {
-                                <p><strong>Address:</strong> @Model.Address</p>
-                                <input type="hidden" asp-for="Address" />
+                                <div class="d-flex justify-content-between mb-2 text-success">
+                                    <span>Shipping:</span>
+                                    <span>Free</span>
+                                </div>
                             }
 
-                            <button type="submit" class="btn btn-primary w-100 mt-3">Confirm and Pay</button>
-                        </form>
-                    </div>
-                </div>
-            }
-            else
-            {
-                <div class="card mb-4">
-                    <div class="card-header">Shipping Information</div>
-                    <div class="card-body">
-                        <form asp-action="ProcessPayment" method="post">
-                            <div class="mb-3">
-                                <label asp-for="FirstName" class="form-label"></label>
-                                <input asp-for="FirstName" class="form-control" />
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>GST (10%):</span>
+                                <span>$@Model.Cart.GST.ToString("F2")</span>
                             </div>
-                            <div class="mb-3">
-                                <label asp-for="LastName" class="form-label"></label>
-                                <input asp-for="LastName" class="form-control" />
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+
+                            <hr>
+
+                            <div class="d-flex justify-content-between mb-3">
+                                <strong>Total:</strong>
+                                <strong class="text-primary fs-5">$@Model.Cart.GrandTotal.ToString("F2")</strong>
                             </div>
-                            <div class="mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" />
+
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg" id="submitOrder">
+                                    <i class="bi bi-lock"></i> Confirm and Pay
+                                </button>
+                                
+                                <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Back to Cart
+                                </a>
                             </div>
-                            <div class="mb-3">
-                                <label asp-for="Mobile" class="form-label"></label>
-                                <input asp-for="Mobile" class="form-control" />
-                                <span asp-validation-for="Mobile" class="text-danger"></span>
+
+                            <div class="text-center mt-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield-check"></i> Secure checkout - Demo mode
+                                </small>
                             </div>
-                            <div class="mb-3">
-                                <label asp-for="Address" class="form-label"></label>
-                                <textarea asp-for="Address" class="form-control" rows="3"></textarea>
-                                <span asp-validation-for="Address" class="text-danger"></span>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Confirm and Pay</button>
-                        </form>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="col-md-6">
-            <div class="card mb-4">
-                <div class="card-header">Order Summary</div>
-                <div class="card-body">
-                    <ul class="list-group mb-3">
-                        @foreach (var item in Model.Cart.CartItems)
-                        {
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
-                                <div>
-                                    <h6 class="my-0">@item.ProductName (x @item.Quantity)</h6>
-                                    <small class="text-muted">SKU: @item.ProductSKU</small>
-                                </div>
-                                <span class="text-muted">$@(item.UnitPrice * item.Quantity)</span>
-                            </li>
                         }
-                        <li class="list-group-item d-flex justify-content-between">
-                            <strong>Total</strong>
-                            <strong>$@Model.Cart.TotalAmount.ToString("F2")</strong>
-                        </li>
-                    </ul>
-                    <a href="/ShoppingCart" class="btn btn-link w-100 text-center">Back to Cart</a>
+                        else
+                        {
+                            <div class="d-grid">
+                                <a href="@Url.Action("Catalogue", "Product")" class="btn btn-primary">
+                                    <i class="bi bi-shop"></i> Continue Shopping
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="bi bi-truck"></i> Delivery Information</h6>
+                        <ul class="list-unstyled small mb-0">
+                            <li><i class="bi bi-check-circle text-success"></i> Free shipping on all orders</li>
+                            <li><i class="bi bi-check-circle text-success"></i> 5-7 business days delivery</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Tracking number provided</li>
+                            <li><i class="bi bi-check-circle text-success"></i> 30-day return policy</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Form validation and submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            const submitButton = document.getElementById('submitOrder');
+            
+            // Basic validation
+            const requiredFields = ['FirstName', 'LastName', 'Email', 'Mobile', 'Address'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldName => {
+                const field = document.querySelector(`input[name="${fieldName}"], textarea[name="${fieldName}"]`);
+                if (field && !field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('is-invalid');
+                } else if (field) {
+                    field.classList.remove('is-invalid');
+                }
+            });
+            
+            // Mobile validation
+            const mobileField = document.querySelector('input[name="Mobile"]');
+            if (mobileField && mobileField.value) {
+                const mobileRegex = /^(?:\+614|04)\d{8}$/;
+                if (!mobileRegex.test(mobileField.value)) {
+                    isValid = false;
+                    mobileField.classList.add('is-invalid');
+                }
+            }
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields correctly.');
+                return false;
+            }
+            
+            // Disable submit button to prevent double submission
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing Order...';
+            
+            // Re-enable after 15 seconds in case of error
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="bi bi-lock"></i> Confirm and Pay';
+            }, 15000);
+        });
+
+        // Mobile number formatting
+        document.querySelector('input[name="Mobile"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            // Format as Australian mobile number
+            if (value.startsWith('61') && value.length === 11) {
+                value = '+' + value;
+            } else if (value.startsWith('4') && value.length === 9) {
+                value = '0' + value;
+            }
+            
+            e.target.value = value;
+        });
+
+        // Real-time validation feedback
+        document.querySelectorAll('input[required], textarea[required]').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (this.value.trim()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
+        
+    </script>
 }

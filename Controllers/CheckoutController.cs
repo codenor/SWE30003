@@ -39,8 +39,16 @@ namespace ElectronicsStoreAss3.Controllers
                 var cart = await GetCurrentCartAsync();
                 if (cart == null || !cart.CartItems.Any())
                 {
-                    TempData["ToastMessage"] = "Your cart is empty.";
-                    TempData["ToastType"] = "error";
+                    TempData["ToastMessage"] = "Your cart is empty. Please add items before checkout.";
+                    TempData["ToastType"] = "warning";
+                    return RedirectToAction("Index", "ShoppingCart");
+                }
+
+                // Validate cart items are still in stock
+                if (!await ValidateCartStockAsync(cart))
+                {
+                    TempData["ToastMessage"] = "Some items in your cart are no longer available. Please review your cart.";
+                    TempData["ToastType"] = "warning";
                     return RedirectToAction("Index", "ShoppingCart");
                 }
 
@@ -63,25 +71,56 @@ namespace ElectronicsStoreAss3.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ProcessPayment(CheckoutViewModel model)
         {
+            // Always reload the cart from the backend - don't trust form data
+            model.Cart = await GetCurrentCartAsync() ?? new ShoppingCartViewModel();
+            
+            // Validate that cart has items
+            if (model.Cart.IsEmpty)
+            {
+                TempData["ToastMessage"] = "Your cart is empty. Please add items before checkout.";
+                TempData["ToastType"] = "warning";
+                return RedirectToAction("Index", "ShoppingCart");
+            }
+
+            // Custom validation for Australian mobile format
+            if (!string.IsNullOrEmpty(model.Mobile))
+            {
+                var mobileRegex = new System.Text.RegularExpressions.Regex(@"^(?:\+614|04)\d{8}$");
+                if (!mobileRegex.IsMatch(model.Mobile))
+                {
+                    ModelState.AddModelError("Mobile", "Enter a valid Australian mobile number (04XX XXX XXX or +614X XXX XXX)");
+                }
+            }
+
+            // Remove Cart from ModelState validation since we reload it from backend
+            ModelState.Remove("Cart");
+
             if (!ModelState.IsValid)
             {
-                // Reload cart data for redisplay
-                model.Cart = await GetCurrentCartAsync() ?? new ShoppingCartViewModel();
+                // Cart is already loaded above
                 return View("Details", model);
             }
 
             try
             {
+                _logger.LogInformation("Starting order processing for {Email}", model.Email);
+                
                 var result = await ProcessOrderAsync(model);
                 
                 if (result.IsSuccess)
                 {
-                    TempData["ToastMessage"] = $"Order #{result.OrderId} placed successfully! Tracking: {result.TrackingNumber}";
-                    TempData["ToastType"] = "success";
-                    return RedirectToAction("Details", "Order", new { id = result.OrderId });
+                    _logger.LogInformation("Order {OrderId} processed successfully", result.OrderId);
+                    
+                    TempData["OrderId"] = result.OrderId;
+                    TempData["TrackingNumber"] = result.TrackingNumber;
+                    TempData["CustomerName"] = $"{model.FirstName} {model.LastName}";
+                    TempData["OrderTotal"] = model.Cart.GrandTotal.ToString("F2");
+                    
+                    return RedirectToAction("Success");
                 }
                 else
                 {
+                    _logger.LogWarning("Order processing failed: {Error}", result.ErrorMessage);
                     TempData["ToastMessage"] = result.ErrorMessage;
                     TempData["ToastType"] = "error";
                     model.Cart = await GetCurrentCartAsync() ?? new ShoppingCartViewModel();
@@ -90,12 +129,38 @@ namespace ElectronicsStoreAss3.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during order processing");
-                TempData["ToastMessage"] = "An unexpected error occurred. Please try again.";
+                _logger.LogError(ex, "Unexpected error during order processing for {Email}", model.Email);
+                TempData["ToastMessage"] = "An unexpected error occurred during checkout. Please try again.";
                 TempData["ToastType"] = "error";
                 model.Cart = await GetCurrentCartAsync() ?? new ShoppingCartViewModel();
                 return View("Details", model);
             }
+        }
+
+        // GET: /Checkout/Success
+        [HttpGet]
+        public IActionResult Success()
+        {
+            var orderId = TempData["OrderId"] as int?;
+            var trackingNumber = TempData["TrackingNumber"] as string;
+            var customerName = TempData["CustomerName"] as string;
+            var orderTotal = TempData["OrderTotal"] as string;
+
+            if (!orderId.HasValue)
+            {
+                // No order data, redirect to home
+                return RedirectToAction("Index", "Home");
+            }
+
+            var viewModel = new CheckoutSuccessViewModel
+            {
+                OrderId = orderId.Value,
+                TrackingNumber = trackingNumber,
+                CustomerName = customerName,
+                OrderTotal = orderTotal
+            };
+
+            return View(viewModel);
         }
 
         #region Private Helper Methods
@@ -127,9 +192,7 @@ namespace ElectronicsStoreAss3.Controllers
             var idStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (!int.TryParse(idStr, out int id)) return null;
 
-            // Validate account exists (you might want to cache this)
-            var accountExists = _context.Accounts.Any(a => a.Id == id);
-            return accountExists ? id : null;
+            return id;
         }
 
         private static CheckoutViewModel CreateCheckoutViewModel(ShoppingCartViewModel cart, Customer? customer)
@@ -145,15 +208,30 @@ namespace ElectronicsStoreAss3.Controllers
             };
         }
 
+        private async Task<bool> ValidateCartStockAsync(ShoppingCartViewModel cart)
+        {
+            foreach (var item in cart.CartItems)
+            {
+                var inventory = await _context.Inventory
+                    .FirstOrDefaultAsync(i => i.ProductId == item.ProductId);
+                
+                if (inventory == null || inventory.StockLevel < item.Quantity)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private async Task<OrderProcessingResult> ProcessOrderAsync(CheckoutViewModel model)
         {
             var cart = await GetCurrentCartAsync();
             if (cart == null || !cart.CartItems.Any())
             {
-                return OrderProcessingResult.Failure("Cart is empty");
+                return OrderProcessingResult.Failure("Cart is empty or could not be retrieved");
             }
 
-            // Validate stock levels
+            // Final stock validation
             var stockValidation = await ValidateStockLevelsAsync(cart.CartItems);
             if (!stockValidation.IsValid)
             {
@@ -164,37 +242,47 @@ namespace ElectronicsStoreAss3.Controllers
             
             try
             {
+                _logger.LogInformation("Creating order for {Email}", model.Email);
+                
                 // 1. Create order
                 var order = await CreateOrderAsync(model, cart);
+                _logger.LogInformation("Order {OrderId} created", order.OrderId);
                 
                 // 2. Create order items
                 await CreateOrderItemsAsync(order.OrderId, cart.CartItems);
+                _logger.LogInformation("Order items created for order {OrderId}", order.OrderId);
                 
                 // 3. Update inventory
                 await UpdateInventoryAsync(cart.CartItems);
+                _logger.LogInformation("Inventory updated for order {OrderId}", order.OrderId);
                 
                 // 4. Create shipment
                 var shipment = await CreateShipmentAsync(order.OrderId, model);
+                _logger.LogInformation("Shipment {TrackingNumber} created for order {OrderId}", shipment.TrackingNumber, order.OrderId);
                 
                 // 5. Generate invoice
                 var invoice = await _invoiceService.GenerateInvoiceAsync(order.OrderId);
+                _logger.LogInformation("Invoice {InvoiceNumber} generated for order {OrderId}", invoice.InvoiceNumber, order.OrderId);
                 
-                // 6. Send invoice email
+                // 6. Send invoice email (demo - just log it)
                 await _invoiceService.SendInvoiceEmailAsync(invoice.InvoiceId);
+                _logger.LogInformation("Invoice email sent for order {OrderId}", order.OrderId);
                 
                 // 7. Clear cart
                 await ClearCurrentCartAsync();
+                _logger.LogInformation("Cart cleared for order {OrderId}", order.OrderId);
                 
                 await transaction.CommitAsync();
                 
-                _logger.LogInformation("Order {OrderId} completed successfully", order.OrderId);
+                _logger.LogInformation("Order {OrderId} completed successfully with tracking {TrackingNumber}", 
+                    order.OrderId, shipment.TrackingNumber);
                 
                 return OrderProcessingResult.Success(order.OrderId, shipment.TrackingNumber);
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                _logger.LogError(ex, "Error processing order");
+                _logger.LogError(ex, "Error processing order for {Email}", model.Email);
                 throw;
             }
         }
@@ -204,11 +292,22 @@ namespace ElectronicsStoreAss3.Controllers
             foreach (var item in cartItems)
             {
                 var inventory = await _context.Inventory
+                    .Include(i => i.Product)
                     .FirstOrDefaultAsync(i => i.ProductId == item.ProductId);
                 
-                if (inventory == null || inventory.StockLevel < item.Quantity)
+                if (inventory == null)
                 {
-                    return (false, $"Insufficient stock for {item.ProductName}");
+                    return (false, $"Product '{item.ProductName}' is no longer available");
+                }
+                
+                if (inventory.StockLevel < item.Quantity)
+                {
+                    return (false, $"Insufficient stock for '{item.ProductName}'. Only {inventory.StockLevel} available, but {item.Quantity} requested");
+                }
+
+                if (!inventory.Product.IsActive)
+                {
+                    return (false, $"Product '{item.ProductName}' is no longer available for purchase");
                 }
             }
             
@@ -223,7 +322,8 @@ namespace ElectronicsStoreAss3.Controllers
                 OrderDate = DateTime.Now,
                 TotalAmount = cart.GrandTotal,
                 Status = "Confirmed",
-                OrderNotes = $"Order placed by {model.FirstName} {model.LastName} ({model.Email})"
+                OrderNotes = $"Order placed by {model.FirstName} {model.LastName} ({model.Email}). Mobile: {model.Mobile}",
+                LastModified = DateTime.Now
             };
             
             _context.Orders.Add(order);
@@ -257,6 +357,13 @@ namespace ElectronicsStoreAss3.Controllers
                 {
                     inventory.StockLevel -= item.Quantity;
                     inventory.LastUpdated = DateTime.Now;
+                    
+                    // Ensure stock doesn't go negative
+                    if (inventory.StockLevel < 0)
+                    {
+                        _logger.LogWarning("Stock level went negative for product {ProductId}. Setting to 0.", item.ProductId);
+                        inventory.StockLevel = 0;
+                    }
                 }
             }
             
@@ -270,12 +377,13 @@ namespace ElectronicsStoreAss3.Controllers
             {
                 OrderId = orderId,
                 Status = "Processing",
-                EstimatedDeliveryDate = DateTime.Now.AddDays(5),
+                EstimatedDeliveryDate = DateTime.Now.AddBusinessDays(5), // Use business days
                 ShippingAddress = shippingAddress,
                 CreatedDate = DateTime.Now,
                 LastUpdated = DateTime.Now,
                 CarrierName = "AWE Express",
-                TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}{orderId:D6}"
+                TrackingNumber = $"AWE{DateTime.Now:yyyyMMdd}{orderId:D6}",
+                DeliveryNotes = "Standard delivery"
             };
             
             _context.Shipments.Add(shipment);
@@ -324,6 +432,33 @@ namespace ElectronicsStoreAss3.Controllers
                 IsSuccess = false,
                 ErrorMessage = errorMessage
             };
+        }
+    }
+
+    // Extension method for business days calculation
+    public static class DateTimeExtensions
+    {
+        public static DateTime AddBusinessDays(this DateTime startDate, int businessDays)
+        {
+            if (businessDays == 0) return startDate;
+
+            int direction = Math.Sign(businessDays);
+            int businessDaysRemaining = Math.Abs(businessDays);
+            DateTime current = startDate;
+
+            while (businessDaysRemaining > 0)
+            {
+                current = current.AddDays(direction);
+                
+                // Skip weekends
+                if (current.DayOfWeek != DayOfWeek.Saturday && 
+                    current.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    businessDaysRemaining--;
+                }
+            }
+
+            return current;
         }
     }
 }

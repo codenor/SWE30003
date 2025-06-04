@@ -4,7 +4,8 @@ namespace ElectronicsStoreAss3.Models
 {
     public class CheckoutViewModel
     {
-        public ShoppingCartViewModel Cart { get; set; } = null!;
+        // Remove the [Required] attribute from Cart since it's not a form field
+        public ShoppingCartViewModel Cart { get; set; } = new ShoppingCartViewModel();
 
         [Required(ErrorMessage = "First name is required")]
         [StringLength(50)]
@@ -25,6 +26,9 @@ namespace ElectronicsStoreAss3.Models
         [Required(ErrorMessage = "Address is required")]
         [StringLength(500)]
         public string? Address { get; set; }
+
+        // Optional payment method field
+        public string PaymentMethod { get; set; } = "credit";
 
         // Helper properties
         public bool IsLoggedIn => !string.IsNullOrEmpty(Email);

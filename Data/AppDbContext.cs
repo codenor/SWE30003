@@ -84,7 +84,7 @@ namespace ElectronicsStoreAss3.Data
 
             // ShoppingCartItem configuration
             modelBuilder.Entity<ShoppingCartItem>(entity =>
-            {
+            {   
                 entity.HasKey(e => e.ShoppingCartItemId);
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)");
 
@@ -110,11 +110,15 @@ namespace ElectronicsStoreAss3.Data
                     .WithMany()
                     .HasForeignKey(o => o.AccountId)
                     .OnDelete(DeleteBehavior.SetNull)
-                    .IsRequired(false); // This is crucial - allows NULL AccountId
+                    .IsRequired(false);
 
-                // Remove the direct foreign key relationship between Order and Customer
-                // Instead, configure the navigation property without a direct foreign key constraint
-                entity.Navigation(o => o.Customer).UsePropertyAccessMode(PropertyAccessMode.Property);
+                // Configure Customer navigation manually
+                entity.HasOne(o => o.Customer)
+                    .WithMany()
+                    .HasForeignKey(o => o.AccountId)
+                    .HasPrincipalKey(c => c.AccountId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .IsRequired(false);
             });
 
             // OrderItem configuration

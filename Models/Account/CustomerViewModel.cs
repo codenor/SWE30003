@@ -19,6 +19,7 @@ namespace ElectronicsStoreAss3.Models
         [Required]
         public string Mobile { get; set; } = null!;
 
+        [StringLength(500)]
         public string? Address { get; set; }
 
         [ForeignKey("Email")]
