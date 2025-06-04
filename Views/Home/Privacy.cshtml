@@ -1,6 +1,324 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy Policy - The Secret Dimension";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<canvas class="matrix-bg" id="matrix"></canvas>
+
+<div class="secret-message" id="secretMessage">
+    🎮 Konami Code Activated! 🎮
+</div>
+
+<div class="container py-4">
+    <h1 class="main-title">THE SECRET DIMENSION</h1>
+
+    <div class="secret-card p-5 mb-5">
+        <div class="text-center">
+            <h2 class="secret-title">🎯 ELITE HACKER DETECTED 🎯</h2>
+            <p class="lead mb-4">
+                You've discovered the legendary Easter Egg Portal! Only 0.01% of visitors find this place.
+            </p>
+
+            <button class="beast-button mb-4" id="beastButton">
+                🔥 UNLEASH THE BEAST 🔥
+            </button>
+
+            <div class="easter-stage" id="easterStage">
+                <div class="dragon-egg" id="mysticalEgg">🥚</div>
+                <div class="magic-particles" id="particles"></div>
+            </div>
+
+            <div class="mt-4">
+                <p class="secret-achievement">
+                    💎 SECRET ACHIEVEMENT UNLOCKED 💎
+                </p>
+                <p class="secret-hint">
+                    Try the Konami Code: ↑↑↓↓←→←→BA
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <div class="accordion" id="privacyAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne">
+                        🤖 The Actually Cool Privacy Policy 🤖
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#privacyAccordion">
+                    <div class="accordion-body">
+                        <h5 class="privacy-header">🛡️ Your Data Is Sacred</h5>
+                        <p>We guard your information like a dragon guards its treasure. Seriously.</p>
+                        <ul>
+                            <li>🔐 Military-grade encryption (because we're extra like that)</li>
+                            <li>🍪 Cookies that actually taste good (digitally speaking)</li>
+                            <li>🚫 Zero data selling (we're not evil corporate overlords)</li>
+                            <li>🎭 Anonymous browsing respect (we don't judge your 3AM shopping)</li>
+                            <li>🗑️ Right to deletion (disappear like a ninja if you want)</li>
+                        </ul>
+                        <p class="contact-info">
+                            Questions? Summon us at
+                            <a href="mailto:privacy@electronics.com" class="privacy-link">privacy@aweelectronics.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/privacy.css"/>
+}
+
+@section Scripts {
+    <script>
+        // Matrix rain effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@@#$%^&*()*&^%+-/~{[|`]}";
+        const matrixArray = matrix.split("");
+
+        const fontSize = 18; 
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        const speedFactors = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = Math.floor(Math.random() * -30); // Start some off-screen for staggered effect
+            speedFactors[x] = 0.5 + Math.random() * 1.5; // Random speeds
+        }
+
+        // Add a bloom effect
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = '#00ff41';
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawMatrix() {
+            // More fade for less intense background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < drops.length; i++) {
+                const isSpecial = Math.random() > 0.97;
+
+                if (isSpecial) {
+                    // Highlighted character - slightly less bright
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                    ctx.shadowBlur = 12;
+                    ctx.font = (fontSize + 4) + 'px monospace';
+                    ctx.shadowColor = 'rgba(128, 255, 255, 0.8)';
+                } else {
+                    // Less intense greens for normal characters
+                    const green = 100 + Math.floor(Math.random() * 105);
+                    ctx.fillStyle = `rgba(0, ${green}, ${Math.floor(green/3)}, 0.8)`;
+                    ctx.shadowBlur = 2;
+                    ctx.shadowColor = 'rgba(0, 200, 65, 0.6)';
+                    ctx.font = fontSize + 'px "Geist Mono", monospace';
+                }
+
+                // Draw the character
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                // Reset when off screen with randomized timing
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+
+                // Update position with varied speed
+                drops[i] += speedFactors[i];
+            }
+
+            // Create occasional "ripples" in the matrix
+            if (Math.random() > 0.98) {
+                const rippleX = Math.random() * canvas.width;
+                const rippleY = Math.random() * canvas.height;
+                createMatrixRipple(rippleX, rippleY);
+            }
+        }
+
+        function createMatrixRipple(x, y) {
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fill();
+
+            // Animate ripple
+            let size = 10;
+            const rippleInterval = setInterval(() => {
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(0, 255, 65, ${1 - size / 100})`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                size += 5;
+                if (size > 100) clearInterval(rippleInterval);
+            }, 30);
+        }
+
+        // Add interactive effect - matrix responds to mouse movement
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+
+            // Affect matrix near cursor
+            const radius = 100;
+            for (let i = 0; i < drops.length; i++) {
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+                const distance = Math.sqrt((x - mouseX) ** 2 + (y - mouseY) ** 2);
+
+                if (distance < radius) {
+                    speedFactors[i] = 2 + Math.random() * 2; // Speed up nearby drops
+                } else {
+                    // Gradually return to normal speed
+                    speedFactors[i] = speedFactors[i] * 0.95 + (0.5 + Math.random() * 1.5) * 0.05;
+                }
+            }
+        });
+        setInterval(drawMatrix, 35);
+        
+
+        // Beast button functionality
+        let stage = 0;
+        const stages = ['🥚', '🔥', '🐉', '🔥🐉🔥', '🌟🔥🐉🔥🌟'];
+
+        document.getElementById('beastButton').addEventListener('click', function () {
+            const egg = document.getElementById('mysticalEgg');
+            const particlesContainer = document.getElementById('particles');
+
+            stage = (stage + 1) % stages.length;
+
+            // Clear previous particles
+            particlesContainer.innerHTML = '';
+
+            // Update the creature
+            egg.textContent = stages[stage];
+
+            // Add effects based on stage
+            if (stage === 1) {
+                // Fire stage
+                createFireworks();
+                egg.style.animation = 'shake 0.5s ease-in-out 3';
+            } else if (stage === 2) {
+                // Dragon stage
+                egg.className = 'dragon';
+                createMagicParticles();
+            } else if (stage === 3) {
+                // Epic dragon
+                egg.className = 'phoenix';
+                createFireworks();
+                createMagicParticles();
+            } else if (stage === 4) {
+                // Ultimate form
+                egg.style.animation = 'phoenixRise 1s ease-in-out infinite, textGlow 2s ease-in-out infinite';
+                createEpicExplosion();
+            } else {
+                // Reset
+                egg.className = 'dragon-egg';
+                egg.style.animation = 'float 2s ease-in-out infinite';
+            }
+        });
+
+        function createMagicParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.background = ['#00ffff', '#ff00ff', '#39ff14'][Math.floor(Math.random() * 3)];
+                    particle.style.animationDelay = Math.random() * 2 + 's';
+                    container.appendChild(particle);
+
+                    setTimeout(() => particle.remove(), 3000);
+                }, i * 100);
+            }
+        }
+
+        function createFireworks() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 10; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'fireworks';
+                firework.style.left = Math.random() * 100 + '%';
+                firework.style.top = Math.random() * 100 + '%';
+                firework.style.background = ['#ff4500', '#ffd700', '#ff69b4', '#00ffff'][Math.floor(Math.random() * 4)];
+                container.appendChild(firework);
+
+                setTimeout(() => firework.remove(), 1000);
+            }
+        }
+
+        function createEpicExplosion() {
+            createFireworks();
+            createMagicParticles();
+
+            // Screen flash
+            document.body.style.background = '#ffffff';
+            setTimeout(() => {
+                document.body.style.background = '';
+            }, 100);
+        }
+
+        // Konami Code Easter Egg
+        const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', function (e) {
+            if (e.keyCode === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    activateKonamiMode();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        function activateKonamiMode() {
+            document.body.classList.add('konami-activated');
+            document.getElementById('secretMessage').classList.add('show');
+
+            // Play epic sequence
+            setTimeout(() => {
+                document.body.classList.remove('konami-activated');
+                document.getElementById('secretMessage').classList.remove('show');
+            }, 5000);
+
+            // Extra particles everywhere
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createFireworks();
+                }, i * 100);
+            }
+        }
+
+        // Egg click handler
+        document.getElementById('mysticalEgg').addEventListener('click', function () {
+            this.style.transform = 'scale(1.5) rotate(360deg)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 500);
+        });
+
+        // Resize handler for canvas
+        window.addEventListener('resize', function () {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+}
