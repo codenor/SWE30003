@@ -33,13 +33,13 @@
         </div>
     </div>
 
-    <form asp-action="Delete" method="post">
+    <form asp-route="AdminProducts" asp-route-action="Delete" method="post">
         <input asp-for="ProductId" type="hidden"/>
         <div class="mt-3">
             <button type="submit" class="btn btn-danger">
                 <i class="bi bi-trash"></i> Delete Product
             </button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <a asp-route="AdminProducts" asp-route-action="Index" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

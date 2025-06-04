@@ -7,7 +7,7 @@
 <div class="container py-5">
     <h2>Edit Product</h2>
 
-    <form asp-action="Edit">
+    <form asp-route="AdminProducts" asp-route-action="Edit">
         <input asp-for="ProductId" type="hidden" />
     
         <div class="row">
@@ -71,7 +71,7 @@
     
         <div class="form-group mt-3">
             <input type="submit" value="Save" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-route="AdminProducts" asp-route-action="Index" class="btn btn-secondary">Back to List</a>
         </div>
     </form>
 </div>

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ElectronicsStoreAss3.Controllers
 {
-    [Authorize(Roles = "Owner")]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -16,6 +15,7 @@ namespace ElectronicsStoreAss3.Controllers
         }
 
         // GET: Product 
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllProductsAsync();
@@ -58,6 +58,7 @@ namespace ElectronicsStoreAss3.Controllers
         }
 
         // GET: Product/Create
+        [Authorize(Roles = "Owner")]
         public IActionResult Create()
         {
             var productViewModel = new ProductViewModel
@@ -72,6 +73,7 @@ namespace ElectronicsStoreAss3.Controllers
         // POST: Product/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Create(ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
@@ -93,6 +95,7 @@ namespace ElectronicsStoreAss3.Controllers
         }
 
         // GET: Product/Edit/SKU
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -106,6 +109,7 @@ namespace ElectronicsStoreAss3.Controllers
         // POST: Product/Edit/SKU
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Edit(int id, ProductViewModel productViewModel)
         {
             if (id != productViewModel.ProductId)
@@ -132,6 +136,7 @@ namespace ElectronicsStoreAss3.Controllers
         }
 
         // GET: Product/Delete/SKU
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productService.GetProductByIdAsync(id);
@@ -145,6 +150,7 @@ namespace ElectronicsStoreAss3.Controllers
         // POST: Product/Delete/SKU
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Owner")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var success = await _productService.DeleteProductAsync(id);
