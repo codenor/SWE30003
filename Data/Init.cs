@@ -602,7 +602,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Industry-leading noise canceling with exceptional sound quality.",
                     Specifications =
                         "Industry-leading noise canceling\n30-hour battery life\nMultipoint connection\nSpeak-to-Chat technology\nTouch Sensor controls\nQuick Charge",
-                    ImagePath = "https://www.sony.com.au/image/6145c1d32e6ac8e63a46c912dc33c5bb",
+                    ImagePath = "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw280eceea/images/WH1000XM5L/WH1000XM5L.png",
                     IsActive = true
                 },
                 new()
