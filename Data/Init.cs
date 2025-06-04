@@ -75,7 +75,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.7-inch Super Retina XDR display\nA17 Pro chip\n256GB storage\nPro camera system with 5x Telephoto\nTitanium design\nUSB-C connector",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-max-naturaltitanium.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/746483-Product-0-I-638615190006144138.jpg?v=1735868822",
                     IsActive = true
                 },
                 new()
@@ -86,7 +86,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.1-inch Super Retina XDR display\nA17 Pro chip\n128GB storage\nPro camera system with 3x Telephoto\nTitanium design\nAction Button",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-naturaltitanium.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/746468-Product-0-I-638615207420385582.jpg?v=1735868837",
                     IsActive = true
                 },
                 new()
@@ -97,7 +97,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.1-inch Super Retina XDR display\nA16 Bionic chip\n128GB storage\n48MP Main camera\nDynamic Island\nUSB-C connector",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pink.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/products/639168-Product-0-I-638301483010334192.jpg?v=1698811953",
                     IsActive = true
                 },
                 new()
@@ -109,7 +109,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.8-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n200MP quad camera system\nBuilt-in S Pen\nTitanium frame",
                     ImagePath =
-                        "https://images.samsung.com/au/smartphones/galaxy-s24-ultra/buy/carousel/mobile/01-carousel-kv-s24-ultra-titanium-gray-mobile.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/672256-Product-0-I-638490165603385142.jpg?v=1713419788",
                     IsActive = true
                 },
                 new()
@@ -120,7 +120,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.7-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
                     ImagePath =
-                        "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-plus-marble-gray-mobile.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/672255-Product-0-I-638490165604779472_4b6497e5-061b-4f4c-ab84-638183a5d02c.jpg?v=1716881250",
                     IsActive = true
                 },
                 new()
@@ -131,7 +131,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.2-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 3\n128GB storage\n50MP triple camera system\nGalaxy AI features\nArmor Aluminum frame",
                     ImagePath =
-                        "https://images.samsung.com/au/smartphones/galaxy-s24/buy/carousel/mobile/01-carousel-kv-s24-marble-gray-mobile.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/672240-Product-0-I-638490161404439522_83f02869-9d14-4bad-87eb-f477c44e2608.jpg?v=1716881004",
                     IsActive = true
                 },
                 new()
@@ -141,7 +141,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Google's most advanced Pixel with Tensor G3 and AI photography features.",
                     Specifications =
                         "6.7-inch LTPO OLED display\nGoogle Tensor G3\n128GB storage\n50MP triple camera system\nMagic Eraser\n7 years of updates",
-                    ImagePath = "https://lh3.googleusercontent.com/lJn7xiJXGp__AeJsqOPSh8BgYGJ6mgx6YGiP8Z-d5fQ",
+                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/662718-Product-0-I-638302518603197997.jpg?v=1717049313",
                     IsActive = true
                 },
                 new()
@@ -151,7 +151,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Pure Google experience with advanced computational photography.",
                     Specifications =
                         "6.2-inch OLED display\nGoogle Tensor G3\n128GB storage\n50MP dual camera system\nMagic Eraser\n7 years of updates",
-                    ImagePath = "https://lh3.googleusercontent.com/pixel8-image.jpg",
+                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/662713-Product-0-I-638319943214794111.jpg?v=1717049072",
                     IsActive = true
                 },
                 new()
@@ -162,7 +162,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n256GB storage\n50MP triple camera system\n100W SuperVOOC charging\nOxygenOS 14",
                     ImagePath =
-                        "https://oasis.opstatics.com/content/dam/oasis/page/2024/global/products/12/pc/1-intro-green.png",
+                        "https://m.media-amazon.com/images/I/715PZO9NA0L._AC_UF894,1000_QL80_.jpg",
                     IsActive = true
                 },
                 new()
@@ -172,7 +172,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Photography powerhouse with Leica cameras and Snapdragon 8 Gen 3.",
                     Specifications =
                         "6.73-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Leica camera system\n90W fast charging\nMIUI 15",
-                    ImagePath = "https://i02.appmifile.com/mi-com-product/fly-birds/xiaomi-14-ultra/pc/black.png",
+                    ImagePath = "https://m.media-amazon.com/images/I/41Yb3ZpArjL.jpg",
                     IsActive = true
                 },
                 new()
@@ -182,7 +182,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Unique transparent design with Glyph Interface and clean Android experience.",
                     Specifications =
                         "6.7-inch AMOLED display\nMediaTek Dimensity 7200 Pro\n256GB storage\n50MP dual camera system\nGlyph Interface\nNothing OS 2.5",
-                    ImagePath = "https://nothing.tech/cdn/shop/files/Phone-2a-Milk-1.png",
+                    ImagePath = "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRMtBHjJqJDHixqV6h-TSV6rSJuRyUCAWhQxiP331EOshpuz9XpHKuTcfxjDZfWDawjkbPjnHpv3kkv1F-yPmQYuN-INISt",
                     IsActive = true
                 },
                 new()
@@ -192,7 +192,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Professional camera phone with 4K 120Hz display and Alpha camera technology.",
                     Specifications =
                         "6.5-inch 4K OLED display\nSnapdragon 8 Gen 3\n256GB storage\n48MP triple camera system\nAlpha camera tech\n3.5mm headphone jack",
-                    ImagePath = "https://www.sony.com.au/image/5d02da5df552836db894b213e5c49cc0",
+                    ImagePath = "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTWa7M78wX5nMfd8p1MHT3DLZ0V7oPBrYISy_mLHDDSXL0jj5JGLYCgOhTeemkQ1qiZh3b0VVsOXIP7H3qTZ47DeZDTtZrcDaTtrmOrCQOMO-oubOJFbGDMpjQ",
                     IsActive = true
                 },
                 new()
@@ -203,7 +203,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.82-inch LTPO AMOLED display\nSnapdragon 8 Gen 3\n512GB storage\n50MP quad Hasselblad camera system\n100W SuperVOOC charging\nColorOS 14",
                     ImagePath =
-                        "https://image01.oppo.com/content/dam/oppo/common/mkt/v2-2/find-x7-ultra/navigation/find-x7-ultra-brown.png",
+                        "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTaUw0wtyZ8Xie0JpBOfUvtMt79pl336AXo0M4Rng_0neeJvY2jo3TmE6KsB5y2muD-nktpWazh1YzVOgqvV1MLAZSPzV4_",
                     IsActive = true
                 },
                 new()
@@ -214,7 +214,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "6.67-inch LTPO OLED display\nSnapdragon 8+ Gen 1\n256GB storage\n48MP triple camera system\nUltra Lighting camera\nHarmonyOS 3.1",
                     ImagePath =
-                        "https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/phones/p60-pro/images/kv/p60-pro-kv-white.png",
+                        "https://i.ebayimg.com/images/g/vlIAAOSwnlxkHRlo/s-l1200.jpg",
                     IsActive = true
                 },
                 new()
@@ -225,7 +225,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Premium smartphone with 200MP camera and 125W fast charging.",
                     Specifications =
                         "6.7-inch pOLED display\nSnapdragon 8s Gen 3\n512GB storage\n50MP triple camera system\n125W TurboPower charging\nMyUX on Android 14",
-                    ImagePath = "https://motorola-global-portal.s3.amazonaws.com/images/edge-50-ultra-peach-fuzz.png",
+                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/781690-Product-0-I-638593570204663109.jpg?v=1723770674",
                     IsActive = true
                 },
 
@@ -238,7 +238,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "16.2-inch Liquid Retina XDR display\nApple M3 Max chip\n36GB unified memory\n1TB SSD storage\n40-core GPU\n22-hour battery life\nThunderbolt 4 ports",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp16-spacegray-select-202310.jpg",
+                        "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSi5AuDf6KFUWfoXRyoiMWntrok8FrnGiQOti8ntQHUJ00IKJYiyUqW4E6ENsa3DIir2d2RQA4_k0B_JilT3P3LATh4F02zSHILnd7giHMv05zH5WX7q-rdNQ",
                     IsActive = true
                 },
                 new()
@@ -249,7 +249,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "14.2-inch Liquid Retina XDR display\nApple M3 Pro chip\n18GB unified memory\n512GB SSD storage\n18-core GPU\n18-hour battery life\nThunderbolt 4 ports",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mbp14-spacegray-select-202310.jpg",
+                        "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQldArsc5nTexVCv_cJWfYKG56we6mcQK1ki1PQoPY542XILNtD",
                     IsActive = true
                 },
                 new()
@@ -260,7 +260,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "15.3-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n10-core GPU\n18-hour battery life\nMagSafe 3 charging",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba15-midnight-select-202306.jpg",
+                        "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTOENkVwsPMuIlJgctA1WTi-FTMGeV2sm0KDuF2nE48ts--cDA",
                     IsActive = true
                 },
                 new()
@@ -271,7 +271,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "13.6-inch Liquid Retina display\nApple M3 chip\n8GB unified memory\n256GB SSD storage\n8-core GPU\n18-hour battery life\nMagSafe 3 charging",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/mba13-midnight-select-202402.jpg",
+                        "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTXeAfyrN_N-wIyxh75ZXe5Xd2LQz7GF4ZTy6P4suIaMy5y6cA",
                     IsActive = true
                 },
                 new()
@@ -282,7 +282,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "15.6-inch 3.5K OLED InfinityEdge display\nIntel Core i7-13700H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nThunderbolt 4\nWindows 11 Pro",
                     ImagePath =
-                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/notebook-xps-15-9530-nt-silver-gallery-1.psd",
+                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-15-9530/media-gallery/touch-black/notebook-xps-15-9530-t-black-gallery-5.psd",
                     IsActive = true
                 },
                 new()
@@ -293,7 +293,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "13.4-inch 4K+ InfinityEdge display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Home",
                     ImagePath =
-                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/xps-13-9315/media-gallery/notebook-xps-13-9315-nt-silver-gallery-1.psd",
+                        "https://m.media-amazon.com/images/I/710EGJBdIML.jpg",
                     IsActive = true
                 },
                 new()
@@ -304,7 +304,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Most powerful Surface laptop with unique rotating touchscreen design.",
                     Specifications =
                         "14.4-inch PixelSense Flow touchscreen\nIntel Core i7-13700H\n32GB LPDDR5X RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4060\nSurface Pen support\nWindows 11 Pro",
-                    ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW16TUt",
+                    ImagePath = "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/b00-Surface-Laptop-Studio-2-03",
                     IsActive = true
                 },
                 new()
@@ -315,7 +315,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Elegant laptop with premium materials and excellent performance.",
                     Specifications =
                         "13.5-inch PixelSense touchscreen\nAMD Ryzen 7 5980HS\n16GB LPDDR4X RAM\n512GB PCIe SSD\nAMD Radeon Graphics\nSurface Pen support\nWindows 11 Home",
-                    ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW15cpb",
+                    ImagePath = "https://www.jbhifi.com.au/cdn/shop/files/805977-Product-0-I-638821678815712286.jpg?v=1746571157",
                     IsActive = true
                 },
                 new()
@@ -327,7 +327,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "14-inch 2.8K OLED display\nIntel Core i7-1365U\n32GB LPDDR5 RAM\n1TB PCIe SSD\nIntel Iris Xe Graphics\nThunderbolt 4\nWindows 11 Pro",
                     ImagePath =
-                        "https://p1-ofp.static.pub/medias/bWFzdGVyfHJvb3R8MzczNzU4fGltYWdlL3BuZ3xoMTYvaDc4LzE0NDk4Mzc5MzE1MjMwLnBuZ3xhOWIzYjUzZDVhNmY1YzllNzNhNzJhZmViMzFhMGE1MjZkOWNmZmUzZmQwZDE1NGU1YWZlZjQyMDNjZGVhMGVj",
+                        "https://p3-ofp.static.pub//fes/cms/2024/07/05/umcrxcnsm2br1itju6gvundeb9s6tf364734.png",
                     IsActive = true
                 },
                 new()
@@ -337,7 +337,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Convertible laptop with 3K OLED display and premium design.",
                     Specifications =
                         "16-inch 3K OLED touchscreen\nIntel Core i7-13700H\n16GB DDR5 RAM\n1TB PCIe SSD\nIntel Arc A370M Graphics\nHP Pen included\nWindows 11 Home",
-                    ImagePath = "https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c08271538.png",
+                    ImagePath = "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQa0YD7pgegg-LU_ntGT4tayIk3ImrtMjg63nisTgfZ9C-WT81XlwESWq0v8f6YaHIhIfRhie40JYvf03PEubKySgCYdEnShds9nXqEwqaGQl0FwDa2ljKKOA",
                     IsActive = true
                 },
                 new()
@@ -347,7 +347,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Gaming laptop with RTX 4080 graphics and premium OLED display.",
                     Specifications =
                         "16-inch 2.5K OLED 240Hz display\nIntel Core i9-13900H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4080\nROG Nebula HDR display\nWindows 11 Home",
-                    ImagePath = "https://dlcdnwebimgs.asus.com/gain/C8A1F7D5-B85E-4C1F-8C2F-8D0ED3FD46B1",
+                    ImagePath = "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRGk1eZDgA0yZNrLc62ri8L5ZLY3CsD01E2l4odyOy_7AGkc7r1dfO1Su4A8JJDYENWqH-zRHaaBsHDxLRNLnxaUrCsckctHYvb7vFgJ8hWg3_lL4dcOhS2RQ",
                     IsActive = true
                 },
                 new()
@@ -357,7 +357,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Modular laptop designed for repairability and upgradability.",
                     Specifications =
                         "13.5-inch 2256×1504 display\nIntel Core i7-1360P\n32GB DDR4 RAM\n1TB NVMe SSD\nIntel Iris Xe Graphics\nModular ports\nWindows 11 Home",
-                    ImagePath = "https://frame.work/cdn/shop/files/Hero_Silver_No_Ports.png",
+                    ImagePath = "https://static.frame.work/uq78hkvl9829a8ps1emnuicfcmhm",
                     IsActive = true
                 },
                 new()
@@ -368,7 +368,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "15.6-inch QHD 240Hz display\nIntel Core i7-13800H\n32GB DDR5 RAM\n1TB PCIe SSD\nNVIDIA GeForce RTX 4070\nPer-key RGB keyboard\nWindows 11 Home",
                     ImagePath =
-                        "https://assets2.razerzone.com/images/pnx.product.blade-15-advanced-model-early-2022/a8c4f3b7b5a8a7b7f8b3b8c4c6d1a2e5.png",
+                        "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSsCSvR1VKCTtx4EzazJqpIxr64gKF9q32CV4SjBVxCQvXgQTICO0CIz5amW75ptDIQYVZzzILQT7lZ2a1wEtdBrnxKPDFCBgv4_q-d9zZ_s0zLJ-orRuHa",
                     IsActive = true
                 },
                 new()
@@ -378,7 +378,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Ultra-lightweight 17-inch laptop with all-day battery life.",
                     Specifications =
                         "17-inch WQXGA IPS display\nIntel Core i7-1360P\n16GB LPDDR5 RAM\n512GB NVMe SSD\nIntel Iris Xe Graphics\n1.35kg weight\nWindows 11 Home",
-                    ImagePath = "https://www.lg.com/au/images/laptops/md07510957/gallery/17Z90R-G.AA75A5-DZ-01.jpg",
+                    ImagePath = "https://www.lg.com/content/dam/channel/wcms/au/images/laptops/17z90q-g_aa78a_ehap_au_c/gallery/17Z90Q-G.AA76A3-Laptops-DZ-1.jpg",
                     IsActive = true
                 },
                 new()
@@ -389,7 +389,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "18-inch QHD+ 165Hz display\nIntel Core i9-13980HX\n64GB DDR5 RAM\n2TB PCIe SSD\nNVIDIA GeForce RTX 4090\nAdvanced cooling\nWindows 11 Home",
                     ImagePath =
-                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/alienware-notebooks/alienware-m18-r1/media-gallery/notebook-alienware-m18-r1-nt-dark-side-of-the-moon-gallery-1.psd",
+                        "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/alienware-notebooks/alienware-m18-intel/media-gallery/ir/notebook-alienware-awm18-hd-black-gallery-12.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=617&qlt=100,1&resMode=sharp2&size=617,402&chrss=full",
                     IsActive = true
                 },
 
@@ -402,7 +402,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "12.9-inch Liquid Retina XDR display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-12-9-6th-gen-space-gray-wifi-select-202210.jpg",
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-air-model-unselect-gallery-1-202405",
                     IsActive = true
                 },
                 new()
@@ -413,7 +413,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "11-inch Liquid Retina display\nApple M2 chip\n128GB storage\n12MP cameras\nApple Pencil hover\nThunderbolt / USB 4",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-11-6th-gen-space-gray-wifi-select-202210.jpg",
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-air-model-unselect-gallery-1-202405",
                     IsActive = true
                 },
                 new()
@@ -424,7 +424,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "10.9-inch Liquid Retina display\nApple M1 chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-5th-gen-blue-wifi-select-202203.jpg",
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-air-model-unselect-gallery-1-202405",
                     IsActive = true
                 },
                 new()
@@ -435,7 +435,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "10.9-inch Liquid Retina display\nA14 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (1st gen)\nUSB-C connector",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-10th-gen-blue-wifi-select-202210.jpg",
+                        "https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111886_sp850-ipad-mini-6gen-480.png",
                     IsActive = true
                 },
                 new()
@@ -446,7 +446,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "8.3-inch Liquid Retina display\nA15 Bionic chip\n64GB storage\n12MP cameras\nApple Pencil (2nd gen)\nUSB-C connector",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-mini-6th-gen-purple-wifi-select-202109.jpg",
+                        "https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111886_sp850-ipad-mini-6gen-480.png",
                     IsActive = true
                 },
                 new()
@@ -458,7 +458,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "14.6-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n512GB storage\nS Pen included\nDual cameras\nDeX mode support",
                     ImagePath =
-                        "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-ultra-5g-beige-front-pen-mobilecarousel.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/655528-Product-0-I-638524501805725350.jpg?v=1717558874",
                     IsActive = true
                 },
                 new()
@@ -469,7 +469,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "12.4-inch Dynamic AMOLED 2X display\nSnapdragon 8 Gen 2\n256GB storage\nS Pen included\nDual cameras\nDeX mode support",
                     ImagePath =
-                        "https://images.samsung.com/au/tablets/galaxy-tab-s9/buy/carousel/tablet-galaxy-tab-s9-plus-5g-beige-front-pen-mobilecarousel.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/655503-Product-0-I-638524496405880100.jpg?v=1716878180",
                     IsActive = true
                 },
                 new()
@@ -479,7 +479,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "2-in-1 tablet with laptop performance and versatility.",
                     Specifications =
                         "13-inch PixelSense Flow touchscreen\nIntel Core i7-1255U\n16GB LPDDR5 RAM\n512GB SSD\nThunderbolt 4\nSurface Pen support\nWindows 11 Pro",
-                    ImagePath = "https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RW11est",
+                    ImagePath = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREgfH14iefiCLhEMiwEAbswa0F0uVv8qT63g",
                     IsActive = true
                 },
                 new()
@@ -490,7 +490,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "12.6-inch 2K OLED display\nMediaTek Kompanio 1300T\n8GB RAM\n256GB storage\nQuad JBL speakers\nLenovo Precision Pen 3",
                     ImagePath =
-                        "https://p4-ofp.static.pub/ShareResource/na/subseries/hero/lenovo-tablet-tab-p12-pro-hero.png",
+                        "https://p2-ofp.static.pub/fes/cms/2021/10/28/juqs65pgl1gh3dysi7yv1tnvtsiqva364946.png",
                     IsActive = true
                 },
                 new()
@@ -500,7 +500,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Largest Fire tablet with vivid display and Alexa built-in.",
                     Specifications =
                         "11-inch 2K display\nOcta-core processor\n4GB RAM\n64GB storage\n14-hour battery\nAlexa hands-free\nFire OS",
-                    ImagePath = "https://m.media-amazon.com/images/I/61H5ElhvKaL._AC_SL1500_.jpg",
+                    ImagePath = "https://m.media-amazon.com/images/I/71wk6xXIzPL._AC_SL1500_.jpg",
                     IsActive = true
                 },
 
@@ -512,7 +512,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Next-generation AirPods Pro with H2 chip and enhanced audio.",
                     Specifications =
                         "H2 chip\nAdaptive Transparency\nPersonalized Spatial Audio\nUp to 6 hours listening time\nMagSafe charging case\nTouch control",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MQD83.jpg",
+                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-pro-2-hero-select-202409",
                     IsActive = true
                 },
                 new()
@@ -522,7 +522,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Reimagined AirPods with Spatial Audio and longer battery life.",
                     Specifications =
                         "H1 chip\nSpatial Audio\nAdaptive EQ\nUp to 6 hours listening time\nMagSafe charging case\nSweat and water resistant",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MME73.jpg",
+                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/airpods-4-hero-select-202409",
                     IsActive = true
                 },
                 new()
@@ -533,7 +533,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "H1 chip\nActive Noise Cancellation\nTransparency mode\nSpatial Audio\n20-hour battery life\nDigital Crown\nStainless steel frame",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-max-silver-select-202011.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/754746-Product-0-I-638616074404449760.jpg?v=1726011017",
                     IsActive = true
                 },
                 new()
@@ -545,7 +545,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "45mm Always-On Retina display\nS9 SiP\nDouble Tap gesture\nBlood Oxygen app\nECG app\n18-hour battery life\nCrash Detection",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-series-9-gps-45mm-pink-aluminum-sport-band-pink-pdp-image-position-1__en-us.jpg",
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/refurb-45-nc-alum-midnight-sport-band-midnight-s9",
                     IsActive = true
                 },
                 new()
@@ -557,7 +557,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "44mm Retina display\nS8 SiP\nActivity tracking\nSleep tracking\n18-hour battery life\nCrash Detection\nWater resistant to 50 meters",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/watch-se-2nd-gen-gps-44mm-silver-aluminum-white-sport-band-pdp-image-position-1__en-us.jpg",
+                        "https://www.jbhifi.com.au/cdn/shop/files/785300-Product-0-I-638615484007911090.jpg?v=1725965174",
                     IsActive = true
                 },
                 new()
@@ -568,7 +568,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Full-size keyboard with trackpad for iPad Pro productivity.",
                     Specifications =
                         "Backlit keys\nPrecision trackpad\nUSB-C pass-through charging\nFloating cantilever design\nCompatible with iPad Pro 11-inch and 12.9-inch",
-                    ImagePath = "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MJQJ3.jpg",
+                    ImagePath = "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/magic-keyboard-ipad-air-202503_GEO_AU",
                     IsActive = true
                 },
                 new()
@@ -580,7 +580,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "Pixel-perfect precision\nTilt and pressure sensitivity\nMagnetic attachment and charging\nDouble-tap to change tools\nCompatible with iPad Pro, iPad Air, iPad mini",
                     ImagePath =
-                        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/apple-pencil-2nd-gen-hero-202210.jpg",
+                        "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MU8F2",
                     IsActive = true
                 },
                 new()
@@ -592,7 +592,7 @@ namespace ElectronicsStoreAss3.Data
                     Specifications =
                         "Intelligent Active Noise Cancellation\n360 Audio\nVoice Detect\nUp to 8 hours battery\nWireless charging case\nIPX7 water resistance",
                     ImagePath =
-                        "https://images.samsung.com/au/galaxy-buds/galaxy-buds2-pro/images/galaxy-buds2-pro_highlights_kv.jpg",
+                        "https://images.samsung.com/is/image/samsung/p6pim/ca/2208/gallery/ca-galaxy-buds2-pro-r510-sm-r510nzaaxac-533189030?$684_547_PNG$",
                     IsActive = true
                 },
                 new()
@@ -602,7 +602,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Industry-leading noise canceling with exceptional sound quality.",
                     Specifications =
                         "Industry-leading noise canceling\n30-hour battery life\nMultipoint connection\nSpeak-to-Chat technology\nTouch Sensor controls\nQuick Charge",
-                    ImagePath = "https://www.sony.com.au/image/5d02da5df552836db894b213e5c49cc0",
+                    ImagePath = "https://www.sony.com.au/image/6145c1d32e6ac8e63a46c912dc33c5bb",
                     IsActive = true
                 },
                 new()
