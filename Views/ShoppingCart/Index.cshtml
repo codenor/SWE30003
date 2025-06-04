@@ -41,74 +41,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Popular Products for Empty Cart -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h4 class="mb-3"><i class="bi bi-graph-up"></i> Popular Products</h4>
-                <div class="card">
-                    <div class="card-body p-0">
-                        <div id="popularProductsCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                <!-- This would be populated from the server with actual data -->
-                                <div class="carousel-item active">
-                                    <div class="row p-3">
-                                        <div class="col-md-3 mb-3">
-                                            <div class="card h-100">
-                                                <div class="bg-light text-center p-3">
-                                                    <i class="bi bi-laptop display-4"></i>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Premium Laptop</h6>
-                                                    <p class="text-success fw-bold">$999.99</p>
-                                                    <span class="badge bg-info">Top Seller</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <div class="card h-100">
-                                                <div class="bg-light text-center p-3">
-                                                    <i class="bi bi-headphones display-4"></i>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Wireless Headphones</h6>
-                                                    <p class="text-success fw-bold">$149.99</p>
-                                                    <span class="badge bg-info">Popular</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <div class="card h-100">
-                                                <div class="bg-light text-center p-3">
-                                                    <i class="bi bi-phone display-4"></i>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Smartphone Pro</h6>
-                                                    <p class="text-success fw-bold">$799.99</p>
-                                                    <span class="badge bg-warning">Hot Item</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 mb-3">
-                                            <div class="card h-100">
-                                                <div class="bg-light text-center p-3">
-                                                    <i class="bi bi-smartwatch display-4"></i>
-                                                </div>
-                                                <div class="card-body">
-                                                    <h6 class="card-title">Smart Watch</h6>
-                                                    <p class="text-success fw-bold">$249.99</p>
-                                                    <span class="badge bg-info">Trending</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     }
     else
     {
@@ -230,62 +162,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Cart Statistics -->
-                <div class="card mt-4">
-                    <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-graph-up"></i> Shopping Insights
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Price Analysis</h6>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Highest priced item:</span>
-                                    <span class="fw-bold">$@Model.CartItems.Max(i => i.UnitPrice).ToString("F2")</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Lowest priced item:</span>
-                                    <span class="fw-bold">$@Model.CartItems.Min(i => i.UnitPrice).ToString("F2")</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span>Average item price:</span>
-                                    <span class="fw-bold">$@(Model.CartItems.Average(i => i.UnitPrice).ToString("F2"))</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Cart Composition</h6>
-                                <div class="progress mb-2" style="height: 20px;">
-                                    @{
-                                        var categories = Model.CartItems.GroupBy(i => i.ProductSKU.Split('-')[0])
-                                            .Select(g => new { Category = g.Key, Total = g.Sum(i => i.TotalPrice) })
-                                            .OrderByDescending(x => x.Total)
-                                            .ToList();
-                                        
-                                        var colors = new[] { "primary", "success", "warning", "danger", "info" };
-                                        var totalAmount = Model.TotalAmount;
-                                    }
-                                    
-                                    @for (int i = 0; i < categories.Count; i++)
-                                    {
-                                        var percentage = (categories[i].Total / totalAmount) * 100;
-                                        var color = colors[i % colors.Length];
-                                        <div class="progress-bar bg-@color" role="progressbar" 
-                                             style="width: @percentage.ToString("F0")%" 
-                                             aria-valuenow="@percentage.ToString("F0")" aria-valuemin="0" aria-valuemax="100">
-                                            @categories[i].Category
-                                        </div>
-                                    }
-                                </div>
-                                <div class="small text-muted">
-                                    Category distribution based on product value
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             
             <!-- Order Summary -->
@@ -330,63 +206,6 @@
                     </div>
                 </div>
                 
-                <!-- Recommendations -->
-                <div class="card mt-3">
-                    <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-lightbulb"></i> Recommended For You
-                        </h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 40px; height: 40px;">
-                                        <i class="bi bi-battery-charging"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Power Bank 10000mAh</h6>
-                                        <small class="text-muted">$49.99</small>
-                                    </div>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">94% match</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 40px; height: 40px;">
-                                        <i class="bi bi-usb-drive"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">USB-C Cable Pack</h6>
-                                        <small class="text-muted">$19.99</small>
-                                    </div>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">87% match</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 40px; height: 40px;">
-                                        <i class="bi bi-speaker"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Portable Bluetooth Speaker</h6>
-                                        <small class="text-muted">$79.99</small>
-                                    </div>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">82% match</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="@Url.Action("Catalogue", "Product")" class="btn btn-outline-primary btn-sm">
-                            View More Recommendations
-                        </a>
-                    </div>
-                </div>
-                
                 <!-- Additional Info -->
                 <div class="card mt-3">
                     <div class="card-body">
@@ -399,72 +218,6 @@
                         <a href="@Url.Action("Contact", "Home")" class="btn btn-outline-secondary btn-sm">
                             Contact Support
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Frequently Bought Together -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header bg-light">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-basket"></i> Frequently Bought Together
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div class="d-flex align-items-center">
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 80px; height: 80px;">
-                                        <i class="bi bi-laptop display-6"></i>
-                                    </div>
-                                    <div class="text-center mx-3">
-                                        <i class="bi bi-plus-circle-fill text-muted"></i>
-                                    </div>
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 80px; height: 80px;">
-                                        <i class="bi bi-mouse display-6"></i>
-                                    </div>
-                                    <div class="text-center mx-3">
-                                        <i class="bi bi-plus-circle-fill text-muted"></i>
-                                    </div>
-                                    <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                         style="width: 80px; height: 80px;">
-                                        <i class="bi bi-headset display-6"></i>
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <p>Complete your purchase with these popular complementary items that other customers frequently buy together.</p>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="bundleItem1" checked>
-                                        <label class="form-check-label" for="bundleItem1">
-                                            Wireless Mouse ($29.99)
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="bundleItem2" checked>
-                                        <label class="form-check-label" for="bundleItem2">
-                                            Gaming Headset ($59.99)
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card bg-light">
-                                    <div class="card-body">
-                                        <h6>Bundle Price</h6>
-                                        <p class="text-success h4">$89.98</p>
-                                        <p class="text-muted"><small>You save: $10.00 (10%)</small></p>
-                                        <button class="btn btn-primary btn-sm">
-                                            <i class="bi bi-plus-circle"></i> Add Bundle to Cart
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

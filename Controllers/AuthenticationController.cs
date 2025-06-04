@@ -113,11 +113,11 @@ namespace ElectronicsStoreAss3.Controllers
             TempData["ToastType"] = "success";
             return RedirectToAction("Index", "Account");
         }
+
         // GET: /Authentication/ForgotPassword/
         [HttpGet]
         public IActionResult ForgotPassword()
         {
-
             return View();
         }
 

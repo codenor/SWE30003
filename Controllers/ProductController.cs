@@ -16,10 +16,40 @@ namespace ElectronicsStoreAss3.Controllers
 
         // GET: Product 
         [Authorize(Roles = "Owner")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm = null, string searchCategory = null)
         {
-            var products = await _productService.GetAllProductsAsync();
-            return View(products);
+            var allProducts = await _productService.GetAllProductsAsync();
+            
+            // Apply filters if search terms are provided
+            if (!string.IsNullOrWhiteSpace(searchTerm) || !string.IsNullOrWhiteSpace(searchCategory))
+            {
+                var filteredProducts = allProducts.AsQueryable();
+                
+                if (!string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    searchTerm = searchTerm.ToLower();
+                    filteredProducts = filteredProducts.Where(p => 
+                        p.Name.ToLower().Contains(searchTerm) ||
+                        p.SKU.ToLower().Contains(searchTerm) ||
+                        p.Description.ToLower().Contains(searchTerm) ||
+                        p.Brand.ToLower().Contains(searchTerm));
+                }
+                
+                if (!string.IsNullOrWhiteSpace(searchCategory))
+                {
+                    filteredProducts = filteredProducts.Where(p => 
+                        p.Category.Equals(searchCategory, StringComparison.OrdinalIgnoreCase));
+                }
+                
+                ViewBag.SearchTerm = searchTerm;
+                ViewBag.SearchCategory = searchCategory;
+                ViewBag.Categories = allProducts.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+                
+                return View(filteredProducts.ToList());
+            }
+            
+            ViewBag.Categories = allProducts.Select(p => p.Category).Distinct().OrderBy(c => c).ToList();
+            return View(allProducts);
         }
         
         // GET: Product/Details/5 OR Product/Details/APPLE-IP15P-128

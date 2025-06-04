@@ -54,6 +54,9 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
+// Check for command line arguments
+bool shouldSeedData = args.Length > 0 && args[0].ToLower() == "seeddata";
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -73,7 +76,19 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
-        if (app.Environment.IsDevelopment())
+        if (shouldSeedData)
+        {
+            // User explicitly requested to seed data via command line
+            logger.LogInformation("Seeding database via command line request");
+            Init.SeedAll(db);
+            logger.LogInformation("Database seeded successfully");
+            // Exit application after seeding if run via command line
+            if (args.Length > 0 && args[0].ToLower() == "seeddata") 
+            {
+                return;
+            }
+        }
+        else if (app.Environment.IsDevelopment())
         {
             logger.LogInformation("Initializing database for development environment");
             db.Database.EnsureDeleted();

@@ -43,6 +43,7 @@ namespace ElectronicsStoreAss3.Controllers
                         TempData["ToastMessage"] = "⚠️ Customer profile not found.";
                         return RedirectToAction("Index");
                     }
+
                     ViewBag.Role = "Customer";
                     customer.Email = account.Email;
                     return View(customer);
@@ -54,6 +55,7 @@ namespace ElectronicsStoreAss3.Controllers
                         TempData["ToastMessage"] = "⚠️ Owner profile not found.";
                         return RedirectToAction("Index");
                     }
+
                     ViewBag.Role = "Owner";
                     owner.Email = account.Email;
                     return View(owner);
@@ -177,10 +179,10 @@ namespace ElectronicsStoreAss3.Controllers
                 return RedirectToAction("Login", "Authentication");
 
             int accountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-            
+
             var orders = _context.Orders
                 .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Product)
+                .ThenInclude(oi => oi.Product)
                 .Include(o => o.Shipment)
                 .Where(o => o.AccountId == accountId)
                 .OrderByDescending(o => o.OrderDate)
