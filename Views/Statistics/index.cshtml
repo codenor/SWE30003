@@ -151,7 +151,7 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                 <h5><i class="bi bi-graph-up"></i> Daily Sales Trend</h5>
             </div>
             <div class="card-body">
-                <canvas id="dailySalesChart" height="100"></canvas>
+                <div id="dailySalesChart" style="width: 100%; height: 300px;"></div>
             </div>
         </div>
     </div>
@@ -163,7 +163,7 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                 <h5><i class="bi bi-pie-chart"></i> Category Performance</h5>
             </div>
             <div class="card-body">
-                <canvas id="categoryChart" height="200"></canvas>
+                <div id="categoryChart" style="width: 100%; height: 300px;"></div>
             </div>
         </div>
     </div>
@@ -278,195 +278,290 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                 <h5><i class="bi bi-calendar3"></i> Monthly Sales Trend (Last 12 Months)</h5>
             </div>
             <div class="card-body">
-                <canvas id="monthlySalesChart" height="80"></canvas>
+                <div id="monthlySalesChart" style="width: 100%; height: 300px;"></div>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Load Apache ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Daily Sales Chart
-        const dailyCtx = document.getElementById('dailySalesChart').getContext('2d');
-        const dailyData = @Html.Raw(Json.Serialize(Model.DailySales.Select(d => new {
-        date = d.Date.ToString("MMM dd"),
-        revenue = d.Revenue,
-        orders = d.OrderCount
-        })));
-
-        new Chart(dailyCtx, {
-            type: 'line',
-            data: {
-                labels: dailyData.map(d => d.date),
-                datasets: [{
-                    label: 'Revenue ($)',
-                    data: dailyData.map(d => d.revenue),
-                    borderColor: 'rgb(75, 192, 192)',
-                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                    tension: 0.1,
-                    yAxisID: 'y',
-                    fill: true
-                }, {
-                    label: 'Orders',
-                    data: dailyData.map(d => d.orders),
-                    borderColor: 'rgb(255, 99, 132)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
-                    tension: 0.1,
-                    yAxisID: 'y1',
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: { display: true, text: 'Revenue ($)' }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: { display: true, text: 'Orders' },
-                        grid: { drawOnChartArea: false }
-                    }
-                },
-                plugins: {
-                    legend: { position: 'top' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                if (context.datasetIndex === 0) {
-                                    return 'Revenue: $' + context.raw.toLocaleString();
-                                } else {
-                                    return 'Orders: ' + context.raw;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Category Performance Chart
-        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-        const categoryData = @Html.Raw(Json.Serialize(Model.CategoryPerformance.Select(c => new {
-        category = c.Category,
-        revenue = c.Revenue
-        })));
-
-        new Chart(categoryCtx, {
-            type: 'doughnut',
-            data: {
-                labels: categoryData.map(c => c.category),
-                datasets: [{
-                    data: categoryData.map(c => c.revenue),
-                    backgroundColor: [
-                        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-                        '#9966FF', '#FF9F40', '#FF6B6B', '#4ECDC4',
-                        '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#fff'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            padding: 20,
-                            usePointStyle: true
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((context.raw / total) * 100).toFixed(1);
-                                return context.label + ': $' + context.raw.toLocaleString() + ' (' + percentage + '%)';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        // Monthly Sales Chart
-        const monthlyCtx = document.getElementById('monthlySalesChart').getContext('2d');
-        const monthlyData = @Html.Raw(Json.Serialize(Model.MonthlySales.Select(m => new {
-        month = m.MonthName,
-        revenue = m.Revenue,
-        orders = m.OrderCount
-        })));
-
-        new Chart(monthlyCtx, {
-            type: 'bar',
-            data: {
-                labels: monthlyData.map(m => m.month),
-                datasets: [{
-                    label: 'Revenue ($)',
-                    data: monthlyData.map(m => m.revenue),
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 2,
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return 'Revenue: $' + context.raw.toLocaleString();
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Revenue ($)'
-                        },
-                        ticks: {
-                            callback: function(value) {
-                                return '$' + value.toLocaleString();
-                            }
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Month'
-                        }
-                    }
-                }
-            }
-        });
+        try {
+            // Get data from the model
+            const dailyData = @Html.Raw(Json.Serialize(Model.DailySales?.Any() == true
+                                  ? Model.DailySales.Select(d => new
+                                  {
+                        date = d.Date.ToString("MMM dd"),
+                        revenue = d.Revenue,
+                        orders = d.OrderCount
+                                  })
+                                  : new List<object>()));
+                                  
+            const categoryData = @Html.Raw(Json.Serialize(Model.CategoryPerformance?.Any() == true
+                                     ? Model.CategoryPerformance.Select(c => new
+                                     {
+                                         name = c.Category,
+                                         value = c.Revenue,
+                                         marketShare = c.MarketShare
+                                     })
+                                     : new List<object>()));
+                                     
+            const monthlyData = @Html.Raw(Json.Serialize(Model.MonthlySales?.Any() == true
+                                    ? Model.MonthlySales.Select(m => new
+                                    {
+                        month = m.MonthName,
+                        revenue = m.Revenue,
+                        orders = m.OrderCount
+                                    })
+                                    : new List<object>()));
+            
+            // Initialize charts
+            initializeCharts(dailyData, categoryData, monthlyData);
+        } catch (error) {
+            console.error("Error initializing charts:", error);
+            showToast("Error loading charts. Please try refreshing the page.", "error");
+            
+            // Display a user-friendly error message on all chart containers
+            document.querySelectorAll('[id$="Chart"]').forEach(container => {
+                container.innerHTML = '<div class="text-center py-4"><i class="bi bi-exclamation-triangle text-warning display-4"></i><p class="text-muted mt-2">Unable to display chart data</p></div>';
+            });
+        }
 
         // Custom range modal
-        document.querySelector('.custom-range-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            new bootstrap.Modal(document.getElementById('customRangeModal')).show();
-        });
-
-        // Auto-refresh data every 5 minutes (optional)
-         setInterval(function() {
-             location.reload();
-             }, 300000);
+        const customRangeBtn = document.querySelector('.custom-range-btn');
+        if (customRangeBtn) {
+            customRangeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const modal = document.getElementById('customRangeModal');
+                if (modal) {
+                    new bootstrap.Modal(modal).show();
+                }
+            });
+        }
     });
+    
+    function initializeCharts(dailyData, categoryData, monthlyData) {
+        // Daily Sales Chart
+        if (dailyData && dailyData.length > 0) {
+            const dailyChart = echarts.init(document.getElementById('dailySalesChart'));
+            
+            const dailyOption = {
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        let result = params[0].name + '<br/>';
+                        params.forEach(param => {
+                            if (param.seriesName === 'Revenue') {
+                                result += param.seriesName + ': $' + param.value.toLocaleString() + '<br/>';
+                            } else {
+                                result += param.seriesName + ': ' + param.value + '<br/>';
+                            }
+                        });
+                        return result;
+                    }
+                },
+                legend: {
+                    data: ['Revenue', 'Orders']
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: dailyData.map(d => d.date)
+                },
+                yAxis: [
+                    {
+                        type: 'value',
+                        name: 'Revenue ($)',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '${value}'
+                        }
+                    },
+                    {
+                        type: 'value',
+                        name: 'Orders',
+                        position: 'right'
+                    }
+                ],
+                series: [
+                    {
+                        name: 'Revenue',
+                        type: 'line',
+                        yAxisIndex: 0,
+                        smooth: true,
+                        lineStyle: {
+                            width: 3,
+                            color: '#4BC0C0'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: 'rgba(75, 192, 192, 0.5)' },
+                                { offset: 1, color: 'rgba(75, 192, 192, 0.1)' }
+                            ])
+                        },
+                        data: dailyData.map(d => d.revenue)
+                    },
+                    {
+                        name: 'Orders',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        smooth: true,
+                        lineStyle: {
+                            width: 3,
+                            color: '#FF6384'
+                        },
+                        data: dailyData.map(d => d.orders)
+                    }
+                ]
+            };
+            
+            dailyChart.setOption(dailyOption);
+            
+            // Handle responsive resize
+            window.addEventListener('resize', function() {
+                dailyChart.resize();
+            });
+        } else {
+            document.getElementById('dailySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-graph-up display-4 text-muted"></i><p class="text-muted mt-2">No daily sales data available for the selected period</p></div>';
+        }
+        
+        // Category Performance Chart
+        if (categoryData && categoryData.length > 0) {
+            const categoryChart = echarts.init(document.getElementById('categoryChart'));
+            
+            const categoryOption = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        const total = categoryData.reduce((sum, item) => sum + item.value, 0);
+                        const percentage = ((params.value / total) * 100).toFixed(1);
+                        return `${params.name}: $${params.value.toLocaleString()} (${percentage}%)`;
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: 10,
+                    top: 'center',
+                    type: 'scroll'
+                },
+                series: [
+                    {
+                        name: 'Category Revenue',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 10,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '18',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: categoryData
+                    }
+                ]
+            };
+            
+            categoryChart.setOption(categoryOption);
+            
+            // Handle responsive resize
+            window.addEventListener('resize', function() {
+                categoryChart.resize();
+            });
+        } else {
+            document.getElementById('categoryChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-pie-chart display-4 text-muted"></i><p class="text-muted mt-2">No category data available for the selected period</p></div>';
+        }
+        
+        // Monthly Sales Chart
+        if (monthlyData && monthlyData.length > 0) {
+            const monthlyChart = echarts.init(document.getElementById('monthlySalesChart'));
+            
+            const monthlyOption = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    },
+                    formatter: function(params) {
+                        return `${params[0].name}<br/>Revenue: $${params[0].value.toLocaleString()}`;
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    data: monthlyData.map(m => m.month),
+                    axisLabel: {
+                        interval: 0,
+                        rotate: 30
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    name: 'Revenue ($)',
+                    axisLabel: {
+                        formatter: '${value}'
+                    }
+                },
+                series: [
+                    {
+                        name: 'Revenue',
+                        type: 'bar',
+                        barWidth: '60%',
+                        data: monthlyData.map(m => m.revenue),
+                        itemStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: '#36A2EB' },
+                                { offset: 1, color: '#73C2FB' }
+                            ])
+                        },
+                        emphasis: {
+                            itemStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    { offset: 0, color: '#1E88E5' },
+                                    { offset: 1, color: '#42A5F5' }
+                                ])
+                            }
+                        }
+                    }
+                ]
+            };
+            
+            monthlyChart.setOption(monthlyOption);
+            
+            // Handle responsive resize
+            window.addEventListener('resize', function() {
+                monthlyChart.resize();
+            });
+        } else {
+            document.getElementById('monthlySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-calendar3 display-4 text-muted"></i><p class="text-muted mt-2">No monthly sales data available</p></div>';
+        }
+    }
 </script>
 }
