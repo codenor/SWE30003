@@ -1,4 +1,5 @@
 ﻿using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Statistics;
 
 namespace ElectronicsStoreAss3.Services
 {
@@ -19,5 +20,6 @@ namespace ElectronicsStoreAss3.Services
         Task<IEnumerable<string>> GetCategoriesAsync();
         Task<IEnumerable<string>> GetBrandsAsync();
         Task<bool> IsSkuUniqueAsync(string sku, int? excludeProductId = null);
+        Task<List<ProductPerformance>> GetRelatedProductsAsync(List<int> productIds, List<string> categories, int count = 3);
     }
 }
