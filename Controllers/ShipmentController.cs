@@ -70,13 +70,14 @@ namespace ElectronicsStoreAss3.Controllers
         }
 
         // GET: /Shipment/Track?trackingNumber=AWE20241201000001
+        // or /track/{trackingNumber}
         [AllowAnonymous]
         public async Task<IActionResult> Track(string? trackingNumber)
         {
+            // If no tracking number provided, just show the empty form
             if (string.IsNullOrWhiteSpace(trackingNumber))
             {
-                ViewBag.Error = "Please enter a tracking number.";
-                return View();
+                return View(null);
             }
 
             try
