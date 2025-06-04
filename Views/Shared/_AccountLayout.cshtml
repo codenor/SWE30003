@@ -1,35 +1,89 @@
 @{
-    Layout = "_Layout";
-    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
-    var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link rel="stylesheet" href="~/css/_AccountLayout.css" />
 
-<div class="d-flex">
-    <!-- Sidebar -->
-    <div class="account-sidebar d-flex flex-column">
-        <div class="account-nav">
-            <a asp-action="Index" class="@(action == "Index" ? "active" : "")">Profile Info</a>
-            <a asp-action="ChangePassword" class="@(action == "ChangePassword" ? "active" : "")">Change Password</a>
-            <a asp-action="Orders" class="@(action == "Orders" ? "active" : "")">Order History</a>
-
-            @* Only visible for Owner *@
-            @if (userRole == "Owner")
-            {
-                <a asp-controller="Statistics" asp-action="Index" class="@(action == "Statistics" ? "active" : "")">Statistics</a>
-            }
+<div class="container-fluid">
+    <div class="row">
+        <!-- Account Sidebar -->
+        <div class="col-md-3 col-lg-2">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-person-circle"></i> Account
+                    </h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="@Url.Action("Index", "Account")" 
+                       class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
+                        <i class="bi bi-person"></i> Profile
+                    </a>
+                    
+                    <a href="@Url.Action("Orders", "Account")" 
+                       class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")">
+                        <i class="bi bi-bag-check"></i> My Orders
+                    </a>
+                    
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <a href="@Url.Action("MyShipments", "Shipment")" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyShipments" ? "active" : "")">
+                            <i class="bi bi-truck"></i> Track Shipments
+                        </a>
+                    }
+                    
+                    <a href="@Url.Action("ChangePassword", "Account")" 
+                       class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "ChangePassword" ? "active" : "")">
+                        <i class="bi bi-key"></i> Change Password
+                    </a>
+                    
+                    @if (User.IsInRole("Owner"))
+                    {
+                        <div class="list-group-item bg-light">
+                            <strong><i class="bi bi-gear"></i> Admin</strong>
+                        </div>
+                        
+                        <a href="@Url.Action("Index", "Product")" 
+                           class="list-group-item list-group-item-action">
+                            <i class="bi bi-box"></i> Manage Products
+                        </a>
+                        
+                        <a href="@Url.Action("Index", "Shipment")" 
+                           class="list-group-item list-group-item-action">
+                            <i class="bi bi-truck"></i> All Shipments
+                        </a>
+                        
+                        <a href="@Url.Action("Pending", "Shipment")" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Pending" ? "active" : "")">
+                            <i class="bi bi-clock"></i> Pending Shipments
+                        </a>
+                        
+                        <a href="@Url.Action("Overdue", "Shipment")" 
+                           class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Overdue" ? "active" : "")">
+                            <i class="bi bi-exclamation-triangle"></i> Overdue Shipments
+                        </a>
+                    }
+                    
+                    <div class="list-group-item">
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-link text-decoration-none p-0 text-danger">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="mt-auto pt-3 border-top px-3">
-            <form asp-action="Logout" asp-controller="Account" method="post" class="w-100">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-dark btn-lg w-100">Logout</button>
-            </form>
+        
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10">
+            <div class="py-3">
+                @RenderBody()
+            </div>
         </div>
-    </div>
-
-    <!-- Main content -->
-    <div class="account-content">
-        @RenderBody()
     </div>
 </div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

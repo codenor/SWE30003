@@ -1,0 +1,134 @@
+﻿@model Shipment
+
+@{
+    ViewData["Title"] = $"Shipment Details - {Model.TrackingNumber}";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Shipment Details</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Tracking Number:</dt>
+                        <dd class="col-sm-9"><code>@Model.TrackingNumber</code></dd>
+
+                        <dt class="col-sm-3">Order ID:</dt>
+                        <dd class="col-sm-9">
+                            <a asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderId">
+                                #@Model.OrderId
+                            </a>
+                        </dd>
+
+                        <dt class="col-sm-3">Status:</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-@(Model.Status == "Delivered" ? "success" : Model.Status == "Processing" ? "warning" : "primary")">
+                                @Model.Status
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-3">Carrier:</dt>
+                        <dd class="col-sm-9">@Model.CarrierName</dd>
+
+                        <dt class="col-sm-3">Created:</dt>
+                        <dd class="col-sm-9">@Model.CreatedDate.ToString("MMM dd, yyyy 'at' h:mm tt")</dd>
+
+                        <dt class="col-sm-3">Est. Delivery:</dt>
+                        <dd class="col-sm-9">@Model.EstimatedDeliveryDate.ToString("MMM dd, yyyy")</dd>
+
+                        @if (Model.ShippedDate.HasValue)
+                        {
+                            <dt class="col-sm-3">Shipped:</dt>
+                            <dd class="col-sm-9">@Model.ShippedDate.Value.ToString("MMM dd, yyyy 'at' h:mm tt")</dd>
+                        }
+
+                        @if (Model.DeliveredDate.HasValue)
+                        {
+                            <dt class="col-sm-3">Delivered:</dt>
+                            <dd class="col-sm-9">@Model.DeliveredDate.Value.ToString("MMM dd, yyyy 'at' h:mm tt")</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.ShippingAddress))
+                        {
+                            <dt class="col-sm-3">Shipping Address:</dt>
+                            <dd class="col-sm-9">@Html.Raw(Model.ShippingAddress.Replace("\n", "<br/>"))</dd>
+                        }
+
+                        @if (!string.IsNullOrEmpty(Model.DeliveryNotes))
+                        {
+                            <dt class="col-sm-3">Notes:</dt>
+                            <dd class="col-sm-9">@Model.DeliveryNotes</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Owner"))
+        {
+            <div class="col-md-4">
+                <!-- Admin Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Admin Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Update Status Form -->
+                        <form asp-action="UpdateStatus" method="post" class="mb-3">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="shipmentId" value="@Model.ShipmentId" />
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Update Status</label>
+                                <select name="newStatus" class="form-select">
+                                    <option value="Processing" selected="@(Model.Status == "Processing")">Processing</option>
+                                    <option value="Shipped" selected="@(Model.Status == "Shipped")">Shipped</option>
+                                    <option value="In Transit" selected="@(Model.Status == "In Transit")">In Transit</option>
+                                    <option value="Out for Delivery" selected="@(Model.Status == "Out for Delivery")">Out for Delivery</option>
+                                    <option value="Delivered" selected="@(Model.Status == "Delivered")">Delivered</option>
+                                    <option value="Failed" selected="@(Model.Status == "Failed")">Failed</option>
+                                    <option value="Returned" selected="@(Model.Status == "Returned")">Returned</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Notes (Optional)</label>
+                                <textarea name="notes" class="form-control" rows="2" placeholder="Add delivery notes..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="bi bi-arrow-clockwise"></i> Update Status
+                            </button>
+                        </form>
+
+                        <!-- Assign Tracking Form -->
+                        @if (string.IsNullOrEmpty(Model.TrackingNumber) || User.IsInRole("Owner"))
+                        {
+                            <form asp-action="AssignTracking" method="post">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="shipmentId" value="@Model.ShipmentId" />
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Tracking Number</label>
+                                    <input name="trackingNumber" class="form-control" value="@Model.TrackingNumber" />
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label">Carrier</label>
+                                    <input name="carrierName" class="form-control" value="@Model.CarrierName" />
+                                </div>
+                                
+                                <button type="submit" class="btn btn-secondary btn-sm">
+                                    <i class="bi bi-truck"></i> Update Tracking
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

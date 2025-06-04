@@ -1,6 +1,267 @@
+@model IEnumerable<ElectronicsStoreAss3.Models.Order>
+
 @{
-    ViewData["Title"] = "Order History";
+    ViewData["Title"] = "My Orders";
     Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
-<h3>Order History</h3>
+<h3><i class="bi bi-bag-check"></i> My Orders</h3>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info text-center">
+        <h5>No Orders Yet</h5>
+        <p>You haven't placed any orders yet. Start shopping to see your orders here!</p>
+        <a href="@Url.Action("Catalogue", "Product")" class="btn btn-primary">
+            <i class="bi bi-shop"></i> Start Shopping
+        </a>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var order in Model)
+        {
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-0">
+                                Order #@order.OrderId
+                                <span class="badge bg-@(GetStatusBadgeClass(order.Status)) ms-2">@order.Status</span>
+                            </h5>
+                            <small class="text-muted">
+                                Placed on @order.OrderDate.ToString("MMMM dd, yyyy 'at' h:mm tt")
+                            </small>
+                        </div>
+                        <div class="text-end">
+                            <h5 class="text-primary mb-0">$@order.TotalAmount.ToString("F2")</h5>
+                            <small class="text-muted">@order.TotalItems items</small>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Order Items -->
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6>Items Ordered</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in order.OrderItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            @if (!string.IsNullOrEmpty(item.Product.ImagePath))
+                                                            {
+                                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
+                                                                     class="me-2 rounded" style="width: 40px; height: 40px; object-fit: cover;" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
+                                                                     style="width: 40px; height: 40px;">
+                                                                    <i class="bi bi-image text-muted"></i>
+                                                                </div>
+                                                            }
+                                                            <div>
+                                                                <strong>@item.Product.Name</strong>
+                                                                <br />
+                                                                <small class="text-muted">SKU: @item.Product.SKU</small>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>$@item.UnitPrice.ToString("F2")</td>
+                                                    <td>$@item.TotalPrice.ToString("F2")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Shipping Info -->
+                            <div class="col-md-4">
+                                @if (order.Shipment != null)
+                                {
+                                    <h6><i class="bi bi-truck"></i> Shipping Information</h6>
+                                    <div class="card bg-light">
+                                        <div class="card-body py-2">
+                                            <p class="mb-1">
+                                                <strong>Tracking:</strong> 
+                                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })" 
+                                                   class="text-decoration-none">
+                                                    <code>@order.Shipment.TrackingNumber</code>
+                                                </a>
+                                            </p>
+                                            <p class="mb-1">
+                                                <strong>Status:</strong> 
+                                                <span class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status))">
+                                                    @order.Shipment.Status
+                                                </span>
+                                            </p>
+                                            <p class="mb-1">
+                                                <strong>Carrier:</strong> @order.Shipment.CarrierName
+                                            </p>
+                                            <p class="mb-0">
+                                                <strong>Est. Delivery:</strong> 
+                                                @order.Shipment.EstimatedDeliveryDate.ToString("MMM dd, yyyy")
+                                            </p>
+                                            @if (order.Shipment.DeliveredDate.HasValue)
+                                            {
+                                                <p class="mb-0 text-success">
+                                                    <strong>Delivered:</strong> 
+                                                    @order.Shipment.DeliveredDate.Value.ToString("MMM dd, yyyy")
+                                                </p>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <h6><i class="bi bi-clock"></i> Processing</h6>
+                                    <div class="alert alert-info py-2">
+                                        <small>Shipping information will be available soon.</small>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                @if (order.Shipment != null)
+                                {
+                                    <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-search"></i> Track Package
+                                    </a>
+                                }
+                                
+                                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" 
+                                   class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-eye"></i> View Details
+                                </a>
+                            </div>
+                            
+                            <div>
+                                @if (order.CanBeCancelled())
+                                {
+                                    <button class="btn btn-outline-danger btn-sm" 
+                                            onclick="cancelOrder(@order.OrderId)">
+                                        <i class="bi bi-x-circle"></i> Cancel Order
+                                    </button>
+                                }
+                                
+                                @if (order.Status == "Completed")
+                                {
+                                    <button class="btn btn-outline-info btn-sm" 
+                                            onclick="reorder(@order.OrderId)">
+                                        <i class="bi bi-arrow-repeat"></i> Reorder
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <!-- Order Summary -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li><strong>Total Orders:</strong> @Model.Count()</li>
+                        <li><strong>Total Spent:</strong> $@Model.Sum(o => o.TotalAmount).ToString("F2")</li>
+                        <li><strong>Completed:</strong> @Model.Count(o => o.Status == "Completed")</li>
+                        <li><strong>In Progress:</strong> @Model.Count(o => o.Status != "Completed" && o.Status != "Cancelled")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("Catalogue", "Product")" class="btn btn-primary">
+                            <i class="bi bi-shop"></i> Continue Shopping
+                        </a>
+                        <a href="@Url.Action("MyShipments", "Shipment")" class="btn btn-outline-secondary">
+                            <i class="bi bi-truck"></i> Track All Shipments
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@functions {
+    public string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "warning",
+            "Confirmed" => "info",
+            "Shipped" => "primary",
+            "Completed" => "success",
+            "Cancelled" => "danger",
+            "Failed" => "danger",
+            _ => "secondary"
+        };
+    }
+    
+    public string GetShipmentStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Processing" => "warning",
+            "Shipped" => "info",
+            "In Transit" => "primary",
+            "Out for Delivery" => "primary",
+            "Delivered" => "success",
+            "Failed" => "danger",
+            "Returned" => "secondary",
+            _ => "secondary"
+        };
+    }
+}
+
+@section Scripts {
+<script>
+function cancelOrder(orderId) {
+    if (confirm('Are you sure you want to cancel this order? This action cannot be undone.')) {
+        // Implement order cancellation
+        alert(`Order #${orderId} cancellation requested. You will receive a confirmation email.`);
+        // In a real app, you'd make an AJAX call to cancel the order
+    }
+}
+
+function reorder(orderId) {
+    if (confirm('Add all items from this order to your cart?')) {
+        // Implement reorder functionality
+        alert(`Items from Order #${orderId} have been added to your cart!`);
+        // In a real app, you'd make an AJAX call to add items to cart
+    }
+}
+
+// Auto-refresh tracking info every 30 seconds
+setInterval(function() {
+    // You could implement auto-refresh of tracking status here
+}, 30000);
+</script>
+}

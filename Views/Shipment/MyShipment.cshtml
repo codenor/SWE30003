@@ -1,0 +1,268 @@
+﻿@model IEnumerable<ElectronicsStoreAss3.Models.Shipment>
+
+@{
+    ViewData["Title"] = "My Shipments";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-truck"></i> My Shipments</h2>
+        <a href="@Url.Action("Orders", "Account")" class="btn btn-outline-primary">
+            <i class="bi bi-bag-check"></i> View All Orders
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h4>No Shipments Found</h4>
+            <p>You don't have any shipments yet. Place an order to track your deliveries!</p>
+            <a href="@Url.Action("Catalogue", "Product")" class="btn btn-primary">
+                <i class="bi bi-shop"></i> Start Shopping
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var shipment in Model)
+            {
+                <div class="col-lg-6 mb-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-0">Order #@shipment.OrderId</h5>
+                                <small class="text-muted">
+                                    Ordered: @shipment.Order.OrderDate.ToString("MMM dd, yyyy")
+                                </small>
+                            </div>
+                            <span class="badge bg-@(GetShipmentStatusBadgeClass(shipment.Status)) fs-6">
+                                @shipment.Status
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <!-- Tracking Information -->
+                            <div class="mb-3">
+                                <h6><i class="bi bi-geo-alt"></i> Tracking Information</h6>
+                                <p class="mb-1">
+                                    <strong>Tracking Number:</strong> 
+                                    <code>@shipment.TrackingNumber</code>
+                                </p>
+                                <p class="mb-1">
+                                    <strong>Carrier:</strong> @shipment.CarrierName
+                                </p>
+                                <p class="mb-0">
+                                    <strong>Est. Delivery:</strong> 
+                                    @shipment.EstimatedDeliveryDate.ToString("MMMM dd, yyyy")
+                                    @if (shipment.EstimatedDeliveryDate.Date < DateTime.Today && shipment.Status != "Delivered")
+                                    {
+                                        <span class="badge bg-warning ms-1">Overdue</span>
+                                    }
+                                </p>
+                            </div>
+
+                            <!-- Delivery Status -->
+                            <div class="mb-3">
+                                <h6><i class="bi bi-clock-history"></i> Delivery Progress</h6>
+                                <div class="progress-container">
+                                    @{
+                                        var statuses = new[] { "Processing", "Shipped", "In Transit", "Out for Delivery", "Delivered" };
+                                        var currentIndex = Array.IndexOf(statuses, shipment.Status);
+                                        if (currentIndex == -1) currentIndex = 0;
+                                    }
+                                    
+                                    <div class="row text-center">
+                                        @for (int i = 0; i < statuses.Length; i++)
+                                        {
+                                            <div class="col">
+                                                <div class="status-indicator @(i <= currentIndex ? "completed" : "pending")">
+                                                    @if (i <= currentIndex)
+                                                    {
+                                                        <i class="bi bi-check-circle-fill"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="bi bi-circle"></i>
+                                                    }
+                                                </div>
+                                                <small class="d-block mt-1">@statuses[i]</small>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Items Preview -->
+                            <div class="mb-3">
+                                <h6><i class="bi bi-box"></i> Items (@shipment.Order.TotalItems)</h6>
+                                <div class="d-flex flex-wrap">
+                                    @foreach (var item in shipment.Order.OrderItems.Take(3))
+                                    {
+                                        <div class="me-2 mb-2">
+                                            @if (!string.IsNullOrEmpty(item.Product.ImagePath))
+                                            {
+                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
+                                                     class="rounded border" style="width: 50px; height: 50px; object-fit: cover;"
+                                                     title="@item.Product.Name (x@item.Quantity)" />
+                                            }
+                                            else
+                                            {
+                                                <div class="bg-light rounded border d-flex align-items-center justify-content-center" 
+                                                     style="width: 50px; height: 50px;" title="@item.Product.Name (x@item.Quantity)">
+                                                    <i class="bi bi-image text-muted"></i>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                    @if (shipment.Order.OrderItems.Count() > 3)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <span class="badge bg-secondary">+@(shipment.Order.OrderItems.Count() - 3) more</span>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Shipping Address -->
+                            @if (!string.IsNullOrEmpty(shipment.ShippingAddress))
+                            {
+                                <div class="mb-3">
+                                    <h6><i class="bi bi-house-door"></i> Shipping To</h6>
+                                    <address class="mb-0">
+                                        @Html.Raw(shipment.ShippingAddress.Replace("\n", "<br/>"))
+                                    </address>
+                                </div>
+                            }
+
+                            <!-- Order Total -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><strong>Order Total:</strong></span>
+                                <span class="h5 text-primary mb-0">$@shipment.Order.TotalAmount.ToString("F2")</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-between">
+                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = shipment.TrackingNumber })" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="bi bi-search"></i> Track Package
+                                </a>
+                                <div>
+                                    <a href="@Url.Action("Details", "Order", new { id = shipment.OrderId })" 
+                                       class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-eye"></i> Order Details
+                                    </a>
+                                    @if (shipment.Order.IsCompleted())
+                                    {
+                                        <button class="btn btn-outline-success btn-sm" onclick="reorder(@shipment.OrderId)">
+                                            <i class="bi bi-arrow-repeat"></i> Reorder
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Shipment Statistics -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">In Transit</h5>
+                        <h2 class="display-6">@Model.Count(s => s.Status == "In Transit" || s.Status == "Shipped")</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Delivered</h5>
+                        <h2 class="display-6">@Model.Count(s => s.Status == "Delivered")</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">Processing</h5>
+                        <h2 class="display-6">@Model.Count(s => s.Status == "Processing")</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Total Orders</h5>
+                        <h2 class="display-6">@Model.Count()</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@functions {
+    public string GetShipmentStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Processing" => "warning",
+            "Shipped" => "info",
+            "In Transit" => "primary",
+            "Out for Delivery" => "primary",
+            "Delivered" => "success",
+            "Failed" => "danger",
+            "Returned" => "secondary",
+            _ => "secondary"
+        };
+    }
+}
+
+@section Scripts {
+<script>
+function reorder(orderId) {
+    if (confirm('Add all items from this order to your cart?')) {
+        alert(`Items from Order #${orderId} have been added to your cart!`);
+        // In a real app, you'd make an AJAX call to add items to cart
+        // Example:
+        // fetch('/ShoppingCart/ReorderFromOrder', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ orderId: orderId })
+        // }).then(response => {
+        //     if (response.ok) {
+        //         window.location.href = '/ShoppingCart';
+        //     }
+        // });
+    }
+}
+</script>
+
+<style>
+.status-indicator {
+    font-size: 1.2rem;
+}
+
+.status-indicator.completed {
+    color: #28a745;
+}
+
+.status-indicator.pending {
+    color: #dee2e6;
+}
+
+.progress-container {
+    padding: 1rem 0;
+}
+
+.card {
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+</style>
+}

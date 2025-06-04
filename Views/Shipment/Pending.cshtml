@@ -1,0 +1,195 @@
+﻿@model IEnumerable<ElectronicsStoreAss3.Models.Shipment>
+
+@{
+    ViewData["Title"] = "Pending Shipments";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-clock"></i> Pending Shipments</h2>
+        <div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-list"></i> All Shipments
+            </a>
+            <a asp-action="Overdue" class="btn btn-outline-danger">
+                <i class="bi bi-exclamation-triangle"></i> Overdue
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h4>No Pending Shipments</h4>
+            <p>All shipments are currently up to date!</p>
+            <a asp-action="Index" class="btn btn-primary">View All Shipments</a>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-info-circle"></i>
+            <strong>@Model.Count()</strong> shipments require attention
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tracking #</th>
+                        <th>Order #</th>
+                        <th>Customer</th>
+                        <th>Created</th>
+                        <th>Days Pending</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var shipment in Model.OrderBy(s => s.CreatedDate))
+                    {
+                        var daysPending = (DateTime.Now - shipment.CreatedDate).Days;
+                        <tr class="@(daysPending > 3 ? "table-warning" : "")">
+                            <td><code>@shipment.TrackingNumber</code></td>
+                            <td>
+                                <a asp-controller="Order" asp-action="Details" asp-route-id="@shipment.OrderId">
+                                    #@shipment.OrderId
+                                </a>
+                            </td>
+                            <td>
+                                @if (shipment.Order.Customer != null)
+                                {
+                                    <span>@shipment.Order.Customer.FirstName @shipment.Order.Customer.LastName</span>
+                                    <br />
+                                    <small class="text-muted">@shipment.Order.Customer.Email</small>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Guest Order</span>
+                                }
+                            </td>
+                            <td>
+                                @shipment.CreatedDate.ToString("MMM dd, yyyy")
+                                <br />
+                                <small class="text-muted">@shipment.CreatedDate.ToString("h:mm tt")</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-@(daysPending > 3 ? "warning" : daysPending > 1 ? "info" : "success")">
+                                    @daysPending day@(daysPending != 1 ? "s" : "")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Details" asp-route-id="@shipment.ShipmentId" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                    
+                                    <!-- Quick Actions -->
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-sm btn-outline-success dropdown-toggle" 
+                                                data-bs-toggle="dropdown">
+                                            <i class="bi bi-lightning"></i> Quick Action
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="#" 
+                                                   onclick="updateStatus(@shipment.ShipmentId, 'Shipped')">
+                                                    <i class="bi bi-truck"></i> Mark as Shipped
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#" 
+                                                   onclick="updateStatus(@shipment.ShipmentId, 'In Transit')">
+                                                    <i class="bi bi-arrow-right"></i> Mark In Transit
+                                                </a>
+                                            </li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li>
+                                                <a class="dropdown-item" href="#" 
+                                                   onclick="updateStatus(@shipment.ShipmentId, 'Failed')">
+                                                    <i class="bi bi-x-circle"></i> Mark as Failed
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quick Stats</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Total Pending:</strong> @Model.Count()</li>
+                                <li><strong>Over 3 Days:</strong> @Model.Count(s => (DateTime.Now - s.CreatedDate).Days > 3)</li>
+                                <li><strong>Today:</strong> @Model.Count(s => s.CreatedDate.Date == DateTime.Today)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Bulk Actions</h5>
+                            <button class="btn btn-outline-primary btn-sm me-2" onclick="selectAll()">
+                                <i class="bi bi-check-all"></i> Select All
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="bulkShip()">
+                                <i class="bi bi-truck"></i> Bulk Ship Selected
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+<script>
+function updateStatus(shipmentId, status) {
+    if (confirm(`Are you sure you want to mark this shipment as "${status}"?`)) {
+        fetch('/Shipment/QuickStatusUpdate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            },
+            body: JSON.stringify({
+                shipmentId: shipmentId,
+                status: status
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Failed to update status');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error updating status');
+        });
+    }
+}
+
+function selectAll() {
+    // Implement bulk selection logic if needed
+    alert('Bulk selection feature coming soon!');
+}
+
+function bulkShip() {
+    // Implement bulk shipping logic if needed
+    alert('Bulk shipping feature coming soon!');
+}
+</script>
+}

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -121,6 +122,7 @@ namespace ElectronicsStoreAss3.Controllers
         {
             return View();
         }
+
         // POST: /Account/ChangePassword
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -166,13 +168,24 @@ namespace ElectronicsStoreAss3.Controllers
             return RedirectToAction("Index");
         }
 
-
-
         // GET: /Account/Orders
         [HttpGet]
         public IActionResult Orders()
         {
-            return View();
+            if (!User.Identity?.IsAuthenticated ?? true)
+                return RedirectToAction("Login", "Authentication");
+
+            int accountId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            
+            var orders = _context.Orders
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.Shipment)
+                .Where(o => o.AccountId == accountId)
+                .OrderByDescending(o => o.OrderDate)
+                .ToList();
+
+            return View(orders);
         }
 
         // POST: /Account/Logout

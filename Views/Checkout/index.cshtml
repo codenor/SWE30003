@@ -1,0 +1,245 @@
+﻿@model ElectronicsStoreAss3.Models.CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Catalogue", "Product")">Shopping</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "ShoppingCart")">Cart</a></li>
+                    <li class="breadcrumb-item active">Checkout</li>
+                </ol>
+            </nav>
+            <h2><i class="bi bi-credit-card"></i> Checkout</h2>
+        </div>
+    </div>
+
+    <form asp-action="ProcessPayment" method="post" id="checkoutForm">
+        @Html.AntiForgeryToken()
+        
+        <div class="row">
+            <!-- Shipping Information -->
+            <div class="col-lg-7">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-truck"></i> Shipping Information</h5>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <small class="text-muted">
+                                <a href="@Url.Action("Index", "Account")" class="text-decoration-none">
+                                    <i class="bi bi-pencil"></i> Edit profile
+                                </a>
+                            </small>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="FirstName" class="form-label">First Name *</label>
+                                    <input asp-for="FirstName" class="form-control" required />
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="LastName" class="form-label">Last Name *</label>
+                                    <input asp-for="LastName" class="form-control" required />
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Email" class="form-label">Email Address *</label>
+                                    <input asp-for="Email" type="email" class="form-control" required />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Mobile" class="form-label">Mobile Number *</label>
+                                    <input asp-for="Mobile" class="form-control" placeholder="04XX XXX XXX" required />
+                                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Shipping Address *</label>
+                            <textarea asp-for="Address" class="form-control" rows="3" 
+                                     placeholder="Street address, city, state, postcode" required></textarea>
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle"></i>
+                                <strong>Want to save this information?</strong>
+                                <a href="@Url.Action("Register", "Authentication")" class="alert-link">Create an account</a>
+                                or <a href="@Url.Action("Login", "Authentication")" class="alert-link">sign in</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Payment Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-credit-card"></i> Payment Method</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="bi bi-info-circle"></i>
+                            <strong>Demo Mode:</strong> This is a demo checkout. No actual payment will be processed.
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="credit" checked>
+                            <label class="form-check-label" for="creditCard">
+                                <i class="bi bi-credit-card"></i> Credit/Debit Card (Demo)
+                            </label>
+                        </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                            <label class="form-check-label" for="paypal">
+                                <i class="bi bi-paypal"></i> PayPal (Demo)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-5">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5><i class="bi bi-receipt"></i> Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Cart Items -->
+                        <div class="mb-3">
+                            @foreach (var item in Model.Cart.CartItems)
+                            {
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div>
+                                        <h6 class="mb-0">@item.ProductName</h6>
+                                        <small class="text-muted">
+                                            SKU: @item.ProductSKU | Qty: @item.Quantity
+                                        </small>
+                                    </div>
+                                    <span class="fw-bold">$@item.TotalPrice.ToString("F2")</span>
+                                </div>
+                            }
+                        </div>
+
+                        <hr>
+
+                        <!-- Order Totals -->
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal (@Model.Cart.TotalItems items):</span>
+                            <span>$@Model.Cart.SubTotal.ToString("F2")</span>
+                        </div>
+
+                        @if (Model.Cart.ShippingFee > 0)
+                        {
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span>$@Model.Cart.ShippingFee.ToString("F2")</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex justify-content-between mb-2 text-success">
+                                <span>Shipping:</span>
+                                <span>Free</span>
+                            </div>
+                        }
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>GST (10%):</span>
+                            <span>$@Model.Cart.GST.ToString("F2")</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong class="text-primary fs-5">$@Model.Cart.GrandTotal.ToString("F2")</strong>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitOrder">
+                                <i class="bi bi-lock"></i> Place Order
+                            </button>
+                            
+                            <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Cart
+                            </a>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="bi bi-shield-check"></i> Secure checkout with SSL encryption
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="bi bi-truck"></i> Delivery Information</h6>
+                        <ul class="list-unstyled small mb-0">
+                            <li><i class="bi bi-check-circle text-success"></i> Free shipping on orders over $100</li>
+                            <li><i class="bi bi-check-circle text-success"></i> 5-7 business days delivery</li>
+                            <li><i class="bi bi-check-circle text-success"></i> Tracking number provided</li>
+                            <li><i class="bi bi-check-circle text-success"></i> 30-day return policy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Form validation and submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            const submitButton = document.getElementById('submitOrder');
+            
+            // Disable submit button to prevent double submission
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
+            
+            // Re-enable after 10 seconds in case of error
+            setTimeout(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="bi bi-lock"></i> Place Order';
+            }, 10000);
+        });
+
+        // Mobile number formatting
+        document.querySelector('input[name="Mobile"]').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.startsWith('61')) {
+                value = '+' + value;
+            } else if (value.startsWith('4') && value.length === 9) {
+                value = '0' + value;
+            }
+            e.target.value = value;
+        });
+    </script>
+}

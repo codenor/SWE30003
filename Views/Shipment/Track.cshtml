@@ -1,0 +1,38 @@
+@model Shipment
+
+@{
+    ViewData["Title"] = "Track Your Order";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-truck"></i> Track Your Order
+            </h2>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center">
+                    <i class="bi bi-exclamation-circle"></i> @ViewBag.Error
+                </div>
+                
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Enter Tracking Number</h5>
+                        <form method="get" asp-action="Track">
+                            <div class="input-group">
+                                <input type="text" name="trackingNumber" class="form-control" 
+                                       placeholder="Enter tracking number (e.g., AWE20241201000001)" 
+                                       value="@Context.Request.Query["trackingNumber"]" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-search"></i> Track
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

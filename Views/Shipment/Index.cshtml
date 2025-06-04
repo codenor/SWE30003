@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Shipment>
+
+@{
+    ViewData["Title"] = "Shipment Management";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Shipment Management</h2>
+        <div>
+            <a asp-action="Pending" class="btn btn-warning">
+                <i class="bi bi-clock"></i> Pending (@Model.Count(s => s.Status == "Processing"))
+            </a>
+            <a asp-action="Overdue" class="btn btn-danger">
+                <i class="bi bi-exclamation-triangle"></i> Overdue
+            </a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tracking #</th>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Est. Delivery</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var shipment in Model)
+                {
+                    <tr>
+                        <td><code>@shipment.TrackingNumber</code></td>
+                        <td>
+                            <a asp-controller="Order" asp-action="Details" asp-route-id="@shipment.OrderId">
+                                #@shipment.OrderId
+                            </a>
+                        </td>
+                        <td>
+                            @if (shipment.Order.Customer != null)
+                            {
+                                <span>@shipment.Order.Customer.FirstName @shipment.Order.Customer.LastName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Guest</span>
+                            }
+                        </td>
+                        <td>
+                            <span class="badge bg-@(shipment.Status == "Delivered" ? "success" : shipment.Status == "Processing" ? "warning" : "primary")">
+                                @shipment.Status
+                            </span>
+                        </td>
+                        <td>@shipment.CreatedDate.ToString("MMM dd")</td>
+                        <td>
+                            @shipment.EstimatedDeliveryDate.ToString("MMM dd")
+                            @if (shipment.EstimatedDeliveryDate < DateTime.Now && shipment.Status != "Delivered")
+                            {
+                                <i class="bi bi-exclamation-triangle text-danger" title="Overdue"></i>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@shipment.ShipmentId" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> View
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

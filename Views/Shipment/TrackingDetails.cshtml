@@ -1,0 +1,165 @@
+﻿@model Shipment
+
+@{
+    ViewData["Title"] = $"Tracking - {Model.TrackingNumber}";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="bi bi-box-seam"></i> Order Tracking
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Order Information -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6>Order Details</h6>
+                            <p><strong>Order #:</strong> @Model.Order.OrderId</p>
+                            <p><strong>Order Date:</strong> @Model.Order.OrderDate.ToString("MMM dd, yyyy")</p>
+                            <p><strong>Total:</strong> $@Model.Order.TotalAmount.ToString("F2")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Shipping Details</h6>
+                            <p><strong>Tracking #:</strong> @Model.TrackingNumber</p>
+                            <p><strong>Carrier:</strong> @Model.CarrierName</p>
+                            <p><strong>Est. Delivery:</strong> @Model.EstimatedDeliveryDate.ToString("MMM dd, yyyy")</p>
+                        </div>
+                    </div>
+
+                    <!-- Status Progress -->
+                    <div class="mb-4">
+                        <h6>Shipping Progress</h6>
+                        <div class="progress-container">
+                            @{
+                                var statuses = new[] { "Processing", "Shipped", "In Transit", "Out for Delivery", "Delivered" };
+                                var currentIndex = Array.IndexOf(statuses, Model.Status);
+                                if (currentIndex == -1) currentIndex = 0;
+                            }
+                            
+                            <div class="d-flex justify-content-between position-relative">
+                                @for (int i = 0; i < statuses.Length; i++)
+                                {
+                                    <div class="text-center">
+                                        <div class="status-circle @(i <= currentIndex ? "completed" : "pending")">
+                                            @if (i <= currentIndex)
+                                            {
+                                                <i class="bi bi-check"></i>
+                                            }
+                                            else
+                                            {
+                                                <span>@(i + 1)</span>
+                                            }
+                                        </div>
+                                        <small class="d-block mt-2">@statuses[i]</small>
+                                    </div>
+                                }
+                                <div class="progress-line">
+                                    <div class="progress-fill" style="width: @((currentIndex * 100 / (statuses.Length - 1)))%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Current Status -->
+                    <div class="alert alert-info">
+                        <h6><i class="bi bi-info-circle"></i> Current Status: @Model.Status</h6>
+                        @if (!string.IsNullOrEmpty(Model.DeliveryNotes))
+                        {
+                            <p class="mb-0">@Model.DeliveryNotes</p>
+                        }
+                        @if (Model.Status == "Delivered" && Model.DeliveredDate.HasValue)
+                        {
+                            <p class="mb-0">Delivered on @Model.DeliveredDate.Value.ToString("MMM dd, yyyy 'at' h:mm tt")</p>
+                        }
+                    </div>
+
+                    <!-- Shipping Address -->
+                    @if (!string.IsNullOrEmpty(Model.ShippingAddress))
+                    {
+                        <div class="mb-3">
+                            <h6>Shipping Address</h6>
+                            <address>@Html.Raw(Model.ShippingAddress.Replace("\n", "<br/>"))</address>
+                        </div>
+                    }
+
+                    <!-- Order Items -->
+                    <div class="mb-3">
+                        <h6>Order Items</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Order.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>@item.Product.Name</td>
+                                            <td>@item.Quantity</td>
+                                            <td>$@item.UnitPrice.ToString("F2")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.progress-container {
+    position: relative;
+    padding: 20px 0;
+}
+
+.status-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.status-circle.completed {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-circle.pending {
+    background-color: #e9ecef;
+    color: #6c757d;
+    border: 2px solid #dee2e6;
+}
+
+.progress-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #e9ecef;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #28a745;
+    transition: width 0.3s ease;
+}
+</style>
