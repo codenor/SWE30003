@@ -116,8 +116,13 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "Details" });
 
 app.MapControllerRoute(
+    name: "TrackingForm",
+    pattern: "track",
+    defaults: new { controller = "Shipment", action = "Track" });
+
+app.MapControllerRoute(
     name: "Tracking",
-    pattern: "track/{trackingNumber?}",
+    pattern: "track/{trackingNumber}",
     defaults: new { controller = "Shipment", action = "Track" });
 
 app.MapControllerRoute(

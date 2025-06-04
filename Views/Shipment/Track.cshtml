@@ -1,7 +1,9 @@
-@model Shipment
+@model Shipment?
 
 @{
     ViewData["Title"] = "Track Your Order";
+    // Ensure ViewBag.Error is never null to avoid null reference exceptions
+    ViewBag.Error = ViewBag.Error ?? null;
 }
 
 <div class="container mt-4">
@@ -16,23 +18,53 @@
                 <div class="alert alert-danger text-center">
                     <i class="bi bi-exclamation-circle"></i> @ViewBag.Error
                 </div>
-                
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Enter Tracking Number</h5>
-                        <form method="get" asp-action="Track">
-                            <div class="input-group">
-                                <input type="text" name="trackingNumber" class="form-control" 
-                                       placeholder="Enter tracking number (e.g., AWE20241201000001)" 
-                                       value="@Context.Request.Query["trackingNumber"]" />
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-search"></i> Track
-                                </button>
-                            </div>
-                        </form>
+            }
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Enter Tracking Number</h5>
+                    <form method="get" action="@Url.Action("Track", "Shipment")" id="trackingForm" onsubmit="return validateTrackingNumber()">
+                        <div class="input-group">
+                            <input type="text" name="trackingNumber" id="trackingNumber" class="form-control" 
+                                   placeholder="Enter tracking number (e.g., AWE20241201000001)" 
+                                   value="@Context.Request.Query["trackingNumber"]" required />
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-search"></i> Track
+                            </button>
+                        </div>
+                        <div id="trackingNumberError" class="invalid-feedback d-none">
+                            Please enter a valid tracking number (format: AWE followed by numbers).
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">
+                            Enter your tracking number to see the status and details of your shipment.
+                        </small>
                     </div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+<script>
+    function validateTrackingNumber() {
+        const trackingNumber = document.getElementById('trackingNumber').value.trim();
+        const errorElement = document.getElementById('trackingNumberError');
+        
+        // Basic validation - should start with AWE followed by numbers
+        const isValid = /^AWE\d+$/.test(trackingNumber);
+        
+        if (!isValid) {
+            errorElement.classList.remove('d-none');
+            errorElement.classList.add('d-block');
+            return false;
+        } else {
+            errorElement.classList.add('d-none');
+            errorElement.classList.remove('d-block');
+            return true;
+        }
+    }
+</script>
+}
