@@ -5,109 +5,109 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - ElectronicsStoreAss3</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ElectronicsStoreAss3.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/ElectronicsStoreAss3.styles.css" asp-append-version="true"/>
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-lightning-charge"></i> AWE Electronics
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-lightning-charge"></i> AWE Electronics
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Product" asp-action="Catalogue">
+                            <i class="bi bi-grid"></i> Products
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Shipment" asp-action="Track">
+                            <i class="bi bi-geo"></i> Track
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav">
+                    <!-- Cart Link with Count -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" asp-controller="ShoppingCart" asp-action="Index">
+                            <i class="bi bi-cart"></i> Cart
+                            @await Html.PartialAsync("_CartCount")
+                        </a>
+                    </li>
+
+                    @if (HttpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Product" asp-action="Catalogue">
-                                <i class="bi bi-grid"></i> Products
-                            </a>  
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Track" asp-action="Track">
-                                <i class="bi bi-house"></i> Track
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">
+                                <i class="bi bi-person"></i> Account
                             </a>
                         </li>
-                    </ul>
-                    
-                    <ul class="navbar-nav">
-                        <!-- Cart Link with Count -->
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link position-relative" asp-controller="ShoppingCart" asp-action="Index">
-                                <i class="bi bi-cart"></i> Cart
-                                @await Html.PartialAsync("_CartCount")
+                            <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Login">
+                                <i class="bi bi-box-arrow-in-right"></i> Login
                             </a>
                         </li>
-                        
-                        @if (HttpContextAccessor.HttpContext?.User.Identity?.IsAuthenticated == true)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Index">
-                                    <i class="bi bi-person"></i> Account
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Authentication" asp-action="Login">
-                                    <i class="bi bi-box-arrow-in-right"></i> Login
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                    }
+                </ul>
             </div>
-        </nav>
-    </header>
-    <div class="page-wrapper d-flex flex-column min-vh-100">
-        <main role="main" class="flex-grow-1">
-            @RenderBody()
-            @RenderSection("AccountContent", required: false)
-        </main>
+        </div>
+    </nav>
+</header>
+<div class="page-wrapper d-flex flex-column min-vh-100">
+    <main role="main" class="flex-grow-1">
+        @RenderBody()
+        @RenderSection("AccountContent", required: false)
+    </main>
 
-        <footer class="footer text-muted">
-            <div class="container">
-                &copy; 2025 - ElectronicsStoreAss3 - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
-    </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <footer class="footer text-muted">
+        <div class="container">
+            &copy; 2025 - ElectronicsStoreAss3 - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
-    <div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" style="z-index: 1080;"></div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="toastContainer" style="z-index: 1080;"></div>
 
-    <!-- Test for toast notifications -->
-    <!-- <script> -->
-    <!--     document.addEventListener("DOMContentLoaded", function () { -->
-    <!--         showToast('This is a success toast!', 'success'); -->
-    <!--         showToast('This is an error toast!', 'error'); -->
-    <!--         showToast('This is an info toast!', 'info'); -->
-    <!--         showToast('This is a warning toast!', 'warning'); -->
-    <!--     }); -->
-    <!-- </script> -->
+<!-- Test for toast notifications -->
+<!-- <script> -->
+<!--     document.addEventListener("DOMContentLoaded", function () { -->
+<!--         showToast('This is a success toast!', 'success'); -->
+<!--         showToast('This is an error toast!', 'error'); -->
+<!--         showToast('This is an info toast!', 'info'); -->
+<!--         showToast('This is a warning toast!', 'warning'); -->
+<!--     }); -->
+<!-- </script> -->
 
-    @if (TempData["ToastMessage"] != null)
-    {
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                showToast('@TempData["ToastMessage"]', '@(TempData["ToastType"] ?? "info")');
-            });
-        </script>
-    }
-    
-    @await RenderSectionAsync("Scripts", required: false)
+@if (TempData["ToastMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            showToast('@TempData["ToastMessage"]', '@(TempData["ToastType"] ?? "info")');
+        });
+    </script>
+}
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

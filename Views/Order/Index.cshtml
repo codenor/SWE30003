@@ -77,7 +77,9 @@
                                     @if (order.CanBeCancelled())
                                     {
                                         <button class="btn btn-outline-danger" 
-                                                onclick="cancelOrder(@order.OrderId)">
+                                                data-bs-toggle="modal" data-bs-target="#cancelOrderModal" 
+                                                data-order-id="@order.OrderId" 
+                                                data-order-number="@order.OrderId">
                                             <i class="bi bi-x-circle"></i>
                                         </button>
                                     }
@@ -89,6 +91,41 @@
             </table>
         </div>
     }
+    
+    <!-- Cancel Order Modal -->
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill"></i> 
+                        <strong>Warning:</strong> This action cannot be undone.
+                    </div>
+                    <p>Are you sure you want to cancel Order #<span id="orderNumberToCancel"></span>?</p>
+                    <p>Cancelling this order will:</p>
+                    <ul>
+                        <li>Return items to inventory</li>
+                        <li>Cancel any associated shipments</li>
+                        <li>Mark the order as "Cancelled"</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form id="cancelOrderForm" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="orderIdToCancel" name="id" value="" />
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-x-circle"></i> Cancel Order
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @functions {
@@ -123,11 +160,31 @@
 
 @section Scripts {
     <script>
-        function cancelOrder(orderId) {
-            if (confirm('Are you sure you want to cancel this order?')) {
-                // In a real application, you would make an AJAX call to cancel the order
-                alert('Order #' + orderId + ' has been cancelled.');
+        // Initialize the cancel order modal
+        document.addEventListener('DOMContentLoaded', function() {
+            var cancelOrderModal = document.getElementById('cancelOrderModal');
+            if (cancelOrderModal) {
+                cancelOrderModal.addEventListener('show.bs.modal', function (event) {
+                    // Button that triggered the modal
+                    var button = event.relatedTarget;
+                    
+                    // Extract info from data-* attributes
+                    var orderId = button.getAttribute('data-order-id');
+                    var orderNumber = button.getAttribute('data-order-number');
+                    
+                    // Update the modal's content
+                    var orderIdInput = document.getElementById('orderIdToCancel');
+                    var orderNumberSpan = document.getElementById('orderNumberToCancel');
+                    var form = document.getElementById('cancelOrderForm');
+                    
+                    orderIdInput.value = orderId;
+                    orderNumberSpan.textContent = orderNumber;
+                    form.action = '@Url.Action("Cancel", "Order")/' + orderId;
+                });
             }
-        }
+        });
     </script>
-} 
+}
+
+<!-- Hidden form for anti-forgery token -->
+@Html.AntiForgeryToken() 
