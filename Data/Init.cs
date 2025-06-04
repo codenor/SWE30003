@@ -40,7 +40,7 @@ namespace ElectronicsStoreAss3.Data
             var hasher = new PasswordHasher<object>();
             var account = new Account
             {
-                Email = "Arbnor@test.com",
+                Email = "arbnor@test.com",
                 PasswordHash = hasher.HashPassword(null, "password"),
                 Role = Role.Customer
             };
