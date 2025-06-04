@@ -357,7 +357,7 @@ namespace ElectronicsStoreAss3.Data
                     Description = "Modular laptop designed for repairability and upgradability.",
                     Specifications =
                         "13.5-inch 2256×1504 display\nIntel Core i7-1360P\n32GB DDR4 RAM\n1TB NVMe SSD\nIntel Iris Xe Graphics\nModular ports\nWindows 11 Home",
-                    ImagePath = "https://static.frame.work/uq78hkvl9829a8ps1emnuicfcmhm",
+                    ImagePath = "https://static.frame.work/cf5cfwr4rkgxezbrgifqhel03s2q",
                     IsActive = true
                 },
                 new()
