@@ -1,8 +1,8 @@
 @model ElectronicsStoreAss3.Models.Statistics.StatisticsViewModel
 
 @{
-ViewData["Title"] = "Sales Statistics";
-Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    ViewData["Title"] = "Sales Statistics";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -42,11 +42,13 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label">From Date</label>
-                            <input type="date" name="fromDate" class="form-control" value="@Model.FromDate.ToString("yyyy-MM-dd")" />
+                            <input type="date" name="fromDate" class="form-control"
+                                   value="@Model.FromDate.ToString("yyyy-MM-dd")"/>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">To Date</label>
-                            <input type="date" name="toDate" class="form-control" value="@Model.ToDate.ToString("yyyy-MM-dd")" />
+                            <input type="date" name="toDate" class="form-control"
+                                   value="@Model.ToDate.ToString("yyyy-MM-dd")"/>
                         </div>
                     </div>
                 </div>
@@ -70,10 +72,10 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                         <h3 class="mb-0">$@Model.SalesOverview.TotalRevenue.ToString("N0")</h3>
                         @if (Model.SalesOverview.RevenueGrowth != 0)
                         {
-                        <small class="text-@(Model.SalesOverview.RevenueGrowth > 0 ? "success" : "danger")">
-                            <i class="bi bi-arrow-@(Model.SalesOverview.RevenueGrowth > 0 ? "up" : "down")"></i>
-                            @Math.Abs(Model.SalesOverview.RevenueGrowth).ToString("F1")%
-                        </small>
+                            <small class="text-@(Model.SalesOverview.RevenueGrowth > 0 ? "success" : "danger")">
+                                <i class="bi bi-arrow-@(Model.SalesOverview.RevenueGrowth > 0 ? "up" : "down")"></i>
+                                @Math.Abs(Model.SalesOverview.RevenueGrowth).ToString("F1")%
+                            </small>
                         }
                     </div>
                     <div class="align-self-center">
@@ -93,10 +95,10 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
                         <h3 class="mb-0">@Model.SalesOverview.TotalOrders.ToString("N0")</h3>
                         @if (Model.SalesOverview.OrderGrowth != 0)
                         {
-                        <small class="text-@(Model.SalesOverview.OrderGrowth > 0 ? "success" : "danger")">
-                            <i class="bi bi-arrow-@(Model.SalesOverview.OrderGrowth > 0 ? "up" : "down")"></i>
-                            @Math.Abs(Model.SalesOverview.OrderGrowth).ToString("F1")%
-                        </small>
+                            <small class="text-@(Model.SalesOverview.OrderGrowth > 0 ? "success" : "danger")">
+                                <i class="bi bi-arrow-@(Model.SalesOverview.OrderGrowth > 0 ? "up" : "down")"></i>
+                                @Math.Abs(Model.SalesOverview.OrderGrowth).ToString("F1")%
+                            </small>
                         }
                     </div>
                     <div class="align-self-center">
@@ -180,52 +182,52 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
             <div class="card-body">
                 @if (Model.TopProducts.Any())
                 {
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Product</th>
-                            <th>Category</th>
-                            <th>Quantity Sold</th>
-                            <th>Revenue</th>
-                            <th>Avg Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @{ int rank = 1; }
-                        @foreach (var product in Model.TopProducts.Take(10))
-                        {
-                        <tr>
-                            <td>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Quantity Sold</th>
+                                <th>Revenue</th>
+                                <th>Avg Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{ int rank = 1; }
+                            @foreach (var product in Model.TopProducts.Take(10))
+                            {
+                                <tr>
+                                    <td>
                                             <span class="badge bg-@(rank <= 3 ? "warning" : "secondary")">
                                                 #@rank
                                             </span>
-                            </td>
-                            <td>
-                                <strong>@product.ProductName</strong>
-                                <br />
-                                <small class="text-muted">@product.SKU</small>
-                            </td>
-                            <td>
-                                <span class="badge bg-secondary">@product.Category</span>
-                            </td>
-                            <td>@product.QuantitySold</td>
-                            <td>$@product.Revenue.ToString("N2")</td>
-                            <td>$@product.AveragePrice.ToString("N2")</td>
-                        </tr>
-                        rank++;
-                        }
-                        </tbody>
-                    </table>
-                </div>
+                                    </td>
+                                    <td>
+                                        <strong>@product.ProductName</strong>
+                                        <br/>
+                                        <small class="text-muted">@product.SKU</small>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">@product.Category</span>
+                                    </td>
+                                    <td>@product.QuantitySold</td>
+                                    <td>$@product.Revenue.ToString("N2")</td>
+                                    <td>$@product.AveragePrice.ToString("N2")</td>
+                                </tr>
+                                rank++;
+                            }
+                            </tbody>
+                        </table>
+                    </div>
                 }
                 else
                 {
-                <div class="text-center py-4">
-                    <i class="bi bi-bar-chart display-4 text-muted"></i>
-                    <p class="text-muted mt-2">No sales data available for the selected period</p>
-                </div>
+                    <div class="text-center py-4">
+                        <i class="bi bi-bar-chart display-4 text-muted"></i>
+                        <p class="text-muted mt-2">No sales data available for the selected period</p>
+                    </div>
                 }
             </div>
         </div>
@@ -240,30 +242,31 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
             <div class="card-body">
                 @if (Model.CategoryPerformance.Any())
                 {
-                @foreach (var category in Model.CategoryPerformance.Take(5))
-                {
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <div>
-                        <h6 class="mb-1">@category.Category</h6>
-                        <small class="text-muted">@category.ProductCount products • @category.QuantitySold units sold</small>
-                    </div>
-                    <div class="text-end">
-                        <strong>$@category.Revenue.ToString("N0")</strong>
-                        <br />
-                        <small class="text-muted">@category.MarketShare.ToString("F1")% share</small>
-                    </div>
-                </div>
-                <div class="progress mb-3" style="height: 6px;">
-                    <div class="progress-bar" style="width: @category.MarketShare%"></div>
-                </div>
-                }
+                    @foreach (var category in Model.CategoryPerformance.Take(5))
+                    {
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6 class="mb-1">@category.Category</h6>
+                                <small class="text-muted">@category.ProductCount products • @category.QuantitySold units
+                                    sold</small>
+                            </div>
+                            <div class="text-end">
+                                <strong>$@category.Revenue.ToString("N0")</strong>
+                                <br/>
+                                <small class="text-muted">@category.MarketShare.ToString("F1")% share</small>
+                            </div>
+                        </div>
+                        <div class="progress mb-3" style="height: 6px;">
+                            <div class="progress-bar" style="width: @category.MarketShare%"></div>
+                        </div>
+                    }
                 }
                 else
                 {
-                <div class="text-center py-4">
-                    <i class="bi bi-pie-chart display-4 text-muted"></i>
-                    <p class="text-muted mt-2">No category data available</p>
-                </div>
+                    <div class="text-center py-4">
+                        <i class="bi bi-pie-chart display-4 text-muted"></i>
+                        <p class="text-muted mt-2">No category data available</p>
+                    </div>
                 }
             </div>
         </div>
@@ -288,280 +291,280 @@ Layout = "~/Views/Shared/_AccountLayout.cshtml";
     <!-- Load Apache ECharts -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        try {
-            // Get data from the model
-            const dailyData = @Html.Raw(Json.Serialize(Model.DailySales?.Any() == true
-                                  ? Model.DailySales.Select(d => new
-                                  {
-                        date = d.Date.ToString("MMM dd"),
-                        revenue = d.Revenue,
-                        orders = d.OrderCount
-                                  })
-                                  : new List<object>()));
-                                  
-            const categoryData = @Html.Raw(Json.Serialize(Model.CategoryPerformance?.Any() == true
-                                     ? Model.CategoryPerformance.Select(c => new
-                                     {
-                                         name = c.Category,
-                                         value = c.Revenue,
-                                         marketShare = c.MarketShare
-                                     })
-                                     : new List<object>()));
-                                     
-            const monthlyData = @Html.Raw(Json.Serialize(Model.MonthlySales?.Any() == true
-                                    ? Model.MonthlySales.Select(m => new
-                                    {
-                        month = m.MonthName,
-                        revenue = m.Revenue,
-                        orders = m.OrderCount
-                                    })
-                                    : new List<object>()));
-            
-            // Initialize charts
-            initializeCharts(dailyData, categoryData, monthlyData);
-        } catch (error) {
-            console.error("Error initializing charts:", error);
-            showToast("Error loading charts. Please try refreshing the page.", "error");
-            
-            // Display a user-friendly error message on all chart containers
-            document.querySelectorAll('[id$="Chart"]').forEach(container => {
-                container.innerHTML = '<div class="text-center py-4"><i class="bi bi-exclamation-triangle text-warning display-4"></i><p class="text-muted mt-2">Unable to display chart data</p></div>';
-            });
-        }
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            try {
+                // Get data from the model
+                const dailyData = @Html.Raw(Json.Serialize(Model.DailySales?.Any() == true
+                                      ? Model.DailySales.Select(d => new
+                                      {
+                                          date = d.Date.ToString("MMM dd"),
+                                          revenue = d.Revenue,
+                                          orders = d.OrderCount
+                                      })
+                                      : new List<object>()));
 
-        // Custom range modal
-        const customRangeBtn = document.querySelector('.custom-range-btn');
-        if (customRangeBtn) {
-            customRangeBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                const modal = document.getElementById('customRangeModal');
-                if (modal) {
-                    new bootstrap.Modal(modal).show();
-                }
-            });
-        }
-    });
-    
-    function initializeCharts(dailyData, categoryData, monthlyData) {
-        // Daily Sales Chart
-        if (dailyData && dailyData.length > 0) {
-            const dailyChart = echarts.init(document.getElementById('dailySalesChart'));
-            
-            const dailyOption = {
-                tooltip: {
-                    trigger: 'axis',
-                    formatter: function(params) {
-                        let result = params[0].name + '<br/>';
-                        params.forEach(param => {
-                            if (param.seriesName === 'Revenue') {
-                                result += param.seriesName + ': $' + param.value.toLocaleString() + '<br/>';
-                            } else {
-                                result += param.seriesName + ': ' + param.value + '<br/>';
-                            }
-                        });
-                        return result;
+                const categoryData = @Html.Raw(Json.Serialize(Model.CategoryPerformance?.Any() == true
+                                         ? Model.CategoryPerformance.Select(c => new
+                                         {
+                                             name = c.Category,
+                                             value = c.Revenue,
+                                             marketShare = c.MarketShare
+                                         })
+                                         : new List<object>()));
+
+                const monthlyData = @Html.Raw(Json.Serialize(Model.MonthlySales?.Any() == true
+                                        ? Model.MonthlySales.Select(m => new
+                                        {
+                                            month = m.MonthName,
+                                            revenue = m.Revenue,
+                                            orders = m.OrderCount
+                                        })
+                                        : new List<object>()));
+
+                // Initialize charts
+                initializeCharts(dailyData, categoryData, monthlyData);
+            } catch (error) {
+                console.error("Error initializing charts:", error);
+                showToast("Error loading charts. Please try refreshing the page.", "error");
+
+                // Display a user-friendly error message on all chart containers
+                document.querySelectorAll('[id$="Chart"]').forEach(container => {
+                    container.innerHTML = '<div class="text-center py-4"><i class="bi bi-exclamation-triangle text-warning display-4"></i><p class="text-muted mt-2">Unable to display chart data</p></div>';
+                });
+            }
+
+            // Custom range modal
+            const customRangeBtn = document.querySelector('.custom-range-btn');
+            if (customRangeBtn) {
+                customRangeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const modal = document.getElementById('customRangeModal');
+                    if (modal) {
+                        new bootstrap.Modal(modal).show();
                     }
-                },
-                legend: {
-                    data: ['Revenue', 'Orders']
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'category',
-                    boundaryGap: false,
-                    data: dailyData.map(d => d.date)
-                },
-                yAxis: [
-                    {
+                });
+            }
+        });
+
+        function initializeCharts(dailyData, categoryData, monthlyData) {
+            // Daily Sales Chart
+            if (dailyData && dailyData.length > 0) {
+                const dailyChart = echarts.init(document.getElementById('dailySalesChart'));
+
+                const dailyOption = {
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: function (params) {
+                            let result = params[0].name + '<br/>';
+                            params.forEach(param => {
+                                if (param.seriesName === 'Revenue') {
+                                    result += param.seriesName + ': $' + param.value.toLocaleString() + '<br/>';
+                                } else {
+                                    result += param.seriesName + ': ' + param.value + '<br/>';
+                                }
+                            });
+                            return result;
+                        }
+                    },
+                    legend: {
+                        data: ['Revenue', 'Orders']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: dailyData.map(d => d.date)
+                    },
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: 'Revenue ($)',
+                            position: 'left',
+                            axisLabel: {
+                                formatter: '${value}'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: 'Orders',
+                            position: 'right'
+                        }
+                    ],
+                    series: [
+                        {
+                            name: 'Revenue',
+                            type: 'line',
+                            yAxisIndex: 0,
+                            smooth: true,
+                            lineStyle: {
+                                width: 3,
+                                color: '#4BC0C0'
+                            },
+                            areaStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                    {offset: 0, color: 'rgba(75, 192, 192, 0.5)'},
+                                    {offset: 1, color: 'rgba(75, 192, 192, 0.1)'}
+                                ])
+                            },
+                            data: dailyData.map(d => d.revenue)
+                        },
+                        {
+                            name: 'Orders',
+                            type: 'line',
+                            yAxisIndex: 1,
+                            smooth: true,
+                            lineStyle: {
+                                width: 3,
+                                color: '#FF6384'
+                            },
+                            data: dailyData.map(d => d.orders)
+                        }
+                    ]
+                };
+
+                dailyChart.setOption(dailyOption);
+
+                // Handle responsive resize
+                window.addEventListener('resize', function () {
+                    dailyChart.resize();
+                });
+            } else {
+                document.getElementById('dailySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-graph-up display-4 text-muted"></i><p class="text-muted mt-2">No daily sales data available for the selected period</p></div>';
+            }
+
+            // Category Performance Chart
+            if (categoryData && categoryData.length > 0) {
+                const categoryChart = echarts.init(document.getElementById('categoryChart'));
+
+                const categoryOption = {
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: function (params) {
+                            const total = categoryData.reduce((sum, item) => sum + item.value, 0);
+                            const percentage = ((params.value / total) * 100).toFixed(1);
+                            return `${params.name}: $${params.value.toLocaleString()} (${percentage}%)`;
+                        }
+                    },
+                    legend: {
+                        orient: 'vertical',
+                        right: 10,
+                        top: 'center',
+                        type: 'scroll'
+                    },
+                    series: [
+                        {
+                            name: 'Category Revenue',
+                            type: 'pie',
+                            radius: ['40%', '70%'],
+                            avoidLabelOverlap: false,
+                            itemStyle: {
+                                borderRadius: 10,
+                                borderColor: '#fff',
+                                borderWidth: 2
+                            },
+                            label: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                label: {
+                                    show: true,
+                                    fontSize: '18',
+                                    fontWeight: 'bold'
+                                }
+                            },
+                            labelLine: {
+                                show: false
+                            },
+                            data: categoryData
+                        }
+                    ]
+                };
+
+                categoryChart.setOption(categoryOption);
+
+                // Handle responsive resize
+                window.addEventListener('resize', function () {
+                    categoryChart.resize();
+                });
+            } else {
+                document.getElementById('categoryChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-pie-chart display-4 text-muted"></i><p class="text-muted mt-2">No category data available for the selected period</p></div>';
+            }
+
+            // Monthly Sales Chart
+            if (monthlyData && monthlyData.length > 0) {
+                const monthlyChart = echarts.init(document.getElementById('monthlySalesChart'));
+
+                const monthlyOption = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'shadow'
+                        },
+                        formatter: function (params) {
+                            return `${params[0].name}<br/>Revenue: $${params[0].value.toLocaleString()}`;
+                        }
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: monthlyData.map(m => m.month),
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 30
+                        }
+                    },
+                    yAxis: {
                         type: 'value',
                         name: 'Revenue ($)',
-                        position: 'left',
                         axisLabel: {
                             formatter: '${value}'
                         }
                     },
-                    {
-                        type: 'value',
-                        name: 'Orders',
-                        position: 'right'
-                    }
-                ],
-                series: [
-                    {
-                        name: 'Revenue',
-                        type: 'line',
-                        yAxisIndex: 0,
-                        smooth: true,
-                        lineStyle: {
-                            width: 3,
-                            color: '#4BC0C0'
-                        },
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0, color: 'rgba(75, 192, 192, 0.5)' },
-                                { offset: 1, color: 'rgba(75, 192, 192, 0.1)' }
-                            ])
-                        },
-                        data: dailyData.map(d => d.revenue)
-                    },
-                    {
-                        name: 'Orders',
-                        type: 'line',
-                        yAxisIndex: 1,
-                        smooth: true,
-                        lineStyle: {
-                            width: 3,
-                            color: '#FF6384'
-                        },
-                        data: dailyData.map(d => d.orders)
-                    }
-                ]
-            };
-            
-            dailyChart.setOption(dailyOption);
-            
-            // Handle responsive resize
-            window.addEventListener('resize', function() {
-                dailyChart.resize();
-            });
-        } else {
-            document.getElementById('dailySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-graph-up display-4 text-muted"></i><p class="text-muted mt-2">No daily sales data available for the selected period</p></div>';
-        }
-        
-        // Category Performance Chart
-        if (categoryData && categoryData.length > 0) {
-            const categoryChart = echarts.init(document.getElementById('categoryChart'));
-            
-            const categoryOption = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: function(params) {
-                        const total = categoryData.reduce((sum, item) => sum + item.value, 0);
-                        const percentage = ((params.value / total) * 100).toFixed(1);
-                        return `${params.name}: $${params.value.toLocaleString()} (${percentage}%)`;
-                    }
-                },
-                legend: {
-                    orient: 'vertical',
-                    right: 10,
-                    top: 'center',
-                    type: 'scroll'
-                },
-                series: [
-                    {
-                        name: 'Category Revenue',
-                        type: 'pie',
-                        radius: ['40%', '70%'],
-                        avoidLabelOverlap: false,
-                        itemStyle: {
-                            borderRadius: 10,
-                            borderColor: '#fff',
-                            borderWidth: 2
-                        },
-                        label: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            label: {
-                                show: true,
-                                fontSize: '18',
-                                fontWeight: 'bold'
-                            }
-                        },
-                        labelLine: {
-                            show: false
-                        },
-                        data: categoryData
-                    }
-                ]
-            };
-            
-            categoryChart.setOption(categoryOption);
-            
-            // Handle responsive resize
-            window.addEventListener('resize', function() {
-                categoryChart.resize();
-            });
-        } else {
-            document.getElementById('categoryChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-pie-chart display-4 text-muted"></i><p class="text-muted mt-2">No category data available for the selected period</p></div>';
-        }
-        
-        // Monthly Sales Chart
-        if (monthlyData && monthlyData.length > 0) {
-            const monthlyChart = echarts.init(document.getElementById('monthlySalesChart'));
-            
-            const monthlyOption = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    },
-                    formatter: function(params) {
-                        return `${params[0].name}<br/>Revenue: $${params[0].value.toLocaleString()}`;
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'category',
-                    data: monthlyData.map(m => m.month),
-                    axisLabel: {
-                        interval: 0,
-                        rotate: 30
-                    }
-                },
-                yAxis: {
-                    type: 'value',
-                    name: 'Revenue ($)',
-                    axisLabel: {
-                        formatter: '${value}'
-                    }
-                },
-                series: [
-                    {
-                        name: 'Revenue',
-                        type: 'bar',
-                        barWidth: '60%',
-                        data: monthlyData.map(m => m.revenue),
-                        itemStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0, color: '#36A2EB' },
-                                { offset: 1, color: '#73C2FB' }
-                            ])
-                        },
-                        emphasis: {
+                    series: [
+                        {
+                            name: 'Revenue',
+                            type: 'bar',
+                            barWidth: '60%',
+                            data: monthlyData.map(m => m.revenue),
                             itemStyle: {
                                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                    { offset: 0, color: '#1E88E5' },
-                                    { offset: 1, color: '#42A5F5' }
+                                    {offset: 0, color: '#36A2EB'},
+                                    {offset: 1, color: '#73C2FB'}
                                 ])
+                            },
+                            emphasis: {
+                                itemStyle: {
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                        {offset: 0, color: '#1E88E5'},
+                                        {offset: 1, color: '#42A5F5'}
+                                    ])
+                                }
                             }
                         }
-                    }
-                ]
-            };
-            
-            monthlyChart.setOption(monthlyOption);
-            
-            // Handle responsive resize
-            window.addEventListener('resize', function() {
-                monthlyChart.resize();
-            });
-        } else {
-            document.getElementById('monthlySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-calendar3 display-4 text-muted"></i><p class="text-muted mt-2">No monthly sales data available</p></div>';
+                    ]
+                };
+
+                monthlyChart.setOption(monthlyOption);
+
+                // Handle responsive resize
+                window.addEventListener('resize', function () {
+                    monthlyChart.resize();
+                });
+            } else {
+                document.getElementById('monthlySalesChart').innerHTML = '<div class="text-center py-4"><i class="bi bi-calendar3 display-4 text-muted"></i><p class="text-muted mt-2">No monthly sales data available</p></div>';
+            }
         }
-    }
-</script>
+    </script>
 }

@@ -35,60 +35,61 @@
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="table-dark">
-                    <tr>
-                        <th>Tracking #</th>
-                        <th>Order #</th>
-                        <th>Customer</th>
-                        <th>Created</th>
-                        <th>Days Pending</th>
-                        <th>Actions</th>
-                    </tr>
+                <tr>
+                    <th>Tracking #</th>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Created</th>
+                    <th>Days Pending</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var shipment in Model.OrderBy(s => s.CreatedDate))
-                    {
-                        var daysPending = (DateTime.Now - shipment.CreatedDate).Days;
-                        <tr class="@(daysPending > 3 ? "table-warning" : "")">
-                            <td><code>@shipment.TrackingNumber</code></td>
-                            <td>
-                                <a asp-controller="Order" asp-action="Details" asp-route-id="@shipment.OrderId">
-                                    #@shipment.OrderId
-                                </a>
-                            </td>
-                            <td>
-                                @if (shipment.Order.Customer != null)
-                                {
-                                    <span>@shipment.Order.Customer.FirstName @shipment.Order.Customer.LastName</span>
-                                    <br />
-                                    <small class="text-muted">@shipment.Order.Customer.Email</small>
-                                }
-                                else
-                                {
-                                    <span class="text-muted">Guest Order</span>
-                                }
-                            </td>
-                            <td>
-                                @shipment.CreatedDate.ToString("MMM dd, yyyy")
-                                <br />
-                                <small class="text-muted">@shipment.CreatedDate.ToString("h:mm tt")</small>
-                            </td>
-                            <td>
-                                <span class="badge bg-@(daysPending > 3 ? "warning" : daysPending > 1 ? "info" : "success")">
+                @foreach (var shipment in Model.OrderBy(s => s.CreatedDate))
+                {
+                    var daysPending = (DateTime.Now - shipment.CreatedDate).Days;
+                    <tr class="@(daysPending > 3 ? "table-warning" : "")">
+                        <td><code>@shipment.TrackingNumber</code></td>
+                        <td>
+                            <a asp-controller="Order" asp-action="Details" asp-route-id="@shipment.OrderId">
+                                #@shipment.OrderId
+                            </a>
+                        </td>
+                        <td>
+                            @if (shipment.Order.Customer != null)
+                            {
+                                <span>@shipment.Order.Customer.FirstName @shipment.Order.Customer.LastName</span>
+                                <br/>
+                                <small class="text-muted">@shipment.Order.Customer.Email</small>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Guest Order</span>
+                            }
+                        </td>
+                        <td>
+                            @shipment.CreatedDate.ToString("MMM dd, yyyy")
+                            <br/>
+                            <small class="text-muted">@shipment.CreatedDate.ToString("h:mm tt")</small>
+                        </td>
+                        <td>
+                                <span
+                                    class="badge bg-@(daysPending > 3 ? "warning" : daysPending > 1 ? "info" : "success")">
                                     @daysPending day@(daysPending != 1 ? "s" : "")
                                 </span>
-                            </td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <a asp-action="Details" asp-route-id="@shipment.ShipmentId" 
-                                       class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-eye"></i> View
-                                    </a>
-                                    
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Details" asp-route-id="@shipment.ShipmentId"
+                                   class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
 
-                                </div>
-                            </td>
-                        </tr>
-                    }
+
+                            </div>
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
         </div>
@@ -101,46 +102,49 @@
                             <h5 class="card-title">Quick Stats</h5>
                             <ul class="list-unstyled">
                                 <li><strong>Total Pending:</strong> @Model.Count()</li>
-                                <li><strong>Over 3 Days:</strong> @Model.Count(s => (DateTime.Now - s.CreatedDate).Days > 3)</li>
+                                <li><strong>Over 3
+                                        Days:</strong> @Model.Count(s => (DateTime.Now - s.CreatedDate).Days > 3)</li>
                                 <li><strong>Today:</strong> @Model.Count(s => s.CreatedDate.Date == DateTime.Today)</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-               
+
             </div>
         </div>
     }
 </div>
 
 @section Scripts {
-<script>
-function updateStatus(shipmentId, status) {
-    if (confirm(`Are you sure you want to mark this shipment as "${status}"?`)) {
-        fetch('/Shipment/QuickStatusUpdate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
-            },
-            body: JSON.stringify({
-                shipmentId: shipmentId,
-                status: status
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload();
-            } else {
-                alert('Failed to update status');
+    <script>
+        function updateStatus(shipmentId, status) {
+            if (confirm(`Are you sure you want to mark this shipment as "${status}"?`)) {
+                fetch('/Shipment/QuickStatusUpdate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: JSON.stringify({
+                        shipmentId: shipmentId,
+                        status: status
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            location.reload();
+                        } else {
+                            alert('Failed to update status');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error updating status');
+                    });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error updating status');
-        });
-    }
-}
-</script>
+            
+
+        }
+    </script>
 }

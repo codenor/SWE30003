@@ -85,7 +85,7 @@
         const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@@#$%^&*()*&^%+-/~{[|`]}";
         const matrixArray = matrix.split("");
 
-        const fontSize = 18; 
+        const fontSize = 18;
         const columns = canvas.width / fontSize;
         const drops = [];
         const speedFactors = [];
@@ -120,7 +120,7 @@
                 } else {
                     // Less intense greens for normal characters
                     const green = 100 + Math.floor(Math.random() * 105);
-                    ctx.fillStyle = `rgba(0, ${green}, ${Math.floor(green/3)}, 0.8)`;
+                    ctx.fillStyle = `rgba(0, ${green}, ${Math.floor(green / 3)}, 0.8)`;
                     ctx.shadowBlur = 2;
                     ctx.shadowColor = 'rgba(0, 200, 65, 0.6)';
                     ctx.font = fontSize + 'px "Geist Mono", monospace';
@@ -189,7 +189,7 @@
             }
         });
         setInterval(drawMatrix, 35);
-        
+
 
         // Beast button functionality
         let stage = 0;

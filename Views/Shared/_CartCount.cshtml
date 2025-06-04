@@ -4,7 +4,7 @@
 @{
     var cartService = Context.RequestServices.GetService<ElectronicsStoreAss3.Services.IShoppingCartService>();
     int cartCount = 0;
-    
+
     if (cartService != null)
     {
         try
@@ -41,7 +41,8 @@
 
 @if (cartCount > 0)
 {
-    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7em;">
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="font-size: 0.7em;">
         @cartCount
         <span class="visually-hidden">items in cart</span>
     </span>

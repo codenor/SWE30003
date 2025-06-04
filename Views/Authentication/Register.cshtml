@@ -9,34 +9,40 @@
 
     <form asp-action="Register" method="post">
         <div class="form-group mb-3">
-            <input asp-for="FirstName" class="form-control form-control-lg" placeholder="First Name" />
+            <input asp-for="FirstName" class="form-control form-control-lg" placeholder="First Name"/>
             <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
-            <input asp-for="LastName" class="form-control form-control-lg" placeholder="Last Name" />
+            <input asp-for="LastName" class="form-control form-control-lg" placeholder="Last Name"/>
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
-            <input asp-for="Email" type="email" class="form-control form-control-lg" placeholder="Email address" />
+            <input asp-for="Email" type="email" class="form-control form-control-lg" placeholder="Email address"/>
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
-            <input asp-for="Mobile" class="form-control form-control-lg" placeholder="Mobile Number" />
+            <input asp-for="Mobile" class="form-control form-control-lg" placeholder="Mobile Number"/>
             <span asp-validation-for="Mobile" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-2 position-relative">
-            <input asp-for="Password" type="password" id="password" class="form-control form-control-lg" placeholder="Password" />
-            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2" id="togglePassword">Show</button>
+            <input asp-for="Password" type="password" id="password" class="form-control form-control-lg"
+                   placeholder="Password"/>
+            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2" id="togglePassword">
+                Show
+            </button>
             <span asp-validation-for="Password" class="text-danger d-block mt-1"></span>
         </div>
 
         <div class="form-group mb-2 position-relative">
-            <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control form-control-lg" placeholder="Confirm Password" required />
-            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2" id="toggleConfirmPassword">Show</button>
+            <input type="password" id="confirmPassword" name="ConfirmPassword" class="form-control form-control-lg"
+                   placeholder="Confirm Password" required/>
+            <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2"
+                    id="toggleConfirmPassword">Show
+            </button>
             <span id="confirmError" class="text-danger d-block mt-1"></span>
         </div>
 
@@ -78,5 +84,5 @@
         });
     </script>
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

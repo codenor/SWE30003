@@ -1,4 +1,4 @@
-﻿@model ElectronicsStoreAss3.Models.ShoppingCart.ShoppingCartViewModel 
+﻿@model ElectronicsStoreAss3.Models.ShoppingCart.ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Shopping Cart";
@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-12">
             <h2><i class="bi bi-cart"></i> Shopping Cart</h2>
-            
+
             @if (TempData["SuccessMessage"] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show">
@@ -16,7 +16,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             }
-            
+
             @if (TempData["ErrorMessage"] != null)
             {
                 <div class="alert alert-danger alert-dismissible fade show">
@@ -26,7 +26,7 @@
             }
         </div>
     </div>
-    
+
     @if (Model.IsEmpty)
     {
         <div class="row justify-content-center">
@@ -57,93 +57,101 @@
                         <div class="table-responsive">
                             <table class="table table-hover mb-0">
                                 <thead class="table-light">
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Total</th>
-                                        <th>Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.CartItems)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    @if (!string.IsNullOrEmpty(item.ProductImagePath))
-                                                    {
-                                                        <img src="@item.ProductImagePath" alt="@item.ProductName" 
-                                                             class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="bg-light rounded me-3 d-flex align-items-center justify-content-center" 
-                                                             style="width: 60px; height: 60px;">
-                                                            <i class="bi bi-image text-muted"></i>
-                                                        </div>
-                                                    }
-                                                    <div>
-                                                        <h6 class="mb-1">@item.ProductName</h6>
-                                                        <small class="text-muted">SKU: @item.ProductSKU</small>
-                                                        <br/>
-                                                        <small class="@(item.IsInStock ? "text-muted" : "text-danger")">
-                                                            @if (!item.IsInStock)
-                                                            {
-                                                                <i class="bi bi-exclamation-circle"></i> <span>Out of Stock</span>
-                                                            }
-                                                            else if (!item.IsQuantityAvailable)
-                                                            {
-                                                                <i class="bi bi-exclamation-triangle"></i> <span>Only @item.ProductStockLevel available</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>Stock: @item.ProductStockLevel</span>
-                                                            }
-                                                        </small>
+                                @foreach (var item in Model.CartItems)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                @if (!string.IsNullOrEmpty(item.ProductImagePath))
+                                                {
+                                                    <img src="@item.ProductImagePath" alt="@item.ProductName"
+                                                         class="rounded me-3"
+                                                         style="width: 60px; height: 60px; object-fit: cover;"/>
+                                                }
+                                                else
+                                                {
+                                                    <div
+                                                        class="bg-light rounded me-3 d-flex align-items-center justify-content-center"
+                                                        style="width: 60px; height: 60px;">
+                                                        <i class="bi bi-image text-muted"></i>
                                                     </div>
+                                                }
+                                                <div>
+                                                    <h6 class="mb-1">@item.ProductName</h6>
+                                                    <small class="text-muted">SKU: @item.ProductSKU</small>
+                                                    <br/>
+                                                    <small class="@(item.IsInStock ? "text-muted" : "text-danger")">
+                                                        @if (!item.IsInStock)
+                                                        {
+                                                            <i class="bi bi-exclamation-circle"></i>
+                                                            <span>Out of Stock</span>
+                                                        }
+                                                        else if (!item.IsQuantityAvailable)
+                                                        {
+                                                            <i class="bi bi-exclamation-triangle"></i>
+                                                            <span>Only @item.ProductStockLevel available</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>Stock: @item.ProductStockLevel</span>
+                                                        }
+                                                    </small>
                                                 </div>
-                                            </td>
-                                            <td class="align-middle">
-                                                <strong>$@item.UnitPrice.ToString("F2")</strong>
-                                            </td>
-                                            <td class="align-middle">
-                                                <!-- Quantity Input with Auto-Update -->
-                                                <div class="input-group" style="width: 120px;">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn" 
-                                                            data-action="decrease" data-item-id="@item.ShoppingCartItemId"
-                                                            @(item.IsInStock && item.Quantity > 1 ? "" : "disabled")>
-                                                        <i class="bi bi-dash"></i>
-                                                    </button>
-                                                    <input type="number" class="form-control form-control-sm text-center quantity-input" 
-                                                           value="@item.Quantity" min="1" max="@item.ProductStockLevel"
-                                                           data-item-id="@item.ShoppingCartItemId"
-                                                           @(item.IsInStock ? "" : "disabled") />
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm quantity-btn"
-                                                            data-action="increase" data-item-id="@item.ShoppingCartItemId"
-                                                            @(item.IsInStock && item.Quantity < item.ProductStockLevel ? "" : "disabled")>
-                                                        <i class="bi bi-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="spinner-border spinner-border-sm text-primary d-none update-spinner" 
-                                                     role="status" data-item-id="@item.ShoppingCartItemId">
-                                                    <span class="visually-hidden">Updating...</span>
-                                                </div>
-                                            </td>
-                                            <td class="align-middle">
-                                                <strong>$@item.TotalPrice.ToString("F2")</strong>
-                                            </td>
-                                            <td class="align-middle">
-                                                <!-- Remove Item Button -->
-                                                <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn" 
-                                                        data-bs-toggle="modal" data-bs-target="#removeItemModal"
-                                                        data-item-id="@item.ShoppingCartItemId" 
-                                                        data-product-name="@item.ProductName">
-                                                    <i class="bi bi-trash"></i>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <strong>$@item.UnitPrice.ToString("F2")</strong>
+                                        </td>
+                                        <td class="align-middle">
+                                            <!-- Quantity Input with Auto-Update -->
+                                            <div class="input-group" style="width: 120px;">
+                                                <button type="button"
+                                                        class="btn btn-outline-secondary btn-sm quantity-btn"
+                                                        data-action="decrease" data-item-id="@item.ShoppingCartItemId"
+                                                        @(item.IsInStock && item.Quantity > 1 ? "" : "disabled")>
+                                                    <i class="bi bi-dash"></i>
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    }
+                                                <input type="number"
+                                                       class="form-control form-control-sm text-center quantity-input"
+                                                       value="@item.Quantity" min="1" max="@item.ProductStockLevel"
+                                                       data-item-id="@item.ShoppingCartItemId"
+                                                       @(item.IsInStock ? "" : "disabled")/>
+                                                <button type="button"
+                                                        class="btn btn-outline-secondary btn-sm quantity-btn"
+                                                        data-action="increase" data-item-id="@item.ShoppingCartItemId"
+                                                        @(item.IsInStock && item.Quantity < item.ProductStockLevel ? "" : "disabled")>
+                                                    <i class="bi bi-plus"></i>
+                                                </button>
+                                            </div>
+                                            <div
+                                                class="spinner-border spinner-border-sm text-primary d-none update-spinner"
+                                                role="status" data-item-id="@item.ShoppingCartItemId">
+                                                <span class="visually-hidden">Updating...</span>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <strong>$@item.TotalPrice.ToString("F2")</strong>
+                                        </td>
+                                        <td class="align-middle">
+                                            <!-- Remove Item Button -->
+                                            <button type="button" class="btn btn-outline-danger btn-sm remove-item-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#removeItemModal"
+                                                    data-item-id="@item.ShoppingCartItemId"
+                                                    data-product-name="@item.ProductName">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>
@@ -153,9 +161,9 @@
                             <a href="@Url.Action("Catalogue", "Product")" class="btn btn-outline-primary">
                                 <i class="bi bi-arrow-left"></i> Continue Shopping
                             </a>
-                            
+
                             <!-- Clear Cart Button -->
-                            <button type="button" class="btn btn-outline-danger" 
+                            <button type="button" class="btn btn-outline-danger"
                                     data-bs-toggle="modal" data-bs-target="#clearCartModal">
                                 <i class="bi bi-trash"></i> Clear Cart
                             </button>
@@ -163,7 +171,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Order Summary -->
             <div class="col-lg-4">
                 <div class="card">
@@ -177,24 +185,24 @@
                             <span>Subtotal (@Model.TotalItems items):</span>
                             <span>$@Model.SubTotal.ToString("F2")</span>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between mb-2 @(Model.ShippingFee > 0 ? "" : "text-success")">
                             <span>Shipping:</span>
                             <span>@(Model.ShippingFee > 0 ? $"${Model.ShippingFee:F2}" : "Free")</span>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between mb-2">
                             <span>GST (10%):</span>
                             <span>$@Model.GST.ToString("F2")</span>
                         </div>
-                        
+
                         <hr/>
-                        
+
                         <div class="d-flex justify-content-between mb-3">
                             <strong>Total:</strong>
                             <strong class="text-primary">$@Model.GrandTotal.ToString("F2")</strong>
                         </div>
-                        
+
                         <div class="d-grid gap-2">
                             <a href="@Url.Action("Details", "Checkout")" class="btn btn-success btn-lg">
                                 <i class="bi bi-credit-card"></i> Proceed to Checkout
@@ -205,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Additional Info -->
                 <div class="card mt-3">
                     <div class="card-body">
@@ -229,146 +237,146 @@
 @await Html.PartialAsync("_CartModals")
 
 @section Scripts {
-<script>
-    // Initialize on document load
-    document.addEventListener('DOMContentLoaded', initializeCart);
-    
-    // Main initialization function
-    function initializeCart() {
-        setupQuantityButtons();
-        setupQuantityInputs();
-        setupRemoveItemModal();
-    }
-    
-    // Setup quantity buttons (+ and -)
-    function setupQuantityButtons() {
-        document.querySelectorAll('.quantity-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                const action = this.dataset.action;
-                const inputElement = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
-                
-                let currentValue = parseInt(inputElement.value);
-                const min = parseInt(inputElement.getAttribute('min'));
-                const max = parseInt(inputElement.getAttribute('max'));
-                
-                if (action === 'increase' && currentValue < max) {
-                    currentValue++;
-                } else if (action === 'decrease' && currentValue > min) {
-                    currentValue--;
-                }
-                
-                inputElement.value = currentValue;
-                updateCartItemQuantity(itemId, currentValue);
-            });
-        });
-    }
-    
-    // Setup quantity input fields
-    function setupQuantityInputs() {
-        document.querySelectorAll('.quantity-input').forEach(input => {
-            input.addEventListener('change', function() {
-                const itemId = this.dataset.itemId;
-                let value = parseInt(this.value);
-                const min = parseInt(this.getAttribute('min'));
-                const max = parseInt(this.getAttribute('max'));
-                
-                // Validate input
-                if (isNaN(value) || value < min) {
-                    value = min;
-                    this.value = min;
-                } else if (value > max) {
-                    value = max;
-                    this.value = max;
-                }
-                
-                updateCartItemQuantity(itemId, value);
-            });
-        });
-    }
-    
-    // Setup remove item modal
-    function setupRemoveItemModal() {
-        const removeItemModal = document.getElementById('removeItemModal');
-        if (removeItemModal) {
-            removeItemModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
-                const itemId = button.getAttribute('data-item-id');
-                const productName = button.getAttribute('data-product-name');
-                
-                document.getElementById('removeItemId').value = itemId;
-                document.getElementById('removeItemName').textContent = productName;
+    <script>
+        // Initialize on document load
+        document.addEventListener('DOMContentLoaded', initializeCart);
+
+        // Main initialization function
+        function initializeCart() {
+            setupQuantityButtons();
+            setupQuantityInputs();
+            setupRemoveItemModal();
+        }
+
+        // Setup quantity buttons (+ and -)
+        function setupQuantityButtons() {
+            document.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const itemId = this.dataset.itemId;
+                    const action = this.dataset.action;
+                    const inputElement = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
+
+                    let currentValue = parseInt(inputElement.value);
+                    const min = parseInt(inputElement.getAttribute('min'));
+                    const max = parseInt(inputElement.getAttribute('max'));
+
+                    if (action === 'increase' && currentValue < max) {
+                        currentValue++;
+                    } else if (action === 'decrease' && currentValue > min) {
+                        currentValue--;
+                    }
+
+                    inputElement.value = currentValue;
+                    updateCartItemQuantity(itemId, currentValue);
+                });
             });
         }
-    }
-    
-    // Show error modal
-    function showErrorModal(message) {
-        const errorMessage = document.getElementById('updateErrorMessage');
-        errorMessage.textContent = message || 'An error occurred while updating the cart.';
-        
-        const errorModal = new bootstrap.Modal(document.getElementById('updateErrorModal'));
-        errorModal.show();
-    }
-    
-    // Update cart item quantity
-    function updateCartItemQuantity(itemId, quantity) {
-        // Show spinner and disable controls
-        toggleLoadingState(itemId, true);
-        
-        // Get CSRF token and prepare form data
-        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-        const formData = new FormData();
-        formData.append('cartItemId', itemId);
-        formData.append('quantity', quantity);
-        formData.append('__RequestVerificationToken', token);
-        
-        // Send update request
-        fetch('/ShoppingCart/UpdateQuantity', {
-            method: 'POST',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+
+        // Setup quantity input fields
+        function setupQuantityInputs() {
+            document.querySelectorAll('.quantity-input').forEach(input => {
+                input.addEventListener('change', function () {
+                    const itemId = this.dataset.itemId;
+                    let value = parseInt(this.value);
+                    const min = parseInt(this.getAttribute('min'));
+                    const max = parseInt(this.getAttribute('max'));
+
+                    // Validate input
+                    if (isNaN(value) || value < min) {
+                        value = min;
+                        this.value = min;
+                    } else if (value > max) {
+                        value = max;
+                        this.value = max;
+                    }
+
+                    updateCartItemQuantity(itemId, value);
+                });
+            });
+        }
+
+        // Setup remove item modal
+        function setupRemoveItemModal() {
+            const removeItemModal = document.getElementById('removeItemModal');
+            if (removeItemModal) {
+                removeItemModal.addEventListener('show.bs.modal', function (event) {
+                    const button = event.relatedTarget;
+                    const itemId = button.getAttribute('data-item-id');
+                    const productName = button.getAttribute('data-product-name');
+
+                    document.getElementById('removeItemId').value = itemId;
+                    document.getElementById('removeItemName').textContent = productName;
+                });
             }
-            return response.json();
-        })
-        .then(data => {
-            if (data && data.success) {
-                // Refresh the page to show updated cart
-                location.reload();
+        }
+
+        // Show error modal
+        function showErrorModal(message) {
+            const errorMessage = document.getElementById('updateErrorMessage');
+            errorMessage.textContent = message || 'An error occurred while updating the cart.';
+
+            const errorModal = new bootstrap.Modal(document.getElementById('updateErrorModal'));
+            errorModal.show();
+        }
+
+        // Update cart item quantity
+        function updateCartItemQuantity(itemId, quantity) {
+            // Show spinner and disable controls
+            toggleLoadingState(itemId, true);
+
+            // Get CSRF token and prepare form data
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+            const formData = new FormData();
+            formData.append('cartItemId', itemId);
+            formData.append('quantity', quantity);
+            formData.append('__RequestVerificationToken', token);
+
+            // Send update request
+            fetch('/ShoppingCart/UpdateQuantity', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        // Refresh the page to show updated cart
+                        location.reload();
+                    } else {
+                        // Show error modal
+                        showErrorModal(data && data.message ? data.message : 'Failed to update quantity.');
+                        toggleLoadingState(itemId, false);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showErrorModal('An error occurred while updating the cart. Please try again.');
+                    toggleLoadingState(itemId, false);
+                });
+        }
+
+        // Toggle loading state for cart item controls
+        function toggleLoadingState(itemId, isLoading) {
+            const spinner = document.querySelector(`.update-spinner[data-item-id="${itemId}"]`);
+            const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
+            const buttons = document.querySelectorAll(`.quantity-btn[data-item-id="${itemId}"]`);
+
+            if (isLoading) {
+                spinner.classList.remove('d-none');
+                input.disabled = true;
+                buttons.forEach(btn => btn.disabled = true);
             } else {
-                // Show error modal
-                showErrorModal(data && data.message ? data.message : 'Failed to update quantity.');
-                toggleLoadingState(itemId, false);
+                spinner.classList.add('d-none');
+                input.disabled = false;
+                buttons.forEach(btn => btn.disabled = false);
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showErrorModal('An error occurred while updating the cart. Please try again.');
-            toggleLoadingState(itemId, false);
-        });
-    }
-    
-    // Toggle loading state for cart item controls
-    function toggleLoadingState(itemId, isLoading) {
-        const spinner = document.querySelector(`.update-spinner[data-item-id="${itemId}"]`);
-        const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
-        const buttons = document.querySelectorAll(`.quantity-btn[data-item-id="${itemId}"]`);
-        
-        if (isLoading) {
-            spinner.classList.remove('d-none');
-            input.disabled = true;
-            buttons.forEach(btn => btn.disabled = true);
-        } else {
-            spinner.classList.add('d-none');
-            input.disabled = false;
-            buttons.forEach(btn => btn.disabled = false);
         }
-    }
-</script>
+    </script>
 }

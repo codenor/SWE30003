@@ -19,15 +19,16 @@
                     <i class="bi bi-exclamation-circle"></i> @ViewBag.Error
                 </div>
             }
-            
+
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Enter Tracking Number</h5>
-                    <form method="get" action="@Url.Action("Track", "Shipment")" id="trackingForm" onsubmit="return validateTrackingNumber()">
+                    <form method="get" action="@Url.Action("Track", "Shipment")" id="trackingForm"
+                          onsubmit="return validateTrackingNumber()">
                         <div class="input-group">
-                            <input type="text" name="trackingNumber" id="trackingNumber" class="form-control" 
-                                   placeholder="Enter tracking number (e.g., AWE20241201000001)" 
-                                   value="@Context.Request.Query["trackingNumber"]" required />
+                            <input type="text" name="trackingNumber" id="trackingNumber" class="form-control"
+                                   placeholder="Enter tracking number (e.g., AWE20241201000001)"
+                                   value="@Context.Request.Query["trackingNumber"]" required/>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-search"></i> Track
                             </button>
@@ -48,23 +49,23 @@
 </div>
 
 @section Scripts {
-<script>
-    function validateTrackingNumber() {
-        const trackingNumber = document.getElementById('trackingNumber').value.trim();
-        const errorElement = document.getElementById('trackingNumberError');
-        
-        // Basic validation - should start with AWE followed by numbers
-        const isValid = /^AWE\d+$/.test(trackingNumber);
-        
-        if (!isValid) {
-            errorElement.classList.remove('d-none');
-            errorElement.classList.add('d-block');
-            return false;
-        } else {
-            errorElement.classList.add('d-none');
-            errorElement.classList.remove('d-block');
-            return true;
+    <script>
+        function validateTrackingNumber() {
+            const trackingNumber = document.getElementById('trackingNumber').value.trim();
+            const errorElement = document.getElementById('trackingNumberError');
+
+            // Basic validation - should start with AWE followed by numbers
+            const isValid = /^AWE\d+$/.test(trackingNumber);
+
+            if (!isValid) {
+                errorElement.classList.remove('d-none');
+                errorElement.classList.add('d-block');
+                return false;
+            } else {
+                errorElement.classList.add('d-none');
+                errorElement.classList.remove('d-block');
+                return true;
+            }
         }
-    }
-</script>
+    </script>
 }

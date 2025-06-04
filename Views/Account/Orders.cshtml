@@ -46,48 +46,50 @@ else
                                 <div class="table-responsive">
                                     <table class="table table-sm">
                                         <thead>
-                                            <tr>
-                                                <th>Product</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Total</th>
-                                            </tr>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                        </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in order.OrderItems)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            @if (!string.IsNullOrEmpty(item.Product.ImagePath))
-                                                            {
-                                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
-                                                                     class="me-2 rounded" style="width: 40px; height: 40px; object-fit: cover;" />
-                                                            }
-                                                            else
-                                                            {
-                                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center" 
-                                                                     style="width: 40px; height: 40px;">
-                                                                    <i class="bi bi-image text-muted"></i>
-                                                                </div>
-                                                            }
-                                                            <div>
-                                                                <strong>@item.Product.Name</strong>
-                                                                <br />
-                                                                <small class="text-muted">SKU: @item.Product.SKU</small>
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        @if (!string.IsNullOrEmpty(item.Product.ImagePath))
+                                                        {
+                                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name"
+                                                                 class="me-2 rounded"
+                                                                 style="width: 40px; height: 40px; object-fit: cover;"/>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div
+                                                                class="bg-light rounded me-2 d-flex align-items-center justify-content-center"
+                                                                style="width: 40px; height: 40px;">
+                                                                <i class="bi bi-image text-muted"></i>
                                                             </div>
+                                                        }
+                                                        <div>
+                                                            <strong>@item.Product.Name</strong>
+                                                            <br/>
+                                                            <small class="text-muted">SKU: @item.Product.SKU</small>
                                                         </div>
-                                                    </td>
-                                                    <td>@item.Quantity</td>
-                                                    <td>$@item.UnitPrice.ToString("0.00")</td>
-                                                    <td>$@item.TotalPrice.ToString("0.00")</td>
-                                                </tr>
-                                            }
+                                                    </div>
+                                                </td>
+                                                <td>@item.Quantity</td>
+                                                <td>$@item.UnitPrice.ToString("0.00")</td>
+                                                <td>$@item.TotalPrice.ToString("0.00")</td>
+                                            </tr>
+                                        }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            
+
                             <!-- Shipping Info -->
                             <div class="col-md-4">
                                 @if (order.Shipment != null)
@@ -96,15 +98,16 @@ else
                                     <div class="card bg-light">
                                         <div class="card-body py-2">
                                             <p class="mb-1">
-                                                <strong>Tracking:</strong> 
-                                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })" 
+                                                <strong>Tracking:</strong>
+                                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })"
                                                    class="text-decoration-none">
                                                     <code>@order.Shipment.TrackingNumber</code>
                                                 </a>
                                             </p>
                                             <p class="mb-1">
-                                                <strong>Status:</strong> 
-                                                <span class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status))">
+                                                <strong>Status:</strong>
+                                                <span
+                                                    class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status))">
                                                     @order.Shipment.Status
                                                 </span>
                                             </p>
@@ -112,13 +115,13 @@ else
                                                 <strong>Carrier:</strong> @order.Shipment.CarrierName
                                             </p>
                                             <p class="mb-0">
-                                                <strong>Est. Delivery:</strong> 
+                                                <strong>Est. Delivery:</strong>
                                                 @order.Shipment.EstimatedDeliveryDate.ToString("MMM dd, yyyy")
                                             </p>
                                             @if (order.Shipment.DeliveredDate.HasValue)
                                             {
                                                 <p class="mb-0 text-success">
-                                                    <strong>Delivered:</strong> 
+                                                    <strong>Delivered:</strong>
                                                     @order.Shipment.DeliveredDate.Value.ToString("MMM dd, yyyy")
                                                 </p>
                                             }
@@ -140,32 +143,32 @@ else
                             <div>
                                 @if (order.Shipment != null)
                                 {
-                                    <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })" 
+                                    <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })"
                                        class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-search"></i> Track Package
                                     </a>
                                 }
-                                
-                                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" 
+
+                                <a href="@Url.Action("Details", "Order", new { id = order.OrderId })"
                                    class="btn btn-outline-secondary btn-sm">
                                     <i class="bi bi-eye"></i> View Details
                                 </a>
                             </div>
-                            
+
                             <div>
                                 @if (order.CanBeCancelled())
                                 {
-                                    <button class="btn btn-outline-danger btn-sm" 
-                                            data-bs-toggle="modal" data-bs-target="#cancelOrderModal" 
-                                            data-order-id="@order.OrderId" 
+                                    <button class="btn btn-outline-danger btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
+                                            data-order-id="@order.OrderId"
                                             data-order-number="@order.OrderId">
                                         <i class="bi bi-x-circle"></i> Cancel Order
                                     </button>
                                 }
-                                
+
                                 @if (order.Status == "Completed")
                                 {
-                                    <button class="btn btn-outline-info btn-sm" 
+                                    <button class="btn btn-outline-info btn-sm"
                                             onclick="reorder(@order.OrderId)">
                                         <i class="bi bi-arrow-repeat"></i> Reorder
                                     </button>
@@ -177,7 +180,7 @@ else
             </div>
         }
     </div>
-    
+
     <!-- Order Summary -->
     <div class="row mt-4">
         <div class="col-md-6">
@@ -188,7 +191,9 @@ else
                         <li><strong>Total Orders:</strong> @Model.Count()</li>
                         <li><strong>Total Spent:</strong> $@Model.Sum(o => o.TotalAmount).ToString("F2")</li>
                         <li><strong>Completed:</strong> @Model.Count(o => o.Status == "Completed")</li>
-                        <li><strong>In Progress:</strong> @Model.Count(o => o.Status != "Completed" && o.Status != "Cancelled")</li>
+                        <li><strong>In
+                                Progress:</strong> @Model.Count(o => o.Status != "Completed" && o.Status != "Cancelled")
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -209,18 +214,20 @@ else
             </div>
         </div>
     </div>
-    
+
     <!-- Cancel Order Modal -->
-    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
-                        <i class="bi bi-exclamation-triangle-fill"></i> 
+                        <i class="bi bi-exclamation-triangle-fill"></i>
                         <strong>Warning:</strong> This action cannot be undone.
                     </div>
                     <p>Are you sure you want to cancel Order #<span id="orderNumberToCancel"></span>?</p>
@@ -235,7 +242,7 @@ else
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <form id="cancelOrderForm" method="post">
                         @Html.AntiForgeryToken()
-                        <input type="hidden" id="orderIdToCancel" name="id" value="" />
+                        <input type="hidden" id="orderIdToCancel" name="id" value=""/>
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-x-circle"></i> Cancel Order
                         </button>
@@ -247,6 +254,7 @@ else
 }
 
 @functions {
+
     public string GetStatusBadgeClass(string status)
     {
         return status switch
@@ -260,7 +268,7 @@ else
             _ => "secondary"
         };
     }
-    
+
     public string GetShipmentStatusBadgeClass(string status)
     {
         return status switch
@@ -275,47 +283,52 @@ else
             _ => "secondary"
         };
     }
+
 }
 
 @section Scripts {
-<script>
-// Initialize the cancel order modal
-document.addEventListener('DOMContentLoaded', function() {
-    var cancelOrderModal = document.getElementById('cancelOrderModal');
-    if (cancelOrderModal) {
-        cancelOrderModal.addEventListener('show.bs.modal', function (event) {
-            // Button that triggered the modal
-            var button = event.relatedTarget;
+    <script>
+        // Initialize the cancel order modal
+        document.addEventListener('DOMContentLoaded', function () {
+            var cancelOrderModal = document.getElementById('cancelOrderModal');
+            if (cancelOrderModal) {
+                cancelOrderModal.addEventListener('show.bs.modal', function (event) {
+                    // Button that triggered the modal
+                    var button = event.relatedTarget;
+
+                    // Extract info from data-* attributes
+                    var orderId = button.getAttribute('data-order-id');
+                    var orderNumber = button.getAttribute('data-order-number');
+
+                    // Update the modal's content
+                    var orderIdInput = document.getElementById('orderIdToCancel');
+                    var orderNumberSpan = document.getElementById('orderNumberToCancel');
+                    var form = document.getElementById('cancelOrderForm');
+
+                    orderIdInput.value = orderId;
+                    orderNumberSpan.textContent = orderNumber;
+                    form.action = '@Url.Action("Cancel", "Order")/' + orderId;
+                });
+            }
             
-            // Extract info from data-* attributes
-            var orderId = button.getAttribute('data-order-id');
-            var orderNumber = button.getAttribute('data-order-number');
-            
-            // Update the modal's content
-            var orderIdInput = document.getElementById('orderIdToCancel');
-            var orderNumberSpan = document.getElementById('orderNumberToCancel');
-            var form = document.getElementById('cancelOrderForm');
-            
-            orderIdInput.value = orderId;
-            orderNumberSpan.textContent = orderNumber;
-            form.action = '@Url.Action("Cancel", "Order")/' + orderId;
+
         });
-    }
-});
 
-function reorder(orderId) {
-    if (confirm('Add all items from this order to your cart?')) {
-        // Implement reorder functionality
-        alert(`Items from Order #${orderId} have been added to your cart!`);
-        // In a real app, you'd make an AJAX call to add items to cart
-    }
-}
+        function reorder(orderId) {
+            if (confirm('Add all items from this order to your cart?')) {
+                // Implement reorder functionality
+                alert(`Items from Order #${orderId} have been added to your cart!`);
+                // In a real app, you'd make an AJAX call to add items to cart
+            }
+            
 
-// Auto-refresh tracking info every 30 seconds
-setInterval(function() {
-    // You could implement auto-refresh of tracking status here
-}, 30000);
-</script>
+        }
+
+        // Auto-refresh tracking info every 30 seconds
+        setInterval(function () {
+            // You could implement auto-refresh of tracking status here
+        }, 30000);
+    </script>
 }
 
 <!-- Hidden form for anti-forgery token -->

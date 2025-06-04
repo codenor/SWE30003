@@ -12,7 +12,7 @@
                     <i class="bi bi-arrow-left"></i> Back to Tracking
                 </a>
             </div>
-            
+
             <div class="card">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">
@@ -45,7 +45,7 @@
                                 var currentIndex = Array.IndexOf(statuses, Model.Status);
                                 if (currentIndex == -1) currentIndex = 0;
                             }
-                            
+
                             <div class="d-flex justify-content-between position-relative">
                                 @for (int i = 0; i < statuses.Length; i++)
                                 {
@@ -64,7 +64,8 @@
                                     </div>
                                 }
                                 <div class="progress-line">
-                                    <div class="progress-fill" style="width: @((currentIndex * 100 / (statuses.Length - 1)))%"></div>
+                                    <div class="progress-fill"
+                                         style="width: @((currentIndex * 100 / (statuses.Length - 1)))%"></div>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +80,8 @@
                         }
                         @if (Model.Status == "Delivered" && Model.DeliveredDate.HasValue)
                         {
-                            <p class="mb-0">Delivered on @Model.DeliveredDate.Value.ToString("MMM dd, yyyy 'at' h:mm tt")</p>
+                            <p class="mb-0">Delivered
+                                on @Model.DeliveredDate.Value.ToString("MMM dd, yyyy 'at' h:mm tt")</p>
                         }
                     </div>
 
@@ -98,21 +100,21 @@
                         <div class="table-responsive">
                             <table class="table table-sm">
                                 <thead>
-                                    <tr>
-                                        <th>Product</th>
-                                        <th>Quantity</th>
-                                        <th>Price</th>
-                                    </tr>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.Order.OrderItems)
-                                    {
-                                        <tr>
-                                            <td>@item.Product.Name</td>
-                                            <td>@item.Quantity</td>
-                                            <td>$@item.UnitPrice.ToString("F2")</td>
-                                        </tr>
-                                    }
+                                @foreach (var item in Model.Order.OrderItems)
+                                {
+                                    <tr>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Quantity</td>
+                                        <td>$@item.UnitPrice.ToString("F2")</td>
+                                    </tr>
+                                }
                                 </tbody>
                             </table>
                         </div>
@@ -124,48 +126,48 @@
 </div>
 
 <style>
-.progress-container {
-    position: relative;
-    padding: 20px 0;
-}
+    .progress-container {
+        position: relative;
+        padding: 20px 0;
+    }
 
-.status-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-    font-weight: bold;
-}
+    .status-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+        font-weight: bold;
+    }
 
-.status-circle.completed {
-    background-color: #28a745;
-    color: white;
-}
+    .status-circle.completed {
+        background-color: #28a745;
+        color: white;
+    }
 
-.status-circle.pending {
-    background-color: #e9ecef;
-    color: #6c757d;
-    border: 2px solid #dee2e6;
-}
+    .status-circle.pending {
+        background-color: #e9ecef;
+        color: #6c757d;
+        border: 2px solid #dee2e6;
+    }
 
-.progress-line {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background-color: #e9ecef;
-    z-index: 1;
-    transform: translateY(-50%);
-}
+    .progress-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background-color: #e9ecef;
+        z-index: 1;
+        transform: translateY(-50%);
+    }
 
-.progress-fill {
-    height: 100%;
-    background-color: #28a745;
-    transition: width 0.3s ease;
-}
+    .progress-fill {
+        height: 100%;
+        background-color: #28a745;
+        transition: width 0.3s ease;
+    }
 </style>

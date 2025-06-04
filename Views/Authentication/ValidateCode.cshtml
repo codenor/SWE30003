@@ -12,10 +12,10 @@
     </p>
 
     <form asp-action="ValidateCode" method="post">
-        <input type="hidden" asp-for="Email" />
+        <input type="hidden" asp-for="Email"/>
 
         <div class="form-group mb-3">
-            <input asp-for="Code" class="form-control form-control-lg" placeholder="6-digit code" />
+            <input asp-for="Code" class="form-control form-control-lg" placeholder="6-digit code"/>
             <span asp-validation-for="Code" class="text-danger"></span>
         </div>
 
@@ -28,5 +28,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

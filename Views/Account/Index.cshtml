@@ -10,48 +10,49 @@
 <form asp-action="Update" method="post">
     @if (ViewBag.Role == "Customer")
     {
-        <input type="hidden" name="Role" value="Customer" />
+        <input type="hidden" name="Role" value="Customer"/>
         <div class="mb-3">
             <label class="form-label">First Name</label>
-            <input name="FirstName" class="form-control" value="@Model.FirstName" />
+            <input name="FirstName" class="form-control" value="@Model.FirstName"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input name="LastName" class="form-control" value="@Model.LastName" />
+            <input name="LastName" class="form-control" value="@Model.LastName"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input name="Email" class="form-control" value="@Model.Email" />
+            <input name="Email" class="form-control" value="@Model.Email"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Mobile</label>
-            <input name="Mobile" class="form-control" value="@Model.Mobile" />
+            <input name="Mobile" class="form-control" value="@Model.Mobile"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Shipping Address</label>
-            <textarea name="Address" class="form-control" rows="3" placeholder="Street address, city, state, postcode">@Model.Address</textarea>
+            <textarea name="Address" class="form-control" rows="3"
+                      placeholder="Street address, city, state, postcode">@Model.Address</textarea>
         </div>
     }
     else if (ViewBag.Role == "Owner")
     {
-        <input type="hidden" name="Role" value="Owner" />
+        <input type="hidden" name="Role" value="Owner"/>
         <div class="mb-3">
             <label class="form-label">Name</label>
-            <input name="Name" class="form-control" value="@Model.Name" />
+            <input name="Name" class="form-control" value="@Model.Name"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Last Name</label>
-            <input name="LastName" class="form-control" value="@Model.LastName" />
+            <input name="LastName" class="form-control" value="@Model.LastName"/>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input name="Email" class="form-control" value="@Model.Email" />
+            <input name="Email" class="form-control" value="@Model.Email"/>
         </div>
     }
 

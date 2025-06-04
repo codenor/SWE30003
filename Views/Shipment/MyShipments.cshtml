@@ -38,7 +38,8 @@
             <div class="col-md-6 text-end">
                 <div class="d-inline-flex align-items-center">
                     <label for="pageSize" class="me-2 form-label mb-0">Items per page:</label>
-                    <select id="pageSize" class="form-select form-select-sm" style="width: auto;" onchange="changePageSize(this.value)">
+                    <select id="pageSize" class="form-select form-select-sm" style="width: auto;"
+                            onchange="changePageSize(this.value)">
                         <option value="4" selected="@(pageSize == 4)">4</option>
                         <option value="8" selected="@(pageSize == 8)">8</option>
                         <option value="12" selected="@(pageSize == 12)">12</option>
@@ -69,14 +70,14 @@
                             <div class="mb-3">
                                 <h6><i class="bi bi-geo-alt"></i> Tracking Information</h6>
                                 <p class="mb-1">
-                                    <strong>Tracking Number:</strong> 
+                                    <strong>Tracking Number:</strong>
                                     <code>@shipment.TrackingNumber</code>
                                 </p>
                                 <p class="mb-1">
                                     <strong>Carrier:</strong> @shipment.CarrierName
                                 </p>
                                 <p class="mb-0">
-                                    <strong>Est. Delivery:</strong> 
+                                    <strong>Est. Delivery:</strong>
                                     @shipment.EstimatedDeliveryDate.ToString("MMMM dd, yyyy")
                                     @if (shipment.EstimatedDeliveryDate.Date < DateTime.Today && shipment.Status != "Delivered")
                                     {
@@ -94,12 +95,13 @@
                                         var currentIndex = Array.IndexOf(statuses, shipment.Status);
                                         if (currentIndex == -1) currentIndex = 0;
                                     }
-                                    
+
                                     <div class="row text-center">
                                         @for (int i = 0; i < statuses.Length; i++)
                                         {
                                             <div class="col">
-                                                <div class="status-indicator @(i <= currentIndex ? "completed" : "pending")">
+                                                <div
+                                                    class="status-indicator @(i <= currentIndex ? "completed" : "pending")">
                                                     @if (i <= currentIndex)
                                                     {
                                                         <i class="bi bi-check-circle-fill"></i>
@@ -125,14 +127,17 @@
                                         <div class="me-2 mb-2">
                                             @if (!string.IsNullOrEmpty(item.Product.ImagePath))
                                             {
-                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name" 
-                                                     class="rounded border" style="width: 50px; height: 50px; object-fit: cover;"
-                                                     title="@item.Product.Name (x@item.Quantity)" />
+                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name"
+                                                     class="rounded border"
+                                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                                     title="@item.Product.Name (x@item.Quantity)"/>
                                             }
                                             else
                                             {
-                                                <div class="bg-light rounded border d-flex align-items-center justify-content-center" 
-                                                     style="width: 50px; height: 50px;" title="@item.Product.Name (x@item.Quantity)">
+                                                <div
+                                                    class="bg-light rounded border d-flex align-items-center justify-content-center"
+                                                    style="width: 50px; height: 50px;"
+                                                    title="@item.Product.Name (x@item.Quantity)">
                                                     <i class="bi bi-image text-muted"></i>
                                                 </div>
                                             }
@@ -141,7 +146,8 @@
                                     @if (shipment.Order.OrderItems.Count() > 3)
                                     {
                                         <div class="d-flex align-items-center">
-                                            <span class="badge bg-secondary">+@(shipment.Order.OrderItems.Count() - 3) more</span>
+                                            <span
+                                                class="badge bg-secondary">+@(shipment.Order.OrderItems.Count() - 3) more</span>
                                         </div>
                                     }
                                 </div>
@@ -166,18 +172,19 @@
                         </div>
                         <div class="card-footer">
                             <div class="d-grid gap-2 d-md-flex justify-content-md-between">
-                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = shipment.TrackingNumber })" 
+                                <a href="@Url.Action("Track", "Shipment", new { trackingNumber = shipment.TrackingNumber })"
                                    class="btn btn-primary btn-sm">
                                     <i class="bi bi-search"></i> Track Package
                                 </a>
                                 <div>
-                                    <a href="@Url.Action("Details", "Order", new { id = shipment.OrderId })" 
+                                    <a href="@Url.Action("Details", "Order", new { id = shipment.OrderId })"
                                        class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-eye"></i> Order Details
                                     </a>
                                     @if (shipment.Order.IsCompleted())
                                     {
-                                        <button class="btn btn-outline-success btn-sm" onclick="reorder(@shipment.OrderId)">
+                                        <button class="btn btn-outline-success btn-sm"
+                                                onclick="reorder(@shipment.OrderId)">
                                             <i class="bi bi-arrow-repeat"></i> Reorder
                                         </button>
                                     }
@@ -196,29 +203,31 @@
                 <ul class="pagination justify-content-center">
                     <!-- First page -->
                     <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("MyShipments", new { page = 1, pageSize })" aria-label="First">
+                        <a class="page-link" href="@Url.Action("MyShipments", new { page = 1, pageSize })"
+                           aria-label="First">
                             <span aria-hidden="true">&laquo;&laquo;</span>
                         </a>
                     </li>
-                    
+
                     <!-- Previous page -->
                     <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("MyShipments", new { page = currentPage - 1, pageSize })" aria-label="Previous">
+                        <a class="page-link" href="@Url.Action("MyShipments", new { page = currentPage - 1, pageSize })"
+                           aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    
+
                     @{
                         const int maxPagesToShow = 5;
                         int startPage = Math.Max(1, currentPage - (maxPagesToShow / 2));
                         int endPage = Math.Min(totalPages, startPage + maxPagesToShow - 1);
-                        
+
                         // Adjust start page if we're near the end
                         if (endPage - startPage + 1 < maxPagesToShow)
                         {
                             startPage = Math.Max(1, endPage - maxPagesToShow + 1);
                         }
-                        
+
                         // Show ellipsis for the first part if needed
                         if (startPage > 1)
                         {
@@ -227,31 +236,33 @@
                             </li>
                         }
                     }
-                    
+
                     @for (int i = startPage; i <= endPage; i++)
                     {
                         <li class="page-item @(i == currentPage ? "active" : "")">
                             <a class="page-link" href="@Url.Action("MyShipments", new { page = i, pageSize })">@i</a>
                         </li>
                     }
-                    
+
                     @if (endPage < totalPages)
                     {
                         <li class="page-item disabled">
                             <span class="page-link">...</span>
                         </li>
                     }
-                    
+
                     <!-- Next page -->
                     <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("MyShipments", new { page = currentPage + 1, pageSize })" aria-label="Next">
+                        <a class="page-link" href="@Url.Action("MyShipments", new { page = currentPage + 1, pageSize })"
+                           aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-                    
+
                     <!-- Last page -->
                     <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                        <a class="page-link" href="@Url.Action("MyShipments", new { page = totalPages, pageSize })" aria-label="Last">
+                        <a class="page-link" href="@Url.Action("MyShipments", new { page = totalPages, pageSize })"
+                           aria-label="Last">
                             <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>
@@ -301,6 +312,7 @@
 </div>
 
 @functions {
+
     public string GetShipmentStatusBadgeClass(string status)
     {
         return status switch
@@ -315,93 +327,96 @@
             _ => "secondary"
         };
     }
+
 }
 
 @section Scripts {
-<script>
-function reorder(orderId) {
-    if (confirm('Add all items from this order to your cart?')) {
-        alert(`Items from Order #${orderId} have been added to your cart!`);
-        // In a real app, you'd make an AJAX call to add items to cart
-        // Example:
-        // fetch('/ShoppingCart/ReorderFromOrder', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ orderId: orderId })
-        // }).then(response => {
-        //     if (response.ok) {
-        //         window.location.href = '/ShoppingCart';
-        //     }
-        // });
-    }
-}
+    <script>
+        function reorder(orderId) {
+            if (confirm('Add all items from this order to your cart?')) {
+                alert(`Items from Order #${orderId} have been added to your cart!`);
+                // In a real app, you'd make an AJAX call to add items to cart
+                // Example:
+                // fetch('/ShoppingCart/ReorderFromOrder', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ orderId: orderId })
+                // }).then(response => {
+                //     if (response.ok) {
+                //         window.location.href = '/ShoppingCart';
+                //     }
+                // });
+            }
+            
 
-function changePageSize(size) {
-    window.location.href = '@Url.Action("MyShipments")?page=1&pageSize=' + size;
-}
-</script>
+        }
 
-<style>
-.status-indicator {
-    font-size: 1.2rem;
-}
+        function changePageSize(size) {
+            window.location.href = '@Url.Action("MyShipments")?page=1&pageSize=' + size;
+        }
+    </script>
 
-.status-indicator.completed {
-    color: #28a745;
-}
+    <style>
+        .status-indicator {
+            font-size: 1.2rem;
+        }
 
-.status-indicator.pending {
-    color: #dee2e6;
-}
+        .status-indicator.completed {
+            color: #28a745;
+        }
 
-.progress-container {
-    padding: 1rem 0;
-}
+        .status-indicator.pending {
+            color: #dee2e6;
+        }
 
-.card {
-    transition: transform 0.2s;
-}
+        .progress-container {
+            padding: 1rem 0;
+        }
 
-.card:hover {
-    transform: translateY(-2px);
-}
+        .card {
+            transition: transform 0.2s;
+        }
 
-/* Pagination Styling */
-.pagination {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-}
+        .card:hover {
+            transform: translateY(-2px);
+        }
 
-.pagination .page-item .page-link {
-    color: #0d6efd;
-    background-color: #fff;
-    border-color: #dee2e6;
-    transition: all 0.2s ease-in-out;
-}
+        /* Pagination Styling */
+        .pagination {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
 
-.pagination .page-item.active .page-link {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    color: white;
-    font-weight: bold;
-}
+        .pagination .page-item .page-link {
+            color: #0d6efd;
+            background-color: #fff;
+            border-color: #dee2e6;
+            transition: all 0.2s ease-in-out;
+        }
 
-.pagination .page-item.disabled .page-link {
-    color: #6c757d;
-    pointer-events: none;
-    background-color: #fff;
-    border-color: #dee2e6;
-}
+        .pagination .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+            color: white;
+            font-weight: bold;
+        }
 
-.pagination .page-link:hover {
-    background-color: #e9ecef;
-    border-color: #dee2e6;
-    color: #0a58ca;
-}
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
 
-.pagination .page-link:focus {
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-    z-index: 3;
-}
-</style>
+        .pagination .page-link:hover {
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+            color: #0a58ca;
+        }
+
+        .pagination .page-link:focus {
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            z-index: 3;
+        }
+    </style>
 }

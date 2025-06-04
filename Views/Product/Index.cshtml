@@ -39,9 +39,9 @@
                 <div class="col-md-5">
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-search"></i></span>
-                        <input type="text" name="searchTerm" class="form-control" 
-                               placeholder="Search by name, SKU, description or brand..." 
-                               value="@searchTerm" />
+                        <input type="text" name="searchTerm" class="form-control"
+                               placeholder="Search by name, SKU, description or brand..."
+                               value="@searchTerm"/>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -69,7 +69,7 @@
             </form>
         </div>
     </div>
-    
+
 
     @if (Model?.Any() == true)
     {
@@ -201,87 +201,87 @@
         setTimeout(function () {
             $('.alert').alert('close');
         }, 5000);
-        
+
         // Search functionality
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Get form elements
             const searchForm = document.querySelector('form[asp-action="Index"]');
             const searchTermInput = document.querySelector('input[name="searchTerm"]');
             const categorySelect = document.querySelector('select[name="searchCategory"]');
             const clearButton = document.querySelector('a.btn-outline-secondary[asp-action="Index"]');
-            
+
             // Setup category filter to submit form on change
             if (categorySelect) {
-                categorySelect.addEventListener('change', function() {
+                categorySelect.addEventListener('change', function () {
                     searchForm.submit();
                 });
             }
-            
+
             // Setup search input with debounce
             if (searchTermInput) {
                 let debounceTimer;
-                
-                searchTermInput.addEventListener('input', function() {
+
+                searchTermInput.addEventListener('input', function () {
                     clearTimeout(debounceTimer);
                     const searchValue = this.value.trim();
-                    
+
                     // Only search if at least 2 characters are entered
                     if (searchValue.length >= 2) {
-                        debounceTimer = setTimeout(function() {
+                        debounceTimer = setTimeout(function () {
                             searchForm.submit();
                         }, 500); // 500ms debounce
                     }
                 });
-                
+
                 // When the user presses Enter, submit the form immediately
-                searchTermInput.addEventListener('keydown', function(e) {
+                searchTermInput.addEventListener('keydown', function (e) {
                     if (e.key === 'Enter') {
                         clearTimeout(debounceTimer);
                         searchForm.submit();
                     }
                 });
             }
-            
+
             // Highlight search terms in the results
-            const highlightSearchTerms = function() {
+            const highlightSearchTerms = function () {
                 const searchTerm = "@searchTerm";
                 if (!searchTerm) return;
-                
+
                 const termParts = searchTerm.toLowerCase().split(' ').filter(Boolean);
                 if (termParts.length === 0) return;
-                
+
                 const productTable = document.querySelector('.table-responsive table');
                 if (!productTable) return;
-                
+
                 const tableRows = productTable.querySelectorAll('tbody tr');
-                
+
                 tableRows.forEach(row => {
                     const cells = row.querySelectorAll('td');
                     cells.forEach(cell => {
                         const originalHtml = cell.innerHTML;
-                        
+
                         // Skip cells with complex HTML (like those with buttons)
                         if (cell.querySelector('div.btn-group')) return;
-                        
+
                         let newHtml = originalHtml;
                         termParts.forEach(term => {
                             // Create a regex that's case insensitive
                             const regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
                             newHtml = newHtml.replace(regex, '<mark>$1</mark>');
                         });
-                        
+
                         if (newHtml !== originalHtml) {
                             cell.innerHTML = newHtml;
                         }
                     });
                 });
             };
-            
+
             // Run highlighting on page load
             highlightSearchTerms();
         });
     </script>
-    
+
     <style>
         /* Styles for search highlighting */
         mark {
@@ -289,7 +289,7 @@
             padding: 0.1em 0.2em;
             border-radius: 2px;
         }
-        
+
         /* Make the search input more prominent */
         .input-group .form-control:focus {
             border-color: #0d6efd;

@@ -18,16 +18,17 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Name" class="control-label">Product Name *</label>
-                                    <input asp-for="Name" class="form-control" required />
+                                    <input asp-for="Name" class="form-control" required/>
                                     <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="SKU" class="control-label">SKU *</label>
-                                    <input asp-for="SKU" class="form-control" placeholder="CATEGORY-XXXX" required />
+                                    <input asp-for="SKU" class="form-control" placeholder="CATEGORY-XXXX" required/>
                                     <span asp-validation-for="SKU" class="text-danger"></span>
-                                    <small class="form-text text-muted">Format: CATEGORY-NUMBER (e.g., LAPTOP-1001)</small>
+                                    <small class="form-text text-muted">Format: CATEGORY-NUMBER (e.g.,
+                                        LAPTOP-1001)</small>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +55,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Price" class="control-label">Price ($) *</label>
-                                    <input asp-for="Price" type="number" step="0.01" min="0" class="form-control" required />
+                                    <input asp-for="Price" type="number" step="0.01" min="0" class="form-control"
+                                           required/>
                                     <span asp-validation-for="Price" class="text-danger"></span>
                                 </div>
                             </div>
@@ -64,14 +66,14 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Brand" class="control-label">Brand</label>
-                                    <input asp-for="Brand" class="form-control" />
+                                    <input asp-for="Brand" class="form-control"/>
                                     <span asp-validation-for="Brand" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label asp-for="StockLevel" class="control-label">Stock Level *</label>
-                                    <input asp-for="StockLevel" type="number" min="0" class="form-control" required />
+                                    <input asp-for="StockLevel" type="number" min="0" class="form-control" required/>
                                     <span asp-validation-for="StockLevel" class="text-danger"></span>
                                 </div>
                             </div>
@@ -85,20 +87,22 @@
 
                         <div class="form-group mb-3">
                             <label asp-for="Specifications" class="control-label">Specifications</label>
-                            <textarea asp-for="Specifications" class="form-control" rows="4" 
+                            <textarea asp-for="Specifications" class="form-control" rows="4"
                                       placeholder="Enter product specifications separated by line breaks"></textarea>
                             <span asp-validation-for="Specifications" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
                             <label class="control-label">Product Image</label>
-                            <input type="file" name="ImageFile" class="form-control" accept="image/*" />
-                            <small class="form-text text-muted">Recommended size: 800x600 pixels, Max file size: 2MB</small>
+                            <input type="file" name="ImageFile" class="form-control" accept="image/*"/>
+                            <small class="form-text text-muted">Recommended size: 800x600 pixels, Max file size:
+                                2MB</small>
                         </div>
 
                         <div class="form-check mb-3">
-                            <input asp-for="IsActive" class="form-check-input" type="checkbox" checked />
-                            <label asp-for="IsActive" class="form-check-label">Product is active (visible in catalog)</label>
+                            <input asp-for="IsActive" class="form-check-input" type="checkbox" checked/>
+                            <label asp-for="IsActive" class="form-check-label">Product is active (visible in
+                                catalog)</label>
                         </div>
 
                         <div class="d-flex justify-content-between">
@@ -117,27 +121,27 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    
+    <partial name="_ValidationScriptsPartial"/>
+
     <script>
         // Auto-generate SKU based on selected category
-        document.querySelector('select[name="Category"]').addEventListener('change', function() {
+        document.querySelector('select[name="Category"]').addEventListener('change', function () {
             const categoryValue = this.value;
             const skuField = document.querySelector('input[name="SKU"]');
-            
+
             if (categoryValue && (!skuField.value || skuField.value.includes('-'))) {
                 // Generate a random 4-digit number
                 const randomNum = Math.floor(1000 + Math.random() * 9000);
                 skuField.value = categoryValue + '-' + randomNum;
             }
         });
-        
+
         // Image preview
-        document.querySelector('input[name="ImageFile"]').addEventListener('change', function() {
+        document.querySelector('input[name="ImageFile"]').addEventListener('change', function () {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     // Check if preview already exists
                     let preview = document.getElementById('imagePreview');
                     if (!preview) {
@@ -146,7 +150,7 @@
                         preview.className = 'mt-2';
                         this.parentElement.appendChild(preview);
                     }
-                    
+
                     preview.innerHTML = `
                         <div class="card" style="max-width: 300px;">
                             <img src="${e.target.result}" class="card-img-top" alt="Preview" style="max-height: 200px; object-fit: contain;">
@@ -163,27 +167,27 @@
 }
 
 <style>
-.card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.form-label {
-    font-weight: 500;
-}
+    .form-label {
+        font-weight: 500;
+    }
 
-.btn-lg {
-    padding: 0.75rem 1.5rem;
-}
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+    }
 
-.preview-section {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-}
+    .preview-section {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+    }
 
-.modal-body pre {
-    font-size: 0.9rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
+    .modal-body pre {
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
 </style>

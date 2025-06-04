@@ -21,16 +21,17 @@
     <form asp-action="Login" method="post">
         <div class="form-group mb-3">
             <label for="email" class="visually-hidden">Email address</label>
-            <input asp-for="Email" class="form-control form-control-lg" placeholder="Email address" />
+            <input asp-for="Email" class="form-control form-control-lg" placeholder="Email address"/>
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-2 position-relative">
             <label for="password" class="visually-hidden">Password</label>
             <input asp-for="Password" type="password" id="password" class="form-control form-control-lg"
-                placeholder="Password" />
+                   placeholder="Password"/>
             <button type="button" class="btn btn-light position-absolute top-0 end-0 mt-1 me-2"
-                id="togglePassword">Show</button>
+                    id="togglePassword">Show
+            </button>
             <span asp-validation-for="Password" class="text-danger d-block mt-1"></span>
         </div>
 
@@ -42,7 +43,8 @@
         <button type="submit" class="btn btn-dark btn-lg w-100 mb-3">Log in</button>
     </form>
 
-    <a asp-controller="Authentication" asp-action="Register" class="btn btn-outline-dark btn-lg w-100">Create an account</a>
+    <a asp-controller="Authentication" asp-action="Register" class="btn btn-outline-dark btn-lg w-100">Create an
+        account</a>
 </div>
 
 @section Scripts {
@@ -58,7 +60,7 @@
     @if (TempData["Registered"] != null)
     {
         <div class="modal fade" id="registerSuccessModal" tabindex="-1" aria-labelledby="registerSuccessModalLabel"
-            aria-hidden="true">
+             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

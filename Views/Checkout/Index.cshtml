@@ -20,7 +20,7 @@
 
     <form asp-action="ProcessPayment" method="post" id="checkoutForm">
         @Html.AntiForgeryToken()
-        
+
         <div class="row">
             <!-- Shipping Information -->
             <div class="col-lg-7">
@@ -41,14 +41,14 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="FirstName" class="form-label">First Name *</label>
-                                    <input asp-for="FirstName" class="form-control" required />
+                                    <input asp-for="FirstName" class="form-control" required/>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="LastName" class="form-label">Last Name *</label>
-                                    <input asp-for="LastName" class="form-control" required />
+                                    <input asp-for="LastName" class="form-control" required/>
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
@@ -58,14 +58,14 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="Email" class="form-label">Email Address *</label>
-                                    <input asp-for="Email" type="email" class="form-control" required />
+                                    <input asp-for="Email" type="email" class="form-control" required/>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label asp-for="Mobile" class="form-label">Mobile Number *</label>
-                                    <input asp-for="Mobile" class="form-control" placeholder="04XX XXX XXX" required />
+                                    <input asp-for="Mobile" class="form-control" placeholder="04XX XXX XXX" required/>
                                     <span asp-validation-for="Mobile" class="text-danger"></span>
                                 </div>
                             </div>
@@ -73,8 +73,8 @@
 
                         <div class="mb-3">
                             <label asp-for="Address" class="form-label">Shipping Address *</label>
-                            <textarea asp-for="Address" class="form-control" rows="3" 
-                                     placeholder="Street address, city, state, postcode" required></textarea>
+                            <textarea asp-for="Address" class="form-control" rows="3"
+                                      placeholder="Street address, city, state, postcode" required></textarea>
                             <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
 
@@ -83,7 +83,8 @@
                             <div class="alert alert-info">
                                 <i class="bi bi-info-circle"></i>
                                 <strong>Want to save this information?</strong>
-                                <a href="@Url.Action("Register", "Authentication")" class="alert-link">Create an account</a>
+                                <a href="@Url.Action("Register", "Authentication")" class="alert-link">Create an
+                                    account</a>
                                 or <a href="@Url.Action("Login", "Authentication")" class="alert-link">sign in</a>
                             </div>
                         }
@@ -100,16 +101,18 @@
                             <i class="bi bi-info-circle"></i>
                             <strong>Demo Mode:</strong> This is a demo checkout. No actual payment will be processed.
                         </div>
-                        
+
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="credit" checked>
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard"
+                                   value="credit" checked>
                             <label class="form-check-label" for="creditCard">
                                 <i class="bi bi-credit-card"></i> Credit/Debit Card (Demo)
                             </label>
                         </div>
-                        
+
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="paypal"
+                                   value="paypal">
                             <label class="form-check-label" for="paypal">
                                 <i class="bi bi-paypal"></i> PayPal (Demo)
                             </label>
@@ -213,17 +216,17 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    
+    <partial name="_ValidationScriptsPartial"/>
+
     <script>
         // Form validation and submission
-        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+        document.getElementById('checkoutForm').addEventListener('submit', function (e) {
             const submitButton = document.getElementById('submitOrder');
-            
+
             // Disable submit button to prevent double submission
             submitButton.disabled = true;
             submitButton.innerHTML = '<i class="bi bi-hourglass-split"></i> Processing...';
-            
+
             // Re-enable after 10 seconds in case of error
             setTimeout(() => {
                 submitButton.disabled = false;
@@ -232,7 +235,7 @@
         });
 
         // Mobile number formatting
-        document.querySelector('input[name="Mobile"]').addEventListener('input', function(e) {
+        document.querySelector('input[name="Mobile"]').addEventListener('input', function (e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.startsWith('61')) {
                 value = '+' + value;

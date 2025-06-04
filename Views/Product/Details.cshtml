@@ -17,7 +17,7 @@
         <div class="col-md-6">
             <h1>@Model.Name</h1>
             <p class="lead">@Model.Description</p>
-            
+
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <strong>Category:</strong> @Model.Category
@@ -29,13 +29,13 @@
                     </div>
                 }
             </div>
-            
+
             <div class="row mb-3">
                 <div class="col-sm-6">
                     <strong>SKU:</strong> @Model.SKU
                 </div>
                 <div class="col-sm-6">
-                    <strong>Stock:</strong> 
+                    <strong>Stock:</strong>
                     <span class="@(Model.IsInStock ? "text-success" : "text-danger")">
                         @Model.StockLevel
                         @if (Model.IsLowStock && Model.IsInStock)
@@ -45,7 +45,7 @@
                     </span>
                 </div>
             </div>
-            
+
             @if (!string.IsNullOrEmpty(Model.Specifications))
             {
                 <div class="mb-3">
@@ -53,23 +53,24 @@
                     <p>@Model.Specifications</p>
                 </div>
             }
-            
+
             <div class="border-top pt-3">
                 <h2 class="text-primary mb-3">$@Model.Price.ToString("F2")</h2>
-                
+
                 @if (Model.IsInStock)
                 {
                     <!-- Add to Cart Form -->
                     <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" class="mb-3">
                         @Html.AntiForgeryToken()
-                        <input type="hidden" name="productId" value="@Model.ProductId" />
-                        <input type="hidden" name="returnUrl" value="@Url.Action("Details", "Product", new { id = Model.ProductId })" />
-                        
+                        <input type="hidden" name="productId" value="@Model.ProductId"/>
+                        <input type="hidden" name="returnUrl"
+                               value="@Url.Action("Details", "Product", new { id = Model.ProductId })"/>
+
                         <div class="row">
                             <div class="col-sm-4">
                                 <label for="quantity" class="form-label">Quantity:</label>
-                                <input type="number" id="quantity" name="quantity" value="1" 
-                                       min="1" max="@Model.StockLevel" class="form-control" />
+                                <input type="number" id="quantity" name="quantity" value="1"
+                                       min="1" max="@Model.StockLevel" class="form-control"/>
                             </div>
                             <div class="col-sm-8 d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary btn-lg me-2">
@@ -81,11 +82,11 @@
                             </div>
                         </div>
                     </form>
-                    
+
                     @if (Model.IsLowStock)
                     {
                         <div class="alert alert-warning">
-                            <i class="bi bi-exclamation-triangle"></i> 
+                            <i class="bi bi-exclamation-triangle"></i>
                             Only @Model.StockLevel left in stock - order soon!
                         </div>
                     }
@@ -102,7 +103,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row mt-4">
         <div class="col-12">
             <a href="@Url.Action("Catalogue", "Product")" class="btn btn-outline-primary">

@@ -2,105 +2,70 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Models;
+using ElectronicsStoreAss3.Models.Order;
+using ElectronicsStoreAss3.Services;
 
 namespace ElectronicsStoreAss3.Controllers
-
 {
     public class OrderController : Controller
-
     {
         private readonly AppDbContext _context;
+        private readonly IOrderService _orderService;
+        private readonly ILogger<OrderController> _logger;
 
-
-        public OrderController(AppDbContext context)
-
+        public OrderController(AppDbContext context, IOrderService orderService, ILogger<OrderController> logger)
         {
             _context = context;
+            _orderService = orderService;
+            _logger = logger;
         }
 
-
         // GET: /Order/
-
-        public IActionResult Index()
-
+        public async Task<IActionResult> Index()
         {
-            var orders = _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
-                .Include(o => o.Shipment)
-                .OrderByDescending(o => o.OrderDate)
-                .ToList();
-
-
+            var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
         }
 
-
         // GET: /Order/Details/5
-
-        public IActionResult Details(int id)
-
+        public async Task<IActionResult> Details(int id)
         {
-            var order = _context.Orders
-                .Include(o => o.Customer)
-                .Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
-                .Include(o => o.Shipment)
-                .FirstOrDefault(o => o.OrderId == id);
-
+            var order = await _orderService.GetOrderByIdAsync(id);
 
             if (order == null)
-
                 return NotFound();
-
 
             return View(order);
         }
 
-
         // POST: /Order/Finalize/5 — updates inventory
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Finalize(int id)
-
+        public async Task<IActionResult> Finalize(int id)
         {
-            var order = _context.Orders
-                .Include(o => o.OrderItems)
-                .FirstOrDefault(o => o.OrderId == id);
-
+            var order = await _orderService.GetOrderByIdAsync(id);
 
             if (order == null)
-
                 return NotFound();
 
-
             foreach (var item in order.OrderItems)
-
             {
                 var inventory = _context.Inventory.FirstOrDefault(i => i.ProductId == item.ProductId);
 
                 if (inventory != null)
-
                 {
                     inventory.StockLevel -= item.Quantity;
-
                     inventory.LastUpdated = DateTime.Now;
 
-
                     if (inventory.StockLevel < 0)
-
                         inventory.StockLevel = 0;
                 }
             }
 
-
-            _context.SaveChanges();
-
+            await _context.SaveChangesAsync();
 
             TempData["ToastMessage"] = $"Inventory updated for Order #{order.OrderId}.";
-
             TempData["ToastType"] = "success";
-
 
             return RedirectToAction("Details", new { id = order.OrderId });
         }
@@ -108,39 +73,21 @@ namespace ElectronicsStoreAss3.Controllers
         // POST: /Order/Cancel/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Cancel(int id)
+        public async Task<IActionResult> Cancel(int id)
         {
-            var order = _context.Orders
-                .Include(o => o.OrderItems)
-                .Include(o => o.Shipment)
-                .FirstOrDefault(o => o.OrderId == id);
-
-            if (order == null)
-                return NotFound();
-
-            // Check if the order can be cancelled
-            if (!order.CanBeCancelled())
+            // Use the order service to cancel the order
+            bool success = await _orderService.CancelOrderAsync(id);
+            
+            if (!success)
             {
-                TempData["ToastMessage"] = $"Order #{order.OrderId} cannot be cancelled in its current state.";
+                _logger.LogWarning("Failed to cancel order with ID {OrderId}", id);
+                TempData["ToastMessage"] = $"Order #{id} could not be cancelled.";
                 TempData["ToastType"] = "error";
-                return RedirectToAction("Details", new { id = order.OrderId });
+                return RedirectToAction("Details", new { id = id });
             }
-
-            // Update order status
-            order.Status = "Cancelled";
-            order.LastModified = DateTime.Now;
-
-            // Update shipment status if exists
-            if (order.Shipment != null)
-            {
-                order.Shipment.Status = "Cancelled";
-                order.Shipment.LastUpdated = DateTime.Now;
-                order.Shipment.DeliveryNotes = (order.Shipment.DeliveryNotes ?? "") +
-                                               "\nOrder cancelled by customer on " +
-                                               DateTime.Now.ToString("MMM dd, yyyy");
-            }
-
-            // Return items to inventory
+            
+            // After cancellation, return items to inventory
+            var order = await _orderService.GetOrderByIdAsync(id);
             foreach (var item in order.OrderItems)
             {
                 var inventory = _context.Inventory.FirstOrDefault(i => i.ProductId == item.ProductId);
@@ -150,10 +97,10 @@ namespace ElectronicsStoreAss3.Controllers
                     inventory.LastUpdated = DateTime.Now;
                 }
             }
+            
+            await _context.SaveChangesAsync();
 
-            _context.SaveChanges();
-
-            TempData["ToastMessage"] = $"Order #{order.OrderId} has been cancelled successfully.";
+            TempData["ToastMessage"] = $"Order #{id} has been cancelled successfully.";
             TempData["ToastType"] = "success";
 
             // If this is called from Account/Orders, redirect back there

@@ -16,7 +16,7 @@
                         <!-- Search -->
                         <div class="mb-3">
                             <label class="form-label"><i class="bi bi-search"></i> Search</label>
-                            <input type="text" class="form-control" name="SearchTerm" 
+                            <input type="text" class="form-control" name="SearchTerm"
                                    value="@Model.SearchTerm" placeholder="Search products...">
                         </div>
 
@@ -53,11 +53,11 @@
                             <label class="form-label"><i class="bi bi-currency-dollar"></i> Price Range</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" class="form-control" name="MinPrice" 
+                                    <input type="number" class="form-control" name="MinPrice"
                                            value="@Model.MinPrice" placeholder="Min $" step="50">
                                 </div>
                                 <div class="col-6">
-                                    <input type="number" class="form-control" name="MaxPrice" 
+                                    <input type="number" class="form-control" name="MaxPrice"
                                            value="@Model.MaxPrice" placeholder="Max $" step="50">
                                 </div>
                             </div>
@@ -74,12 +74,12 @@
                             </select>
                             <div class="mt-2">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="SortOrder" 
+                                    <input class="form-check-input" type="radio" name="SortOrder"
                                            value="ASC" id="sortAsc" checked="@(Model.SortOrder != "DESC")">
                                     <label class="form-check-label" for="sortAsc">A-Z</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="SortOrder" 
+                                    <input class="form-check-input" type="radio" name="SortOrder"
                                            value="DESC" id="sortDesc" checked="@(Model.SortOrder == "DESC")">
                                     <label class="form-check-label" for="sortDesc">Z-A</label>
                                 </div>
@@ -99,7 +99,7 @@
                         <!-- Results Info -->
                         <div class="mt-3 p-2 bg-light rounded">
                             <small>
-                                <i class="bi bi-info-circle"></i> 
+                                <i class="bi bi-info-circle"></i>
                                 @Model.Products.Count of @Model.TotalProducts products
                             </small>
                         </div>
@@ -149,17 +149,17 @@
                             <div class="card h-100">
                                 @if (!string.IsNullOrEmpty(product.ImagePath))
                                 {
-                                    <img src="@product.ImagePath" class="card-img-top rounded p-4" alt="@product.Name" 
+                                    <img src="@product.ImagePath" class="card-img-top rounded p-4" alt="@product.Name"
                                          style="max-height: 180px; max-width: 100%; object-fit: contain;">
                                 }
                                 else
                                 {
-                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center"
                                          style="height: 200px;">
                                         <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
                                     </div>
                                 }
-                                
+
                                 <div class="card-body d-flex flex-column">
                                     <div class="mb-2">
                                         <span class="badge bg-secondary">@product.Category</span>
@@ -168,10 +168,10 @@
                                             <span class="badge bg-outline-primary">@product.Brand</span>
                                         }
                                     </div>
-                                    
+
                                     <h5 class="card-title">@product.Name</h5>
                                     <p class="card-text text-muted small">@product.Description</p>
-                                    
+
                                     <!-- Stock -->
                                     <div class="mb-2">
                                         @if (product.IsInStock)
@@ -190,25 +190,28 @@
                                             <span class="badge bg-danger">Out of Stock</span>
                                         }
                                     </div>
-                                    
+
                                     <!-- Price & Actions -->
                                     <div class="mt-auto">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h4 class="text-primary mb-0">$@(product.Price.ToString("#,##0"))</h4>
                                             <small class="text-muted">@product.SKU</small>
                                         </div>
-                                        
+
                                         @if (product.IsInStock)
                                         {
-                                            <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart" class="mb-2">
+                                            <form method="post" asp-controller="ShoppingCart" asp-action="AddToCart"
+                                                  class="mb-2">
                                                 @Html.AntiForgeryToken()
-                                                <input type="hidden" name="productId" value="@product.ProductId" />
-                                                <input type="hidden" name="returnUrl" value="@Context.Request.Path@Context.Request.QueryString" />
-                                                
+                                                <input type="hidden" name="productId" value="@product.ProductId"/>
+                                                <input type="hidden" name="returnUrl"
+                                                       value="@Context.Request.Path@Context.Request.QueryString"/>
+
                                                 <div class="input-group">
                                                     <span class="input-group-text">Qty:</span>
-                                                    <input type="number" name="quantity" value="1" min="1" max="@product.StockLevel" 
-                                                           class="form-control" style="max-width: 70px;" />
+                                                    <input type="number" name="quantity" value="1" min="1"
+                                                           max="@product.StockLevel"
+                                                           class="form-control" style="max-width: 70px;"/>
                                                     <button type="submit" class="btn btn-primary">
                                                         <i class="bi bi-cart-plus"></i>
                                                     </button>
@@ -221,8 +224,8 @@
                                                 <i class="bi bi-x-circle"></i> Out of Stock
                                             </button>
                                         }
-                                        
-                                        <a href="@Url.Action("Details", "Product", new { sku = product.SKU })" 
+
+                                        <a href="@Url.Action("Details", "Product", new { sku = product.SKU })"
                                            class="btn btn-outline-secondary w-100 btn-sm">
                                             <i class="bi bi-eye"></i> Details
                                         </a>
@@ -244,14 +247,14 @@
                                     <a class="page-link" href="@GetPageUrl(Model.Page - 1)">Previous</a>
                                 </li>
                             }
-                            
+
                             @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
                             {
                                 <li class="page-item @(i == Model.Page ? "active" : "")">
                                     <a class="page-link" href="@GetPageUrl(i)">@i</a>
                                 </li>
                             }
-                            
+
                             @if (Model.Page < Model.TotalPages)
                             {
                                 <li class="page-item">
@@ -267,6 +270,7 @@
 </div>
 
 @functions {
+
     string GetPageUrl(int page)
     {
         var routeValues = new RouteValueDictionary
@@ -280,41 +284,43 @@
             { "SortOrder", Model.SortOrder },
             { "Page", page }
         };
-        
+
         return Url.Action("Catalogue", "Product", routeValues);
     }
+
 }
 
 @section Scripts {
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('filterForm');
-    const searchInput = document.querySelector('input[name="SearchTerm"]');
-    
-    // Auto-submit on filter changes (with debounce)
-    let timeout;
-    function autoSubmit() {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => form.submit(), 800);
-    }
-    
-    // Auto-submit on dropdown changes
-    document.querySelectorAll('#categoryFilter, #brandFilter, select[name="SortBy"], input[name="SortOrder"]')
-        .forEach(element => {
-            element.addEventListener('change', autoSubmit);
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('filterForm');
+            const searchInput = document.querySelector('input[name="SearchTerm"]');
+
+            // Auto-submit on filter changes (with debounce)
+            let timeout;
+
+            function autoSubmit() {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => form.submit(), 800);
+            }
+
+            // Auto-submit on dropdown changes
+            document.querySelectorAll('#categoryFilter, #brandFilter, select[name="SortBy"], input[name="SortOrder"]')
+                .forEach(element => {
+                    element.addEventListener('change', autoSubmit);
+                });
+
+            // Auto-submit on search input (with longer delay)
+            searchInput.addEventListener('input', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => form.submit(), 1200);
+            });
+
+            // Auto-submit on price inputs
+            document.querySelectorAll('input[name="MinPrice"], input[name="MaxPrice"]')
+                .forEach(input => {
+                    input.addEventListener('blur', autoSubmit);
+                });
         });
-    
-    // Auto-submit on search input (with longer delay)
-    searchInput.addEventListener('input', function() {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => form.submit(), 1200);
-    });
-    
-    // Auto-submit on price inputs
-    document.querySelectorAll('input[name="MinPrice"], input[name="MaxPrice"]')
-        .forEach(input => {
-            input.addEventListener('blur', autoSubmit);
-        });
-});
-</script>
+    </script>
 }

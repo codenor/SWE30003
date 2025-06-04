@@ -13,61 +13,61 @@
                     </h5>
                 </div>
                 <div class="list-group list-group-flush">
-                    <a href="@Url.Action("Index", "Account")" 
+                    <a href="@Url.Action("Index", "Account")"
                        class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" ? "active" : "")">
                         <i class="bi bi-person"></i> Profile
                     </a>
-                    
-                    <a href="@Url.Action("Orders", "Account")" 
+
+                    <a href="@Url.Action("Orders", "Account")"
                        class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "Orders" ? "active" : "")">
                         <i class="bi bi-bag-check"></i> Orders
                     </a>
-                    
+
                     @if (User.IsInRole("Customer"))
                     {
-                        <a href="@Url.Action("MyShipments", "Shipment")" 
+                        <a href="@Url.Action("MyShipments", "Shipment")"
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "MyShipments" ? "active" : "")">
                             <i class="bi bi-truck"></i> Track Shipments
                         </a>
                     }
-                    
-                    <a href="@Url.Action("ChangePassword", "Account")" 
+
+                    <a href="@Url.Action("ChangePassword", "Account")"
                        class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Action"]?.ToString() == "ChangePassword" ? "active" : "")">
                         <i class="bi bi-key"></i> Change Password
                     </a>
-                    
+
                     @if (User.IsInRole("Owner"))
                     {
                         <div class="list-group-item bg-light">
                             <strong><i class="bi bi-gear"></i> Admin</strong>
                         </div>
-    
-                        <a href="@Url.Action("Index", "Product")" 
+
+                        <a href="@Url.Action("Index", "Product")"
                            class="list-group-item list-group-item-action">
                             <i class="bi bi-box"></i> Manage Products
                         </a>
-    
-                        <a href="@Url.Action("Index", "Statistics")" 
+
+                        <a href="@Url.Action("Index", "Statistics")"
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Statistics" ? "active" : "")">
                             <i class="bi bi-graph-up"></i> Sales Statistics
                         </a>
-    
-                        <a href="@Url.Action("Index", "Shipment")" 
+
+                        <a href="@Url.Action("Index", "Shipment")"
                            class="list-group-item list-group-item-action">
                             <i class="bi bi-truck"></i> All Shipments
                         </a>
-    
-                        <a href="@Url.Action("Pending", "Shipment")" 
+
+                        <a href="@Url.Action("Pending", "Shipment")"
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Pending" ? "active" : "")">
                             <i class="bi bi-clock"></i> Pending Shipments
                         </a>
-    
-                        <a href="@Url.Action("Overdue", "Shipment")" 
+
+                        <a href="@Url.Action("Overdue", "Shipment")"
                            class="list-group-item list-group-item-action @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Shipment" && ViewContext.RouteData.Values["Action"]?.ToString() == "Overdue" ? "active" : "")">
                             <i class="bi bi-exclamation-triangle"></i> Overdue Shipments
                         </a>
                     }
-                    
+
                     <div class="list-group-item">
                         <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Main Content -->
         <div class="col-md-9 col-lg-10">
             <div class="py-3">
