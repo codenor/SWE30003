@@ -1,0 +1,95 @@
+@model ElectronicsStoreAss3.Models.Invoice.Invoice
+
+@{
+    ViewData["Title"] = $"Invoice #{Model.InvoiceNumber}";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3>Invoice #@Model.InvoiceNumber</h3>
+            <form asp-action="SendEmail" asp-route-id="@Model.InvoiceId" method="post">
+                <button type="submit" class="btn btn-light">
+                    <i class="bi bi-envelope"></i> Send Email
+                </button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Billed To:</h5>
+                    <address>
+                        <strong>@Model.CustomerName</strong><br>
+                        @Model.BillingAddress<br>
+                        <abbr title="Email">Email:</abbr> @Model.CustomerEmail
+                    </address>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Invoice Details:</h5>
+                    <p>
+                        <strong>Invoice Date:</strong> @Model.InvoiceDate.ToString("MMM dd, yyyy")<br>
+                        <strong>Status:</strong> @Model.Status<br>
+                        <strong>Order #:</strong> <a asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderId">@Model.OrderId</a><br>
+                        @if (Model.PaidDate.HasValue)
+                        {
+                            <strong>Paid Date:</strong> @Model.PaidDate.Value.ToString("MMM dd, yyyy")<br>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+                        {
+                            <strong>Payment Method:</strong> @Model.PaymentMethod<br>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-end">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Order.OrderItems)
+                        {
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td class="text-end">$@item.UnitPrice.ToString("F2")</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-end">$@((item.UnitPrice * item.Quantity).ToString("F2"))</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td class="text-end"><strong>$@Model.TotalAmount.ToString("F2")</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <p class="text-muted">
+                        <strong>Note:</strong> This invoice was automatically generated after your order was confirmed.
+                        If you have any questions, please contact our customer support.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <a asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Order
+                </a>
+                <button onclick="window.print()" class="btn btn-info">
+                    <i class="bi bi-printer"></i> Print Invoice
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

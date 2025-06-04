@@ -1,0 +1,133 @@
+@model IEnumerable<ElectronicsStoreAss3.Models.Order>
+
+@{
+    ViewData["Title"] = "Orders Management";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-bag"></i> Orders Management</h2>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <h4>No Orders Found</h4>
+            <p>There are currently no orders in the system.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Shipment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @if (order.Customer != null)
+                                {
+                                    @($"{order.Customer.FirstName} {order.Customer.LastName}")
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Guest Order</span>
+                                }
+                            </td>
+                            <td>@order.TotalItems items</td>
+                            <td>$@order.TotalAmount.ToString("F2")</td>
+                            <td>
+                                <span class="badge bg-@(GetStatusBadgeClass(order.Status))">
+                                    @order.Status
+                                </span>
+                            </td>
+                            <td>
+                                @if (order.Shipment != null)
+                                {
+                                    <a href="@Url.Action("Details", "Shipment", new { id = order.Shipment.ShipmentId })" 
+                                       class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status)) text-decoration-none">
+                                        @order.Shipment.Status
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">No Shipment</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="@Url.Action("Details", "Order", new { id = order.OrderId })" 
+                                       class="btn btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    @if (order.CanBeCancelled())
+                                    {
+                                        <button class="btn btn-outline-danger" 
+                                                onclick="cancelOrder(@order.OrderId)">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@functions {
+    public string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "warning",
+            "Confirmed" => "info",
+            "Processing" => "primary",
+            "Completed" => "success",
+            "Cancelled" => "danger",
+            _ => "secondary"
+        };
+    }
+
+    public string GetShipmentStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Processing" => "warning",
+            "Shipped" => "info",
+            "In Transit" => "primary",
+            "Out for Delivery" => "primary",
+            "Delivered" => "success",
+            "Failed" => "danger",
+            "Returned" => "secondary",
+            _ => "secondary"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        function cancelOrder(orderId) {
+            if (confirm('Are you sure you want to cancel this order?')) {
+                // In a real application, you would make an AJAX call to cancel the order
+                alert('Order #' + orderId + ' has been cancelled.');
+            }
+        }
+    </script>
+} 

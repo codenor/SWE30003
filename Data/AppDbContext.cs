@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Models; 
 using ElectronicsStoreAss3.Models.ShoppingCart;
+using ElectronicsStoreAss3.Models.Invoice;
 
 namespace ElectronicsStoreAss3.Data
 {
@@ -28,6 +29,9 @@ namespace ElectronicsStoreAss3.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Shipment> Shipments { get; set; }
+        
+        // Invoices
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -143,6 +147,21 @@ namespace ElectronicsStoreAss3.Data
 
                 entity.HasIndex(e => e.TrackingNumber).IsUnique();
                 entity.Property(e => e.Status).HasDefaultValue("Processing");
+            });
+            
+            // Invoice configuration
+            modelBuilder.Entity<Invoice>(entity =>
+            {
+                entity.HasKey(e => e.InvoiceId);
+                entity.Property(e => e.TotalAmount).HasColumnType("decimal(18,2)");
+                
+                // One-to-One relationship: Order to Invoice
+                entity.HasOne(i => i.Order)
+                    .WithOne()
+                    .HasForeignKey<Invoice>(i => i.OrderId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                    
+                entity.HasIndex(e => e.InvoiceNumber).IsUnique();
             });
 
             // Account configuration

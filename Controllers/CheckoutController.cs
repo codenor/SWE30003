@@ -13,17 +13,20 @@ namespace ElectronicsStoreAss3.Controllers
         private readonly AppDbContext _context;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly IShipmentService _shipmentService;
+        private readonly IInvoiceService _invoiceService;
         private readonly ILogger<CheckoutController> _logger;
 
         public CheckoutController(
             AppDbContext context, 
             IShoppingCartService shoppingCartService,
             IShipmentService shipmentService,
+            IInvoiceService invoiceService,
             ILogger<CheckoutController> logger)
         {
             _context = context;
             _shoppingCartService = shoppingCartService;
             _shipmentService = shipmentService;
+            _invoiceService = invoiceService;
             _logger = logger;
         }
 
@@ -161,19 +164,25 @@ namespace ElectronicsStoreAss3.Controllers
             
             try
             {
-                // Create order
+                // 1. Create order
                 var order = await CreateOrderAsync(model, cart);
                 
-                // Create order items
+                // 2. Create order items
                 await CreateOrderItemsAsync(order.OrderId, cart.CartItems);
                 
-                // Update inventory
+                // 3. Update inventory
                 await UpdateInventoryAsync(cart.CartItems);
                 
-                // Create shipment
+                // 4. Create shipment
                 var shipment = await CreateShipmentAsync(order.OrderId, model);
                 
-                // Clear cart
+                // 5. Generate invoice
+                var invoice = await _invoiceService.GenerateInvoiceAsync(order.OrderId);
+                
+                // 6. Send invoice email
+                await _invoiceService.SendInvoiceEmailAsync(invoice.InvoiceId);
+                
+                // 7. Clear cart
                 await ClearCurrentCartAsync();
                 
                 await transaction.CommitAsync();

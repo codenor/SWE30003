@@ -40,6 +40,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
 // Logging Configuration
 builder.Logging.ClearProviders();
