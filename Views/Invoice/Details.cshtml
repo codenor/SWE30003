@@ -30,16 +30,20 @@
                         <strong>Invoice Date:</strong> @Model.InvoiceDate.ToString("MMM dd, yyyy")<br>
                         <strong>Status:</strong> @Model.Status<br>
                         <strong>Order #:</strong> <a asp-controller="Order" asp-action="Details"
-                                                     asp-route-id="@Model.OrderId">@Model.OrderId</a><br>
+                            asp-route-id="@Model.OrderId">@Model.OrderId</a><br>
                         @if (Model.PaidDate.HasValue)
                         {
                             <strong>Paid Date:</strong>
-                            @Model.PaidDate.Value.ToString("MMM dd, yyyy")<br>
+                            @Model.PaidDate.Value.ToString("MMM dd, yyyy")
+
+                            <br>
                         }
                         @if (!string.IsNullOrEmpty(Model.PaymentMethod))
                         {
                             <strong>Payment Method:</strong>
-                            @Model.PaymentMethod<br>
+                            @Model.PaymentMethod
+
+                            <br>
                         }
                     </p>
                 </div>
@@ -48,29 +52,29 @@
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th class="text-end">Price</th>
-                        <th class="text-center">Quantity</th>
-                        <th class="text-end">Total</th>
-                    </tr>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-end">Price</th>
+                            <th class="text-center">Quantity</th>
+                            <th class="text-end">Total</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    @foreach (var item in Model.Order.OrderItems)
-                    {
-                        <tr>
-                            <td>@item.Product.Name</td>
-                            <td class="text-end">$@item.UnitPrice.ToString("F2")</td>
-                            <td class="text-center">@item.Quantity</td>
-                            <td class="text-end">$@((item.UnitPrice * item.Quantity).ToString("F2"))</td>
-                        </tr>
-                    }
+                        @foreach (var item in Model.Order.OrderItems)
+                        {
+                            <tr>
+                                <td>@item.Product.Name</td>
+                                <td class="text-end">$@item.UnitPrice.ToString("F2")</td>
+                                <td class="text-center">@item.Quantity</td>
+                                <td class="text-end">$@((item.UnitPrice * item.Quantity).ToString("F2"))</td>
+                            </tr>
+                        }
                     </tbody>
                     <tfoot>
-                    <tr>
-                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                        <td class="text-end"><strong>$@Model.TotalAmount.ToString("F2")</strong></td>
-                    </tr>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td class="text-end"><strong>$@Model.TotalAmount.ToString("F2")</strong></td>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
@@ -89,9 +93,10 @@
                 <a asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Back to Order
                 </a>
-                <button onclick="window.print()" class="btn btn-info">
-                    <i class="bi bi-printer"></i> Print Invoice
-                </button>
+                <a href="@Url.Action("PdfByOrder", "Invoice", new { id = Model.OrderId })" class="btn btn-success"
+                    target="_blank">
+                    <i class="bi bi-file-earmark-arrow-down-fill"></i> Download Invoice
+                </a>
             </div>
         </div>
     </div>

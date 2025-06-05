@@ -46,49 +46,49 @@ else
                                 <div class="table-responsive">
                                     <table class="table table-sm">
                                         <thead>
-                                        <tr>
-                                            <th>Product</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>Total</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                <th>Price</th>
+                                                <th>Total</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach (var item in order.OrderItems)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        @if (!string.IsNullOrEmpty(item.Product.ImagePath))
-                                                        {
-                                                            <img src="@item.Product.ImagePath" alt="@item.Product.Name"
-                                                                 class="me-2 rounded"
-                                                                 style="width: 40px; height: 40px; object-fit: cover;"/>
-                                                        }
-                                                        else
-                                                        {
-                                                            <div
-                                                                class="bg-light rounded me-2 d-flex align-items-center justify-content-center"
-                                                                style="width: 40px; height: 40px;">
-                                                                <i class="bi bi-image text-muted"></i>
+                                            @foreach (var item in order.OrderItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            @if (!string.IsNullOrEmpty(item.Product.ImagePath))
+                                                            {
+                                                                <img src="@item.Product.ImagePath" alt="@item.Product.Name"
+                                                                    class="me-2 rounded"
+                                                                    style="width: 40px; height: 40px; object-fit: cover;" />
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="bg-light rounded me-2 d-flex align-items-center justify-content-center"
+                                                                    style="width: 40px; height: 40px;">
+                                                                    <i class="bi bi-image text-muted"></i>
+                                                                </div>
+                                                            }
+                                                            <div>
+                                                                <strong>@item.Product.Name</strong>
+                                                                <br />
+                                                                <small class="text-muted">SKU: @item.Product.SKU</small>
                                                             </div>
-                                                        }
-                                                        <div>
-                                                            <strong>@item.Product.Name</strong>
-                                                            <br/>
-                                                            <small class="text-muted">SKU: @item.Product.SKU</small>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>@item.Quantity</td>
-                                                <td>$@item.UnitPrice.ToString("0.00")</td>
-                                                <td>$@item.TotalPrice.ToString("0.00")</td>
-                                            </tr>
-                                        }
+                                                    </td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>$@item.UnitPrice.ToString("F2")</td>
+                                                    <td>$@item.TotalPrice.ToString("F2")</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
 
                             <!-- Shipping Info -->
                             <div class="col-md-4">
@@ -100,14 +100,13 @@ else
                                             <p class="mb-1">
                                                 <strong>Tracking:</strong>
                                                 <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })"
-                                                   class="text-decoration-none">
+                                                    class="text-decoration-none">
                                                     <code>@order.Shipment.TrackingNumber</code>
                                                 </a>
                                             </p>
                                             <p class="mb-1">
                                                 <strong>Status:</strong>
-                                                <span
-                                                    class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status))">
+                                                <span class="badge bg-@(GetShipmentStatusBadgeClass(order.Shipment.Status))">
                                                     @order.Shipment.Status
                                                 </span>
                                             </p>
@@ -116,11 +115,13 @@ else
                                             </p>
                                             <p class="mb-0">
                                                 <strong>Est. Delivery:</strong>
+                                                <strong>Est. Delivery:</strong>
                                                 @order.Shipment.EstimatedDeliveryDate.ToString("MMM dd, yyyy")
                                             </p>
                                             @if (order.Shipment.DeliveredDate.HasValue)
                                             {
                                                 <p class="mb-0 text-success">
+                                                    <strong>Delivered:</strong>
                                                     <strong>Delivered:</strong>
                                                     @order.Shipment.DeliveredDate.Value.ToString("MMM dd, yyyy")
                                                 </p>
@@ -144,32 +145,36 @@ else
                                 @if (order.Shipment != null)
                                 {
                                     <a href="@Url.Action("Track", "Shipment", new { trackingNumber = order.Shipment.TrackingNumber })"
-                                       class="btn btn-outline-primary btn-sm">
+                                        class="btn btn-outline-primary btn-sm">
                                         <i class="bi bi-search"></i> Track Package
                                     </a>
                                 }
 
                                 <a href="@Url.Action("Details", "Order", new { id = order.OrderId })"
-                                   class="btn btn-outline-secondary btn-sm">
+                                    class="btn btn-outline-secondary btn-sm">
                                     <i class="bi bi-eye"></i> View Details
                                 </a>
+
+                                <a href="@Url.Action("PdfByOrder", "Invoice", new { id = order.OrderId })"
+                                    class="btn btn-outline-success btn-sm">
+                                    <i class="bi bi-file-earmark-arrow-down"></i> Download Invoice
+                                </a>
                             </div>
+
 
                             <div>
                                 @if (order.CanBeCancelled())
                                 {
-                                    <button class="btn btn-outline-danger btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
-                                            data-order-id="@order.OrderId"
-                                            data-order-number="@order.OrderId">
+                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#cancelOrderModal" data-order-id="@order.OrderId"
+                                        data-order-number="@order.OrderId">
                                         <i class="bi bi-x-circle"></i> Cancel Order
                                     </button>
                                 }
 
                                 @if (order.Status == "Completed")
                                 {
-                                    <button class="btn btn-outline-info btn-sm"
-                                            onclick="reorder(@order.OrderId)">
+                                    <button class="btn btn-outline-info btn-sm" onclick="reorder(@order.OrderId)">
                                         <i class="bi bi-arrow-repeat"></i> Reorder
                                     </button>
                                 }
@@ -180,6 +185,7 @@ else
             </div>
         }
     </div>
+
 
     <!-- Order Summary -->
     <div class="row mt-4">
@@ -216,14 +222,13 @@ else
     </div>
 
     <!-- Cancel Order Modal -->
-    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-warning">
@@ -242,7 +247,7 @@ else
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <form id="cancelOrderForm" method="post">
                         @Html.AntiForgeryToken()
-                        <input type="hidden" id="orderIdToCancel" name="id" value=""/>
+                        <input type="hidden" id="orderIdToCancel" name="id" value="" />
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-x-circle"></i> Cancel Order
                         </button>
@@ -268,6 +273,7 @@ else
             _ => "secondary"
         };
     }
+
 
     public string GetShipmentStatusBadgeClass(string status)
     {
@@ -310,7 +316,7 @@ else
                     form.action = '@Url.Action("Cancel", "Order")/' + orderId;
                 });
             }
-            
+
 
         });
 
@@ -320,14 +326,17 @@ else
                 alert(`Items from Order #${orderId} have been added to your cart!`);
                 // In a real app, you'd make an AJAX call to add items to cart
             }
-            
-
         }
 
         // Auto-refresh tracking info every 30 seconds
         setInterval(function () {
             // You could implement auto-refresh of tracking status here
         }, 30000);
+    </script>
+    // Auto-refresh tracking info every 30 seconds
+    setInterval(function () {
+    // You could implement auto-refresh of tracking status here
+    }, 30000);
     </script>
 }
 

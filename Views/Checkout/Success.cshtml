@@ -163,6 +163,21 @@
                 </div>
             </div>
 
+            <div class="w-100">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-receipt-cutoff text-success mb-3" style="font-size: 2rem;"></i>
+                        <h5>Download Invoice</h5>
+                        <p class="text-muted">Download your invoice now.</p>
+                        <a href="@Url.Action("PdfByOrder", "Invoice", new { id = Model.OrderId })"
+                            class="btn btn-success">
+                            <i class="bi bi-file-earmark-arrow-down"></i> Download Invoice
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
             <!-- Continue Shopping -->
             <div class="text-center mt-4">
                 <h5>Want to order more?</h5>

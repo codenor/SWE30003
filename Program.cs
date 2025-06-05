@@ -1,6 +1,9 @@
 using ElectronicsStoreAss3.Data;
 using ElectronicsStoreAss3.Services;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +45,7 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
-builder.Services.AddScoped<IStatisticsService, StatisticsService>(); 
+builder.Services.AddScoped<IStatisticsService, StatisticsService>();
 
 // Logging Configuration
 builder.Logging.ClearProviders();
@@ -127,7 +130,7 @@ app.MapControllerRoute(
     defaults: new { controller = "Product", action = "Details" });
 
 app.MapControllerRoute(
-    name: "ProductDetailsById", 
+    name: "ProductDetailsById",
     pattern: "product/id/{id:int}",
     defaults: new { controller = "Product", action = "Details" });
 

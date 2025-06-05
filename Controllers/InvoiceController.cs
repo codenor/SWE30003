@@ -1,11 +1,11 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using ElectronicsStoreAss3.Data;
-using ElectronicsStoreAss3.Models.Invoice;
 using ElectronicsStoreAss3.Services;
-using ElectronicsStoreAss3.Models;
-using System.Security.Claims;
+using ElectronicsStoreAss3.Models.Invoice;
+using QuestPDF.Fluent;
+using Microsoft.Extensions.Logging;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -15,125 +15,90 @@ namespace ElectronicsStoreAss3.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly ILogger<InvoiceController> _logger;
 
-        public InvoiceController(
-            AppDbContext context,
-            IInvoiceService invoiceService,
-            ILogger<InvoiceController> logger)
+        public InvoiceController(AppDbContext context, IInvoiceService invoiceService, ILogger<InvoiceController> logger)
         {
             _context = context;
             _invoiceService = invoiceService;
             _logger = logger;
         }
 
-        // GET: /Invoice/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: /Invoice/Details/5 (InvoiceId)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var invoice = await _context.Invoices
-                .Include(i => i.Order)
-                .ThenInclude(o => o.OrderItems)
-                .ThenInclude(oi => oi.Product)
+                .Include(i => i.Order).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
             if (invoice == null)
             {
-                return NotFound();
-            }
+                var fallbackOrder = await _context.Orders.FindAsync(id);
+                if (fallbackOrder == null)
+                    return NotFound();
 
-            // Check if the current user has access to this invoice
-            if (!await UserCanAccessInvoice(invoice.OrderId))
-            {
-                return Forbid();
+                var newInvoice = await _invoiceService.GenerateInvoiceAsync(fallbackOrder.OrderId);
+                return RedirectToAction(nameof(Details), new { id = newInvoice.InvoiceId });
             }
 
             return View(invoice);
         }
 
-        // GET: /Invoice/ByOrder/5
-        public async Task<IActionResult> ByOrder(int? id)
+        // GET: /Invoice/ByOrder/5 (OrderId)
+        public async Task<IActionResult> ByOrder(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // Check if the current user has access to this order
-            if (!await UserCanAccessInvoice(id.Value))
-            {
-                return Forbid();
-            }
-
-            var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(id.Value);
-
+            var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(id);
             if (invoice == null)
             {
-                return NotFound();
+                invoice = await _invoiceService.GenerateInvoiceAsync(id);
             }
 
             return RedirectToAction(nameof(Details), new { id = invoice.InvoiceId });
         }
 
-        // POST: /Invoice/SendEmail/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendEmail(int id)
+        // GET: /Invoice/Pdf/5 (InvoiceId)
+        public async Task<IActionResult> Pdf(int id)
         {
-            var invoice = await _context.Invoices.FindAsync(id);
+            var invoice = await _context.Invoices
+                .Include(i => i.Order).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                .FirstOrDefaultAsync(i => i.InvoiceId == id);
 
             if (invoice == null)
-            {
                 return NotFound();
-            }
 
-            // Check if the current user has access to this invoice
-            if (!await UserCanAccessInvoice(invoice.OrderId))
-            {
-                return Forbid();
-            }
+            var document = new InvoicePdfDocument(invoice);
+            var stream = new MemoryStream();
+            document.GeneratePdf(stream);
+            stream.Position = 0;
 
-            var success = await _invoiceService.SendInvoiceEmailAsync(id);
-
-            if (success)
-            {
-                TempData["ToastMessage"] = "Invoice sent successfully!";
-                TempData["ToastType"] = "success";
-            }
-            else
-            {
-                TempData["ToastMessage"] = "Failed to send invoice. Please try again.";
-                TempData["ToastType"] = "error";
-            }
-
-            return RedirectToAction(nameof(Details), new { id });
+            return File(stream, "application/pdf", $"Invoice-{invoice.InvoiceNumber}.pdf");
         }
 
-        private async Task<bool> UserCanAccessInvoice(int orderId)
+        // GET: /Invoice/PdfByOrder/5 (OrderId)
+        public async Task<IActionResult> PdfByOrder(int id)
         {
-            // Admin users can access any invoice
-            if (User.IsInRole("Admin") || User.IsInRole("Owner"))
-            {
-                return true;
-            }
+            var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(id);
+            if (invoice == null)
+                return NotFound();
 
-            // Get the current user's account ID
-            if (!User.Identity?.IsAuthenticated == true)
-            {
-                return false;
-            }
+            var document = new InvoicePdfDocument(invoice);
+            var stream = new MemoryStream();
+            document.GeneratePdf(stream);
+            stream.Position = 0;
 
-            var idStr = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!int.TryParse(idStr, out int accountId))
-            {
-                return false;
-            }
+            return File(stream, "application/pdf", $"Invoice-{invoice.InvoiceNumber}.pdf");
+        }
 
-            // Check if the order belongs to this user
-            var order = await _context.Orders.FindAsync(orderId);
-            return order?.AccountId == accountId;
+        // POST: /Invoice/SendEmail/5
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(int id)
+        {
+            var result = await _invoiceService.SendInvoiceEmailAsync(id);
+
+            TempData["ToastMessage"] = result
+                ? "Invoice email sent successfully."
+                : "Failed to send invoice email.";
+            TempData["ToastType"] = result ? "success" : "error";
+
+            return RedirectToAction(nameof(Details), new { id });
         }
     }
 }

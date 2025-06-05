@@ -89,6 +89,9 @@ namespace ElectronicsStoreAss3.Services
         public async Task<Invoice> GetInvoiceByOrderIdAsync(int orderId)
         {
             return await _context.Invoices
+                .Include(i => i.Order)
+                    .ThenInclude(o => o.OrderItems)
+                        .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(i => i.OrderId == orderId);
         }
 
@@ -115,7 +118,7 @@ namespace ElectronicsStoreAss3.Services
                 // In a real application, this would connect to an email service
                 // For now, we'll just log the action and return success
                 _logger.LogInformation($"Invoice {invoice.InvoiceNumber} sent to {invoice.CustomerEmail}");
-                
+
                 return true;
             }
             catch (Exception ex)
@@ -125,4 +128,4 @@ namespace ElectronicsStoreAss3.Services
             }
         }
     }
-} 
+}
