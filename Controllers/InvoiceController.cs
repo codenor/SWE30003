@@ -6,6 +6,8 @@ using ElectronicsStoreAss3.Services;
 using ElectronicsStoreAss3.Models.Invoice;
 using QuestPDF.Fluent;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -72,13 +74,31 @@ namespace ElectronicsStoreAss3.Controllers
             return File(stream, "application/pdf", $"Invoice-{invoice.InvoiceNumber}.pdf");
         }
 
+        [Authorize(Roles = "Customer,Owner")]
         // GET: /Invoice/PdfByOrder/5 (OrderId)
         public async Task<IActionResult> PdfByOrder(int id)
         {
             var invoice = await _invoiceService.GetInvoiceByOrderIdAsync(id);
+
             if (invoice == null)
                 return NotFound();
 
+            // Get the currently logged-in Account ID
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int currentAccountId))
+                return Forbid(); // Not logged in properly
+
+            // Is this the owner/admin?
+            var isOwner = User.IsInRole("Owner");
+
+            // Is this the customer who owns the order?
+            var isCustomerOwner = invoice.Order?.AccountId == currentAccountId;
+
+            // Allow only the owner or the customer who owns the order
+            if (!isOwner && !isCustomerOwner)
+                return NotFound();
+
+            // Generate and return the PDF
             var document = new InvoicePdfDocument(invoice);
             var stream = new MemoryStream();
             document.GeneratePdf(stream);
@@ -86,6 +106,7 @@ namespace ElectronicsStoreAss3.Controllers
 
             return File(stream, "application/pdf", $"Invoice-{invoice.InvoiceNumber}.pdf");
         }
+
 
         // POST: /Invoice/SendEmail/5
         [HttpPost]

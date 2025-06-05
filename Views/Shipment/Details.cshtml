@@ -80,7 +80,7 @@
                         <!-- Update Status Form -->
                         <form asp-action="UpdateStatus" method="post" class="mb-3">
                             @Html.AntiForgeryToken()
-                            <input type="hidden" name="shipmentId" value="@Model.ShipmentId"/>
+                            <input type="hidden" name="shipmentId" value="@Model.ShipmentId" />
 
                             <div class="mb-3">
                                 <label class="form-label">Update Status</label>
@@ -103,7 +103,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Notes (Optional)</label>
                                 <textarea name="notes" class="form-control" rows="2"
-                                          placeholder="Add delivery notes..."></textarea>
+                                placeholder="Add delivery notes..."></textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-sm">
@@ -116,16 +116,16 @@
                         {
                             <form asp-action="AssignTracking" method="post">
                                 @Html.AntiForgeryToken()
-                                <input type="hidden" name="shipmentId" value="@Model.ShipmentId"/>
+                                <input type="hidden" name="shipmentId" value="@Model.ShipmentId" />
 
                                 <div class="mb-3">
                                     <label class="form-label">Tracking Number</label>
-                                    <input name="trackingNumber" class="form-control" value="@Model.TrackingNumber"/>
+                                    <input name="trackingNumber" class="form-control" value="@Model.TrackingNumber" />
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Carrier</label>
-                                    <input name="carrierName" class="form-control" value="@Model.CarrierName"/>
+                                    <input name="carrierName" class="form-control" value="@Model.CarrierName" />
                                 </div>
 
                                 <button type="submit" class="btn btn-secondary btn-sm">
@@ -133,11 +133,15 @@
                                 </button>
                             </form>
                         }
+                        <hr />
+                        <h6>Invoice Management</h6>
+                        <a asp-controller="Invoice" asp-action="PdfByOrder" asp-route-id="@Model.OrderId"
+                            class="btn btn-success btn-sm w-100 mb-2">
+                            <i class="bi bi-file-earmark-arrow-down"></i> Download Invoice
+                        </a>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-
-
