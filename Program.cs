@@ -123,36 +123,44 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Custom Routes
+// Product Routes - Most specific routes first
 app.MapControllerRoute(
-    name: "ProductDetails",
-    pattern: "product/{sku}",
-    defaults: new { controller = "Product", action = "Details" });
+    name: "ProductCatalogue",
+    pattern: "Product/Catalogue/{category?}",
+    defaults: new { controller = "Product", action = "Catalogue" });
 
 app.MapControllerRoute(
     name: "ProductDetailsById",
-    pattern: "product/id/{id:int}",
+    pattern: "Product/id/{id:int}",
     defaults: new { controller = "Product", action = "Details" });
 
 app.MapControllerRoute(
+    name: "ProductDetails",
+    pattern: "Product/{sku}",
+    defaults: new { controller = "Product", action = "Details" });
+
+// Keep the other Catalogue route
+app.MapControllerRoute(
+    name: "Catalogue",
+    pattern: "Catalogue/{category?}",
+    defaults: new { controller = "Product", action = "Catalogue" });
+
+// Admin Routes
+app.MapControllerRoute(
     name: "AdminProducts",
-    pattern: "admin/products/{action=Index}/{id?}",
+    pattern: "Admin/Product/{action=Index}/{id?}",
     defaults: new { controller = "Product" });
 
+// Tracking Routes
 app.MapControllerRoute(
     name: "TrackingForm",
-    pattern: "track",
+    pattern: "Track",
     defaults: new { controller = "Shipment", action = "Track" });
 
 app.MapControllerRoute(
     name: "Tracking",
-    pattern: "track/{trackingNumber}",
+    pattern: "Track/{trackingNumber}",
     defaults: new { controller = "Shipment", action = "Track" });
-
-app.MapControllerRoute(
-    name: "Catalogue",
-    pattern: "catalogue/{category?}",
-    defaults: new { controller = "Product", action = "Catalogue" });
 
 // Default Route
 app.MapControllerRoute(
