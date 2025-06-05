@@ -34,7 +34,7 @@ namespace ElectronicsStoreAss3.Services
             }
         }
 
-        public async Task<Order> GetOrderByIdAsync(int orderId)
+        public async Task<Order?> GetOrderByIdAsync(int orderId)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace ElectronicsStoreAss3.Services
             }
         }
 
-        public async Task<Order> CreateOrderAsync(Order order)
+        public async Task<Order?> CreateOrderAsync(Order order)
         {
             try
             {
@@ -235,7 +235,7 @@ namespace ElectronicsStoreAss3.Services
             }
         }
 
-        public async Task<int> GetOrderCountAsync(string status = null)
+        public async Task<int> GetOrderCountAsync(string? status = null)
         {
             try
             {

@@ -10,8 +10,8 @@ namespace ElectronicsStoreAss3.Services
     public interface IProductService
     {
         Task<IEnumerable<ProductViewModel>> GetAllProductsAsync();
-        Task<ProductViewModel> GetProductByIdAsync(int id);
-        Task<ProductViewModel> GetProductBySkuAsync(string sku);
+        Task<ProductViewModel?> GetProductByIdAsync(int id);
+        Task<ProductViewModel?> GetProductBySkuAsync(string sku);
         Task<ProductSearchViewModel> SearchProductsAsync(ProductSearchViewModel searchModel);
         Task<bool> CreateProductAsync(ProductViewModel productViewModel);
         Task<bool> UpdateProductAsync(ProductViewModel productViewModel);

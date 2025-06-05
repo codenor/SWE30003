@@ -181,13 +181,6 @@
                                        class="btn btn-outline-secondary btn-sm">
                                         <i class="bi bi-eye"></i> Order Details
                                     </a>
-                                    @if (shipment.Order.IsCompleted())
-                                    {
-                                        <button class="btn btn-outline-success btn-sm"
-                                                onclick="reorder(@shipment.OrderId)">
-                                            <i class="bi bi-arrow-repeat"></i> Reorder
-                                        </button>
-                                    }
                                 </div>
                             </div>
                         </div>
@@ -332,25 +325,6 @@
 
 @section Scripts {
     <script>
-        function reorder(orderId) {
-            if (confirm('Add all items from this order to your cart?')) {
-                alert(`Items from Order #${orderId} have been added to your cart!`);
-                // In a real app, you'd make an AJAX call to add items to cart
-                // Example:
-                // fetch('/ShoppingCart/ReorderFromOrder', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ orderId: orderId })
-                // }).then(response => {
-                //     if (response.ok) {
-                //         window.location.href = '/ShoppingCart';
-                //     }
-                // });
-            }
-            
-
-        }
-
         function changePageSize(size) {
             window.location.href = '@Url.Action("MyShipments")?page=1&pageSize=' + size;
         }
@@ -420,3 +394,6 @@
         }
     </style>
 }
+
+<!-- Hidden form for anti-forgery token -->
+@Html.AntiForgeryToken()

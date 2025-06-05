@@ -17,7 +17,7 @@ namespace ElectronicsStoreAss3.Controllers
 
         // GET: Product 
         [Authorize(Roles = "Owner")]
-        public async Task<IActionResult> Index(string searchTerm = null, string searchCategory = null)
+        public async Task<IActionResult> Index(string? searchTerm = null, string? searchCategory = null)
         {
             var allProducts = await _productService.GetAllProductsAsync();
 

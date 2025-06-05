@@ -171,13 +171,6 @@ else
                                         <i class="bi bi-x-circle"></i> Cancel Order
                                     </button>
                                 }
-
-                                @if (order.Status == "Completed")
-                                {
-                                    <button class="btn btn-outline-info btn-sm" onclick="reorder(@order.OrderId)">
-                                        <i class="bi bi-arrow-repeat"></i> Reorder
-                                    </button>
-                                }
                             </div>
                         </div>
                     </div>
@@ -267,7 +260,7 @@ else
             "Pending" => "warning",
             "Confirmed" => "info",
             "Shipped" => "primary",
-            "Completed" => "success",
+            "Delivered" => "success",
             "Cancelled" => "danger",
             "Failed" => "danger",
             _ => "secondary"
@@ -316,28 +309,8 @@ else
                     form.action = '@Url.Action("Cancel", "Order")/' + orderId;
                 });
             }
-
-
         });
-
-        function reorder(orderId) {
-            if (confirm('Add all items from this order to your cart?')) {
-                // Implement reorder functionality
-                alert(`Items from Order #${orderId} have been added to your cart!`);
-                // In a real app, you'd make an AJAX call to add items to cart
-            }
-        }
-
-        // Auto-refresh tracking info every 30 seconds
-        setInterval(function () {
-            // You could implement auto-refresh of tracking status here
-        }, 30000);
-    </script>
-    // Auto-refresh tracking info every 30 seconds
-    setInterval(function () {
-    // You could implement auto-refresh of tracking status here
-    }, 30000);
-    </script>
+     </script>
 }
 
 <!-- Hidden form for anti-forgery token -->

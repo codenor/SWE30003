@@ -13,7 +13,10 @@ namespace ElectronicsStoreAss3.Controllers
         private readonly IOrderService _orderService;
         private readonly ILogger<OrderController> _logger;
 
-        public OrderController(AppDbContext context, IOrderService orderService, ILogger<OrderController> logger)
+        public OrderController(
+            AppDbContext context, 
+            IOrderService orderService, 
+            ILogger<OrderController> logger)
         {
             _context = context;
             _orderService = orderService;

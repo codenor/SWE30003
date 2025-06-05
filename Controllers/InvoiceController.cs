@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreAss3.Data;
@@ -8,6 +7,7 @@ using QuestPDF.Fluent;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using ElectronicsStoreAss3.Documents;
 
 namespace ElectronicsStoreAss3.Controllers
 {
@@ -17,7 +17,8 @@ namespace ElectronicsStoreAss3.Controllers
         private readonly IInvoiceService _invoiceService;
         private readonly ILogger<InvoiceController> _logger;
 
-        public InvoiceController(AppDbContext context, IInvoiceService invoiceService, ILogger<InvoiceController> logger)
+        public InvoiceController(AppDbContext context, IInvoiceService invoiceService,
+            ILogger<InvoiceController> logger)
         {
             _context = context;
             _invoiceService = invoiceService;
