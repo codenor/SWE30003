@@ -3,7 +3,9 @@ using ElectronicsStoreAss3.Models.Account;
 using ElectronicsStoreAss3.Models.Order;
 using ElectronicsStoreAss3.Models.Product;
 using ElectronicsStoreAss3.Models.Shipment;
+using ElectronicsStoreAss3.Models.Invoice;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ElectronicsStoreAss3.Data
 {
@@ -1108,6 +1110,44 @@ namespace ElectronicsStoreAss3.Data
             }
         }
 
+        public static void SeedInvoices(AppDbContext context)
+        {
+            var existingOrderIdsWithInvoices = context.Invoices.Select(i => i.OrderId).ToHashSet();
+
+            var ordersWithoutInvoices = context.Orders
+                .Where(o => !existingOrderIdsWithInvoices.Contains(o.OrderId))
+                .Include(o => o.Account)
+                    .ThenInclude(a => a.Customer)
+                .ToList();
+
+            foreach (var order in ordersWithoutInvoices)
+            {
+                var account = order.Account;
+                var customer = account?.Customer;
+
+                var invoice = new Invoice
+                {
+                    OrderId = order.OrderId,
+                    InvoiceDate = order.OrderDate,
+                    TotalAmount = order.GrandTotal,
+                    Status = "Generated",
+                    CustomerName = customer != null
+                        ? $"{customer.FirstName} {customer.LastName}"
+                        : "Guest Customer",
+                    CustomerEmail = customer?.Email ?? "guest@example.com",
+                    BillingAddress = customer?.Address ?? "123 Default Street",
+                    InvoiceNumber = $"INV-{order.OrderId:D6}",
+                    PaymentMethod = "Mock"
+                };
+
+                context.Invoices.Add(invoice);
+            }
+
+            context.SaveChanges();
+        }
+
+
+
         private static Order CreateHistoricalOrder(int accountId, DateTime orderDate, string status)
         {
             return new Order
@@ -1143,6 +1183,7 @@ namespace ElectronicsStoreAss3.Data
             SeedCustomerAccount(context);
             SeedTestOrdersAndShipments(context);
             SeedExtendedStatisticsData(context);
+            SeedInvoices(context);
         }
     }
 }

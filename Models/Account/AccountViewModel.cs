@@ -22,5 +22,8 @@ namespace ElectronicsStoreAss3.Models.Account
         [Required]
         [EnumDataType(typeof(Role))]
         public Role Role { get; set; } = Role.Customer;
+
+        // Required else invoice data population does not work in data/init.cs
+        public virtual Customer? Customer { get; set; }
     }
 }
