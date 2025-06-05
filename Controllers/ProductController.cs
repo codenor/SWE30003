@@ -240,6 +240,9 @@ namespace ElectronicsStoreAss3.Controllers
                 return Json(new { suggestions = new string[0] });
             }
 
+            //
+            query = query.ToLower();
+
             var searchModel = new ProductSearchViewModel
             {
                 SearchTerm = query,
@@ -268,6 +271,8 @@ namespace ElectronicsStoreAss3.Controllers
                 return Json(new { products = new object[0] });
             }
 
+            query = query.ToLower();
+            
             var searchModel = new ProductSearchViewModel
             {
                 SearchTerm = query,
@@ -275,7 +280,6 @@ namespace ElectronicsStoreAss3.Controllers
             };
 
             var results = await _productService.SearchProductsAsync(searchModel);
-
 
             var products = results.Products.Select(p => new
             {

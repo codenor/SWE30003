@@ -295,13 +295,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('filterForm');
             const searchInput = document.querySelector('input[name="SearchTerm"]');
-
-            // Auto-submit on filter changes (with debounce)
+            
             let timeout;
 
             function autoSubmit() {
                 clearTimeout(timeout);
-                timeout = setTimeout(() => form.submit(), 800);
+                timeout = setTimeout(() => form.submit(), 100);
             }
 
             // Auto-submit on dropdown changes
@@ -310,10 +309,10 @@
                     element.addEventListener('change', autoSubmit);
                 });
 
-            // Auto-submit on search input (with longer delay)
+            // Auto-submit on search input 
             searchInput.addEventListener('input', function () {
                 clearTimeout(timeout);
-                timeout = setTimeout(() => form.submit(), 1200);
+                timeout = setTimeout(() => form.submit(), 500);
             });
 
             // Auto-submit on price inputs

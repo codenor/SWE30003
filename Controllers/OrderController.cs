@@ -80,7 +80,7 @@ namespace ElectronicsStoreAss3.Controllers
         {
             // Use the order service to cancel the order
             bool success = await _orderService.CancelOrderAsync(id);
-            
+
             if (!success)
             {
                 _logger.LogWarning("Failed to cancel order with ID {OrderId}", id);
@@ -88,7 +88,7 @@ namespace ElectronicsStoreAss3.Controllers
                 TempData["ToastType"] = "error";
                 return RedirectToAction("Details", new { id = id });
             }
-            
+
             // After cancellation, return items to inventory
             var order = await _orderService.GetOrderByIdAsync(id);
             foreach (var item in order.OrderItems)
@@ -100,7 +100,7 @@ namespace ElectronicsStoreAss3.Controllers
                     inventory.LastUpdated = DateTime.Now;
                 }
             }
-            
+
             await _context.SaveChangesAsync();
 
             TempData["ToastMessage"] = $"Order #{id} has been cancelled successfully.";

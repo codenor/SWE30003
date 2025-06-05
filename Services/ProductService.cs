@@ -98,8 +98,12 @@ namespace ElectronicsStoreAss3.Services
             // Apply search filters
             if (!string.IsNullOrEmpty(searchModel.SearchTerm))
             {
-                query = query.Where(p => p.Name.Contains(searchModel.SearchTerm) || 
-                                        p.Description.Contains(searchModel.SearchTerm));
+                var searchTerm = searchModel.SearchTerm.ToLower();
+                query = query.Where(p => 
+                    p.Name.ToLower().Contains(searchTerm) || 
+                    p.Description.ToLower().Contains(searchTerm) ||
+                    p.SKU.ToLower().Contains(searchTerm) ||
+                    p.Brand.ToLower().Contains(searchTerm));
             }
             
             if (!string.IsNullOrEmpty(searchModel.Category))
